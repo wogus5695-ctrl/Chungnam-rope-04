@@ -30,9 +30,9 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
             {/* PC/태블릿 오버레이: 좌측 매우 어두움(90%) -> 중앙(65%) -> 우측(30%) 자연스러운 그라데이션 */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/92 via-[#0f172a]/65 to-[#0f172a]/30 hidden md:block" />
             
-            {/* 모바일 오버레이: 가독성을 위해 전체 기본 어두운 오버레이 70% + 텍스트 상단/좌측 영역 85% 중첩 처리 */}
-            <div className="absolute inset-0 bg-[#0f172a]/70 md:hidden" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/85 via-[#0f172a]/75 to-transparent md:hidden" />
+            {/* 모바일 오버레이: 배경을 조금 더 연하게 투과되도록 조율 (기본 45% + 상단/좌측 영역 55% -> 35% 자연스러운 융합) */}
+            <div className="absolute inset-0 bg-[#0f172a]/45 md:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/55 via-[#0f172a]/35 to-transparent md:hidden" />
           </div>
         </>
       ) : (
