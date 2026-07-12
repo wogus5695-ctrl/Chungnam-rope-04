@@ -1,6 +1,5 @@
-import { getFlatRegions, validateRegionsData, parseKeyword } from "@/lib/keyword";
+import { getFlatRegions, validateRegionsData } from "@/lib/keyword";
 import { services } from "@/data/services";
-import { regions } from "@/data/regions";
 
 export function runValidation() {
   const regionsVal = validateRegionsData();

@@ -1,6 +1,8 @@
 import { regions } from "@/data/regions";
 import { services } from "@/data/services";
 
+import { RegionData } from "@/types";
+
 // 평탄화된 읍면동 및 구 목록을 얻어오는 헬퍼 함수
 export interface FlatRegion {
   name: string;      // 성정동
@@ -13,7 +15,7 @@ export interface FlatRegion {
 export function getFlatRegions(): FlatRegion[] {
   const list: FlatRegion[] = [];
 
-  function traverse(node: any, parentPath: string[] = [], parentName: string = "") {
+  function traverse(node: RegionData, parentPath: string[] = [], parentName: string = "") {
     const currentPath = [...parentPath, node.name];
     const fullName = currentPath.join(" ");
 
@@ -33,7 +35,7 @@ export function getFlatRegions(): FlatRegion[] {
     }
 
     if (node.subRegions) {
-      node.subRegions.forEach((sub: any) => {
+      node.subRegions.forEach((sub: RegionData) => {
         traverse(sub, currentPath, node.name);
       });
     }

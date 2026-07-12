@@ -1,8 +1,13 @@
 import { siteConfig } from "@/config/site";
-import { getFlatRegions } from "@/lib/keyword";
-import { services } from "@/data/services";
 
-export function getJsonLd(type: "main" | "landing" | "hub", data?: any) {
+interface LandingJsonLdData {
+  regionName: string;
+  serviceName: string;
+  canonicalKey: string;
+  shortDescription: string;
+}
+
+export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLdData) {
   // 1. WebSite & Organization (공통 사용)
   // 공통 이미지 객체 정의
   const imageObject = {
