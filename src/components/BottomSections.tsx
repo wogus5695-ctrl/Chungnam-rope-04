@@ -769,9 +769,12 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
   }
 
   return (
-    <section className="py-[62px] lg:py-[82px] bg-brand-primary text-white relative overflow-hidden px-[18px] sm:px-6 lg:px-0 pb-[80px] md:pb-[62px]">
-      {/* 장식용 그라데이션 */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.15),transparent_70%)]"></div>
+    <section className="py-[62px] lg:py-[82px] text-white relative overflow-hidden px-[18px] sm:px-6 lg:px-0 pb-[80px] md:pb-[62px] bg-cover bg-center" style={{ backgroundImage: "url('/images/cta-bg.jpg')" }}>
+      {/* 어두운 반투명 가독성 보호용 마스크 오버레이 */}
+      <div className="absolute inset-0 bg-zinc-950/75 z-0"></div>
+      
+      {/* 장식용 은은한 그라데이션 */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.2),transparent_70%)] z-0"></div>
       
       <div className="max-w-4xl mx-auto text-left lg:text-center relative z-10 flex flex-col items-start lg:items-center">
         {/* 상단 라벨 */}
