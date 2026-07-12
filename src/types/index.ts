@@ -12,6 +12,7 @@ export interface SiteConfig {
   SEARCH_THUMBNAIL_WIDTH: number;
   SEARCH_THUMBNAIL_HEIGHT: number;
   SEARCH_THUMBNAIL_ALT: string;
+  MAIN_HERO_IMAGE: string;
 }
 
 export interface FAQItem {

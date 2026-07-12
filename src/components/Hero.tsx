@@ -18,7 +18,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           {/* 메인 Hero 전용 next/image 백그라운드 레이어 */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/hero/rainguard-chungnam-main-hero.jpg"
+              src={siteConfig.MAIN_HERO_IMAGE || (() => { throw new Error("MAIN_HERO_IMAGE is required"); })()}
               alt=""
               fill
               priority
