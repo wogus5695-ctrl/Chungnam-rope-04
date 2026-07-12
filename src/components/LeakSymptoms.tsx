@@ -96,17 +96,24 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
             {hasDynamicList ? `${dynamicServiceName} 점검이 필요한 신호` : "놓치기 쉬운 누수 신호"}
           </h2>
           <p className="text-[26px] sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
-            {hasDynamicList 
-              ? `${dynamicRegionName} ${dynamicServiceName}, 이런 증상이 반복되면 확인이 필요합니다` 
-              : "비 온 뒤 이런 흔적이 반복된다면 누수 원인을 확인해야 합니다"
-            }
+            {hasDynamicList ? (
+              <>
+                {dynamicRegionName} {dynamicServiceName}, <span className="text-brand-accent">이런 증상이 반복</span>되면 확인이 필요합니다
+              </>
+            ) : (
+              <>
+                비 온 뒤 <span className="text-brand-accent">이런 흔적이 반복</span>된다면 누수 원인을 확인해야 합니다
+              </>
+            )}
           </p>
           <div className="text-zinc-500 mt-3 sm:mt-4 lg:mt-[16px] text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] lg:mx-auto">
             {hasDynamicList ? (
-              `${dynamicRegionName} 현장에서 아래와 같은 흔적이 반복된다면, 내부 마감 손상이 커지기 전에 실제 유입 경로와 외부 마감 상태를 확인해야 합니다.`
+              <>
+                {dynamicRegionName} 현장에서 아래와 같은 흔적이 반복된다면, 내부 마감 손상이 커지기 전에 <span className="underline decoration-brand-accent/50 underline-offset-4 font-bold text-zinc-800">실제 유입 경로와 외부 마감 상태</span>를 확인해야 합니다.
+              </>
             ) : (
               <p>
-                비가 올 때 <strong className="text-brand-accent font-extrabold">같은 위치에서 물자국과 변색이 반복된다면</strong>, 벽지·몰딩 등 내부 마감 손상이 커지기 전에 실제 유입 경로를 확인해야 합니다.
+                <span className="text-brand-accent font-extrabold">비가 올 때 반복</span>되는 물자국과 변색이 관찰된다면, 내부 마감 손상이 커지기 전에 <span className="underline decoration-brand-accent/50 underline-offset-4 font-bold text-zinc-800">실제 유입 경로</span>를 확인해야 합니다.
               </p>
             )}
           </div>
@@ -132,7 +139,7 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
               </div>
               <div className="p-4 sm:p-5 lg:p-[24px] flex-grow flex flex-col justify-center md:justify-between w-[65%] md:w-auto">
                 <div>
-                  <h3 className="text-[17px] sm:text-lg lg:text-[20px] font-[800] text-zinc-900 mb-1.5 sm:mb-2 tracking-tight leading-[1.3] truncate lg:whitespace-normal lg:line-clamp-2">{s.title}</h3>
+                  <h3 className="text-[17px] sm:text-lg lg:text-[20px] font-[800] text-brand-accent mb-1.5 sm:mb-2 tracking-tight leading-[1.3] truncate lg:whitespace-normal lg:line-clamp-2">{s.title}</h3>
                   <p className="text-[14px] sm:text-sm lg:text-[15px] text-zinc-600 leading-[1.55] lg:leading-[1.65] line-clamp-2 lg:line-clamp-3">{s.desc}</p>
                 </div>
               </div>
