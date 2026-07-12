@@ -49,19 +49,45 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
     );
   }
 
-  // 동적 페이지일 때 매핑 정책 정의
+  // 작업명별 관련 서비스 분기 정의
   const relationMap: Record<string, string[]> = {
-    "창틀코킹": ["창틀실리콘", "샷시실리콘", "창틀누수"],
-    "창틀누수": ["빗물누수", "창틀코킹", "외벽누수"],
-    "빗물누수": ["창틀누수", "외벽누수", "창틀코킹"],
-    "창틀실리콘": ["창틀코킹", "샷시실리콘", "창틀누수"],
-    "샷시실리콘": ["창틀실리콘", "창틀코킹", "창틀누수"],
-    "외벽누수": ["빗물누수", "창틀누수", "창틀코킹"]
+    "빗물누수": ["창틀누수", "외벽누수"],
+    "창틀누수": ["창틀코킹", "빗물누수"],
+    "외벽누수": ["빗물누수", "창틀누수"],
+    "창틀코킹": ["창틀실리콘", "창틀누수"],
+    "창틀실리콘": ["창틀코킹", "샷시실리콘"],
+    "샷시실리콘": ["창틀실리콘", "창틀코킹"]
   };
 
-  const relatedNames = relationMap[activeServiceName] || [];
-  const relatedServices = services.filter(s => relatedNames.includes(s.name));
-  const remainingServices = services.filter(s => s.name !== activeServiceName && !relatedNames.includes(s.name));
+  const relatedNames = relationMap[activeServiceName] || ["창틀누수", "외벽누수"];
+
+  // 관련 서비스 설명 및 링크 문구 사전
+  const relatedMetaMap: Record<string, { desc: string; linkText: string }> = {
+    "창틀누수": {
+      desc: "창틀 주변에서 물자국이 반복될 때 함께 확인합니다.",
+      linkText: "창틀누수 보기"
+    },
+    "외벽누수": {
+      desc: "벽지 상단 변색이나 외벽 균열이 함께 보일 때 확인합니다.",
+      linkText: "외벽누수 보기"
+    },
+    "빗물누수": {
+      desc: "비바람이 강한 날에만 누수가 반복될 때 확인합니다.",
+      linkText: "빗물누수 보기"
+    },
+    "창틀코킹": {
+      desc: "창틀 외부 실리콘의 갈라짐과 들뜸이 보일 때 확인합니다.",
+      linkText: "창틀코킹 보기"
+    },
+    "창틀실리콘": {
+      desc: "창틀 실리콘의 경화와 갈라짐이 확인될 때 점검합니다.",
+      linkText: "창틀실리콘 보기"
+    },
+    "샷시실리콘": {
+      desc: "샷시 프레임과 외벽 접합부에 틈이 보일 때 확인합니다.",
+      linkText: "샷시실리콘 보기"
+    }
+  };
 
   // 작업명별 요약 콘텐츠 매핑 사전
   const serviceDetailMap: Record<string, { desc: string; symptom: string; target: string; scope: string }> = {
@@ -151,46 +177,32 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
           </div>
         </div>
 
-        {/* 2. 관련 서비스 3종 링킹 카드 영역 */}
-        <div className="mb-12 space-y-6">
+        {/* 2. 함께 확인하면 좋은 관련 서비스 2종 링킹 영역 */}
+        <div className="space-y-6">
           <h4 className="text-lg font-bold text-brand-primary border-l-4 border-brand-accent pl-2.5">
-            연관하여 함께 점검이 필요한 방수 서비스
+            함께 확인하면 좋은 관련 서비스
           </h4>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedServices.map((rs) => (
-              <Link 
-                key={rs.id} 
-                href={`/?k=${regionName}-${rs.name}`}
-                className="p-6 bg-white border border-zinc-150 rounded-2xl hover:shadow-md hover:border-brand-accent/20 transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  <h5 className="text-base font-bold text-zinc-800 group-hover:text-brand-accent transition-colors mb-2">{rs.name} &rarr;</h5>
-                  <p className="text-xs text-zinc-500 leading-relaxed mb-4">{rs.shortDescription}</p>
-                </div>
-                <div className="flex flex-wrap gap-1 pt-3 border-t border-zinc-100">
-                  {rs.symptoms.slice(0, 2).map((sym, i) => (
-                    <span key={i} className="px-1.5 py-0.5 bg-zinc-100 text-zinc-500 text-[10px] font-bold rounded">{sym}</span>
-                  ))}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* 3. 나머지 서비스 텍스트 링크 간결 제공 */}
-        <div className="p-5 bg-zinc-50 border border-zinc-100 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <span className="text-xs font-bold text-zinc-400">기타 출장 안내</span>
-          <div className="flex flex-wrap gap-3">
-            {remainingServices.map((rem) => (
-              <Link
-                key={rem.id}
-                href={`/?k=${regionName}-${rem.name}`}
-                className="text-xs text-zinc-600 hover:text-brand-accent hover:underline font-semibold"
-              >
-                {rem.name} 바로 가기
-              </Link>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {relatedNames.map((name) => {
+              const meta = relatedMetaMap[name] || { desc: "", linkText: `${name} 보기` };
+              return (
+                <Link 
+                  key={name} 
+                  href={`/?k=${regionName}-${name}`}
+                  className="p-6 bg-white border border-zinc-150 rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-col justify-between"
+                >
+                  <div>
+                    <h5 className="text-[17px] font-black text-zinc-900 group-hover:text-brand-accent transition-colors mb-2">{name}</h5>
+                    <p className="text-sm text-zinc-500 leading-relaxed mb-4">{meta.desc}</p>
+                  </div>
+                  <div className="text-xs font-extrabold text-brand-accent flex items-center gap-1 group-hover:underline pt-3 border-t border-zinc-100">
+                    <span>{meta.linkText}</span>
+                    <span>&rarr;</span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
 
