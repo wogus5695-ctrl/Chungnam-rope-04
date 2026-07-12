@@ -1,0 +1,306 @@
+import { parseKeyword, getFlatRegions } from "@/lib/keyword";
+import { redirect, notFound } from "next/navigation";
+import Link from "next/link";
+import React from "react";
+import { siteConfig } from "@/config/site";
+import { services } from "@/data/services";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import LeakSymptoms from "@/components/LeakSymptoms";
+import LeakPath from "@/components/LeakPath";
+import { Metadata } from "next";
+import { getJsonLd } from "@/lib/jsonld";
+import {
+  ServiceSection,
+  ProcessSection,
+  CasesSection,
+  WhyUsSection,
+  RegionSection,
+  FAQSection,
+  FinalCTA,
+  Footer,
+  InteractiveCTA
+} from "@/components/BottomSections";
+
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+// 8단계: 메타데이터 정의
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const resolvedSearchParams = await searchParams;
+  const k = typeof resolvedSearchParams.k === "string" ? resolvedSearchParams.k : undefined;
+
+  const ogCommon = {
+    images: [
+      {
+        url: siteConfig.SEARCH_THUMBNAIL_URL,
+        secureUrl: siteConfig.SEARCH_THUMBNAIL_URL,
+        type: "image/jpeg",
+        width: siteConfig.SEARCH_THUMBNAIL_WIDTH,
+        height: siteConfig.SEARCH_THUMBNAIL_HEIGHT,
+        alt: siteConfig.SEARCH_THUMBNAIL_ALT,
+      }
+    ],
+  };
+
+  // 메인 페이지 메타데이터
+  if (!k) {
+    return {
+      title: "충청남도 빗물누수·창틀코킹 전문 | 레인가드",
+      description: siteConfig.defaultDescription,
+      alternates: {
+        canonical: "https://rainguard-chungnam.co.kr"
+      },
+      openGraph: {
+        type: "website",
+        title: "충청남도 빗물누수·창틀코킹 전문 | 레인가드",
+        description: siteConfig.defaultDescription,
+        url: "https://rainguard-chungnam.co.kr",
+        ...ogCommon,
+      }
+    };
+  }
+
+  const parsed = parseKeyword(k);
+  if (!parsed || parsed.isAlias) {
+    return {
+      title: "올바르지 않은 요청 | 레인가드",
+      robots: "noindex, nofollow"
+    };
+  }
+
+  const regionName = parsed.region.name;
+  const serviceName = parsed.service.name;
+
+  const targetService = services.find(s => s.name === serviceName);
+  const customDesc = targetService 
+    ? `${regionName} 지역 ${serviceName} 전문 진단. ${targetService.metaDescription}`
+    : `${regionName} ${serviceName} 전문 레인가드 충남지점.`;
+
+  const fullUrl = `https://rainguard-chungnam.co.kr/?k=${parsed.canonicalKey}`;
+
+  return {
+    title: `${regionName} ${serviceName} | 창틀·외벽 누수 진단 레인가드`,
+    description: customDesc,
+    alternates: {
+      canonical: fullUrl
+    },
+    openGraph: {
+      type: "website",
+      title: `${regionName} ${serviceName} | 창틀·외벽 누수 진단 레인가드`,
+      description: customDesc,
+      url: fullUrl,
+      ...ogCommon,
+    }
+  };
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const k = typeof resolvedSearchParams.k === "string" ? resolvedSearchParams.k : undefined;
+
+  // 1. k 파라미터가 없는 경우: 메인 페이지
+  if (!k) {
+    const jsonLd = getJsonLd("main");
+
+    return (
+      <div className="pb-16 md:pb-0 min-h-screen flex flex-col">
+        {/* 구조화 데이터 주입 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Header />
+        <Hero />
+        <main className="flex-grow">
+          <LeakSymptoms />
+          <LeakPath />
+          <ServiceSection />
+          <ProcessSection />
+          <CasesSection />
+          <WhyUsSection />
+          <RegionSection />
+          <FAQSection />
+          <FinalCTA />
+        </main>
+        <Footer />
+        <InteractiveCTA />
+      </div>
+    );
+  }
+
+  // 2. k 파라미터 파싱
+  const parsed = parseKeyword(k);
+
+  // 3. 유효하지 않은 키워드인 경우 404 처리
+  if (!parsed) {
+    notFound();
+  }
+
+  // 4. Alias인 경우 Canonical 주소로 308 영구 리디렉션
+  if (parsed.isAlias) {
+    redirect(`/?k=${parsed.canonicalKey}`);
+  }
+
+  // 5. 정상 canonical 키워드인 경우: 동적 랜딩 렌더링
+  const regionName = parsed.region.name;
+  const serviceName = parsed.service.name;
+  const parentRegion = parsed.region.parentName;
+
+  // 세부 정규 콘텐츠 데이터 확보
+  const serviceData = services.find(s => s.name === serviceName)!;
+
+  // 구조화 데이터 생성
+  const jsonLd = getJsonLd("landing", {
+    regionName,
+    serviceName,
+    canonicalKey: parsed.canonicalKey,
+    shortDescription: serviceData.shortDescription
+  });
+
+  // 상호 교차 링크 리스트 추출
+  const allFlatRegions = getFlatRegions();
+  const adjacentRegions = allFlatRegions.filter(r => r.name !== regionName).slice(0, 8); // 지면 한도 내 추출
+  const relativeServices = services.filter(s => s.name !== serviceName);
+
+  return (
+    <div className="pb-16 md:pb-0 min-h-screen flex flex-col">
+      {/* 구조화 데이터 주입 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Header />
+      
+      {/* 2. 동적 Hero 적용 */}
+      <Hero
+        badge={`📍 ${parentRegion} > ${regionName} 서비스`}
+        title={
+          <>
+            {regionName} {serviceName},<br className="hidden sm:inline" />
+            <span className="text-brand-accent"> 누수 원인부터 확인하는 레인가드</span>
+          </>
+        }
+        subtitle={
+          <>
+            {regionName} 주변 현장 조건 및 노후화 상태에 맞는 정확한 진단 방식을 기반으로, {serviceData.heroSubtitle}
+          </>
+        }
+        showBulletPoints={false}
+      />
+
+      {/* 동적 키워드별 세부 상세 레이아웃 섹션 구성 */}
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12 bg-white">
+        
+        {/* 3. 해당 서비스의 대표 증상 */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start border-b border-zinc-100 pb-12">
+          <div className="lg:col-span-1">
+            <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">주요 징후</span>
+            <h2 className="text-xl sm:text-2xl font-black text-brand-primary mt-1">대표 누수 증상</h2>
+          </div>
+          <div className="lg:col-span-2">
+            <ul className="list-disc list-inside space-y-2 text-zinc-600 text-sm sm:text-base">
+              {serviceData.symptoms.map((sym, idx) => (
+                <li key={idx} className="font-semibold">{sym}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* 4. 누수 발생 원인 또는 유입 경로 */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start border-b border-zinc-100 pb-12">
+          <div className="lg:col-span-1">
+            <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">유입로 파악</span>
+            <h2 className="text-xl sm:text-2xl font-black text-brand-primary mt-1">누수 발생 원인</h2>
+          </div>
+          <div className="lg:col-span-2">
+            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed whitespace-pre-line">
+              {regionName} 인근 현장의 관찰 결과, {serviceData.cause}
+            </p>
+          </div>
+        </section>
+
+        {/* 5. 점검해야 할 부위 */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start border-b border-zinc-100 pb-12">
+          <div className="lg:col-span-1">
+            <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">주요 검사</span>
+            <h2 className="text-xl sm:text-2xl font-black text-brand-primary mt-1">점검해야 할 부위</h2>
+          </div>
+          <div className="lg:col-span-2">
+            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium text-brand-accent">
+              {serviceData.checkPoint}
+            </p>
+          </div>
+        </section>
+
+        {/* 6. 관련 서비스 안내 */}
+        <div className="border-b border-zinc-100 pb-12">
+          <ServiceSection />
+        </div>
+
+        {/* 7. 진단 및 시공 절차 */}
+        <div className="border-b border-zinc-100 pb-12">
+          <ProcessSection />
+        </div>
+
+        {/* 8. 관련 현장 사례 */}
+        <div className="border-b border-zinc-100 pb-12">
+          <CasesSection />
+        </div>
+
+        {/* 9. 레인가드 선택 이유 */}
+        <div className="border-b border-zinc-100 pb-12">
+          <WhyUsSection />
+        </div>
+
+        {/* 10. 인접 지역 및 관련 서비스 교차 추천 */}
+        <section className="p-6 border border-zinc-100 rounded-2xl bg-zinc-50 space-y-6">
+          <h3 className="text-base sm:text-lg font-bold text-brand-primary">
+            {regionName} 인근 지역 및 관련 서비스 바로가기
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <span className="block text-xs font-bold text-zinc-400 mb-2">인근 다른 지역 ({serviceName})</span>
+              <div className="flex flex-wrap gap-2">
+                {adjacentRegions.map((ar, idx) => (
+                  <Link
+                    key={idx}
+                    href={`/?k=${ar.name}-${serviceName}`}
+                    className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
+                  >
+                    {ar.name} {serviceName}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <span className="block text-xs font-bold text-zinc-400 mb-2">{regionName} 내 다른 서비스</span>
+              <div className="flex flex-wrap gap-2">
+                {relativeServices.map((rs, idx) => (
+                  <Link
+                    key={idx}
+                    href={`/?k=${regionName}-${rs.name}`}
+                    className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
+                  >
+                    {regionName} {rs.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 11. FAQ 및 12. 최종 상담 CTA */}
+        <FAQSection customFaqs={serviceData.faqs} />
+        <FinalCTA />
+
+      </main>
+
+      <Footer />
+      <InteractiveCTA />
+    </div>
+  );
+}
+export const dynamic = "force-dynamic";
