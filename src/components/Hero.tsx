@@ -97,7 +97,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               href={`tel:${siteConfig.phonePlaceholder}`}
               className="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
             >
-              전화 문의 (1순위)
+              전화 문의
             </a>
             <a
               href={siteConfig.kakaoUrlPlaceholder}
@@ -105,7 +105,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-8 py-4 bg-[#fee500] hover:bg-[#fdd835] text-black text-base font-extrabold rounded-xl transition-all text-center"
             >
-              카카오톡 문의 (2순위)
+              카카오톡 문의
             </a>
           </div>
         </div>

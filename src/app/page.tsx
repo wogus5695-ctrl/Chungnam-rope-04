@@ -112,7 +112,7 @@ export default async function Home({ searchParams }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <Hero imageSrc={siteConfig.MAIN_HERO_IMAGE} />
+        <Hero imageSrc={siteConfig.MAIN_HERO_IMAGE} badge="충남 전 지역 빗물누수·창틀코킹 대응" />
         <main className="flex-grow">
           <LeakSymptoms />
           <LeakPath />
@@ -182,7 +182,7 @@ export default async function Home({ searchParams }: PageProps) {
       
       {/* 2. 동적 Hero 적용 */}
       <Hero
-        badge={`📍 ${parentRegion} > ${regionName} 서비스`}
+        badge={`${regionName} 현장 진단 가능`}
         title={
           <>
             {regionName} {serviceName},<br className="hidden sm:inline" />
