@@ -71,14 +71,14 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
     <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
       <div className="max-w-7xl mx-auto">
         
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-[48px]">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 sm:mb-[12px]">
+        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-7 sm:mb-9 lg:mb-[48px]">
+          <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 sm:mb-[12px]">
             {hasDynamicList 
               ? (isCockingGroup ? `${dynamicServiceName} 손상 진행 과정` : `${dynamicServiceName} 원인과 유입 경로`) 
               : "누수 원인을 찾는 핵심"
             }
           </h2>
-          <p className="text-2xl sm:text-3xl lg:text-[42px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-tight lg:leading-[1.25] keep-all break-keep">
+          <p className="text-[28px] sm:text-3xl lg:text-[42px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
             {hasDynamicList 
               ? (isCockingGroup 
                   ? `${dynamicRegionName} ${dynamicServiceName}, 노후와 들뜸이 시작된 부위부터 확인합니다` 
@@ -86,7 +86,7 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
               : "물이 보이는 곳과 들어오는 곳은 다를 수 있습니다"
             }
           </p>
-          <p className="text-zinc-500 mt-3 text-sm sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] mx-auto">
+          <p className="text-zinc-500 mt-3 text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] lg:mx-auto">
             {hasDynamicList ? (
               isCockingGroup
                 ? "실리콘의 갈라짐과 접합부 들뜸은 작은 틈을 만들고, 빗물이 침투할 수 있는 원인이 될 수 있습니다."
@@ -128,9 +128,9 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
         </div>
 
         {/* 모바일/태블릿 뷰포트 레이아웃 */}
-        <div className="lg:hidden flex flex-col gap-8">
+        <div className="lg:hidden flex flex-col gap-7 sm:gap-9">
           {/* 상단 이미지 패널 */}
-          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-zinc-200">
+          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-[18px] overflow-hidden bg-zinc-200">
             <Image
               src="/images/symptoms/leak-path-panel.jpg"
               alt={imageAlt}
@@ -139,23 +139,19 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
               sizes="100vw"
               style={{ objectFit: "cover", objectPosition: "center 45%" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/45 to-transparent" />
           </div>
 
-          {/* 하단 4단계 리스트 */}
-          <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
+          {/* 하단 4단계 2x2 콤팩트 카드 그리드 */}
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
             {displayPaths.map((p, idx) => (
               <div
                 key={idx}
-                className="flex flex-col items-center text-center p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm"
+                className="flex flex-col justify-center p-3.5 sm:p-4 bg-white border border-zinc-150 rounded-[14px] h-[125px] sm:h-[135px] text-left"
               >
-                {/* 단계 표시 원형 */}
-                <div className="w-12 h-12 rounded-full bg-brand-accent text-white flex items-center justify-center font-black text-lg mb-4 shadow-md shadow-brand-accent/20">
-                  {p.step}
-                </div>
-                
-                <h3 className="text-base sm:text-lg font-bold text-zinc-900 mb-2">{p.name}</h3>
-                <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed max-w-xs">{p.desc}</p>
+                <span className="text-[12px] font-bold text-brand-accent/80 tracking-wider mb-0.5 sm:mb-1 block">STEP {p.step}</span>
+                <h3 className="text-[15px] sm:text-[16px] font-[800] text-zinc-900 mb-1 leading-tight line-clamp-1">{p.name}</h3>
+                <p className="text-[13px] text-zinc-500 leading-[1.5] line-clamp-2">{p.desc}</p>
               </div>
             ))}
           </div>
