@@ -334,30 +334,6 @@ export default async function Home({ searchParams }: PageProps) {
           dynamicServiceName={serviceName} 
         />
 
-        {/* 5. 점검해야 할 부위 (체크리스트 카드 구조화) */}
-        <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-              <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">정밀 스캔</h2>
-              <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">{regionName} {serviceName} 점검 항목</p>
-              <p className="text-zinc-500 mt-3 text-sm sm:text-base">
-                현장 마모도 상태에 맞추어 시공 범위를 합리적으로 설계하기 위한 주요 4대 체크리스트 부위입니다.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {serviceData.checkPoints.map((cp, idx) => (
-                <div key={idx} className="flex items-start gap-4 p-6 bg-zinc-50 border border-zinc-100 rounded-2xl">
-                  <div className="w-8 h-8 rounded-full bg-blue-50 text-brand-accent flex items-center justify-center font-bold text-sm flex-shrink-0">
-                    ✓
-                  </div>
-                  <p className="text-sm sm:text-base text-zinc-700 leading-relaxed font-semibold pt-0.5">{cp}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* 6. 관련 서비스 안내 */}
         <ServiceSection activeServiceName={serviceName} regionName={regionName} />
 
@@ -415,7 +391,11 @@ export default async function Home({ searchParams }: PageProps) {
         </section>
 
         {/* 11. FAQ 및 12. 최종 상담 CTA */}
-        <FAQSection customFaqs={serviceData.faqs} />
+        <FAQSection 
+          customFaqs={serviceData.faqs} 
+          dynamicRegionName={regionName} 
+          dynamicServiceName={serviceName} 
+        />
         <FinalCTA />
 
       </main>

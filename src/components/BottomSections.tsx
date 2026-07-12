@@ -302,9 +302,11 @@ export function RegionSection() {
 // 6. FAQ
 interface FAQSectionProps {
   customFaqs?: { q: string; a: string }[];
+  dynamicRegionName?: string;
+  dynamicServiceName?: string;
 }
 
-export function FAQSection({ customFaqs }: FAQSectionProps) {
+export function FAQSection({ customFaqs, dynamicRegionName, dynamicServiceName }: FAQSectionProps) {
   const defaultFaqs = [
     { q: "창틀 누수가 일어나는 가장 주요한 원인은 무엇인가요?", a: "기본적으로 오랜 시간 자외선 및 기온 변화에 노출되며 마감 코킹이 노후화되어 갈라지는 현상과 함께, 주변 외벽 콘크리트에 생긴 미세한 거미줄형 균열로 빗물이 침입하는 것이 주요인입니다." },
     { q: "기존 실리콘을 제거하지 않고 그 위에 덧방(덧칠) 시공을 하나요?", a: "레인가드는 접착력이 현저히 감소한 노후 실리콘을 최대한 칼로 긁어내 완전히 걷어낸 후 새 제품으로 시공하는 것을 철칙으로 삼습니다. 접착면에 부유물이 남아 있으면 금방 다시 누수가 일어나기 때문입니다." },
@@ -313,7 +315,25 @@ export function FAQSection({ customFaqs }: FAQSectionProps) {
     { q: "시공 의뢰 상담 전 미리 확인해두면 좋은 내용은 무엇인가요?", a: "누수가 발생하는 방의 위치, 창문의 크기 및 대략적인 형태(이중창 등), 빗물이 떨어지는 구체적인 부위(상단, 하단, 모서리 등)를 대략적으로 체크해두시면 한결 신속한 대략적 안내가 가능합니다." }
   ];
 
-  const displayFaqs = customFaqs && customFaqs.length > 0 ? customFaqs : defaultFaqs;
+  const hasDynamic = !!(dynamicRegionName && dynamicServiceName);
+  let displayFaqs = customFaqs && customFaqs.length > 0 ? [...customFaqs] : [...defaultFaqs];
+
+  // 동적 키워드 페이지일 경우 2번째(인덱스 1 또는 2) 항목에 신규 질문 주입
+  if (hasDynamic) {
+    const isCocking = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(dynamicServiceName);
+    const newQuestion = isCocking
+      ? {
+          q: `${dynamicRegionName} ${dynamicServiceName} 시공 전 어떤 부분을 점검하나요?`,
+          a: "기존 실리콘의 경화와 갈라짐, 창틀·외벽 접합부의 들뜸과 틈새 상태를 확인합니다. 손상 범위와 누수 흔적을 함께 살펴 기존 코킹 제거 여부와 필요한 시공 범위를 판단합니다."
+        }
+      : {
+          q: `${dynamicRegionName} ${dynamicServiceName} 점검 시 어떤 부분을 확인하나요?`,
+          a: "누수가 발생하는 날의 바람 방향과 물자국 위치를 확인하고, 외벽 균열과 창틀 접합부, 기존 실리콘의 손상 상태를 함께 점검합니다. 실내 흔적과 외부 상태를 비교해 실제 빗물 유입 가능성이 높은 부위와 필요한 보수 범위를 판단합니다."
+        };
+    
+    // 기존에 인덱스 2(3번째) 자리에 주입 (2번째 또는 3번째 조건 충족)
+    displayFaqs.splice(2, 0, newQuestion);
+  }
 
   return (
     <section id="faq" className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
