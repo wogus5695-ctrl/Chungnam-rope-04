@@ -1,15 +1,40 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'S-CoreDream';
+  src: url('/fonts/SCDream3.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'S-CoreDream';
+  src: url('/fonts/SCDream5.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'S-CoreDream';
+  src: url('/fonts/SCDream7.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-brand-primary: #0f172a; /* 신뢰감 있는 슬레이트/다크블루 */
   --color-brand-accent: #2563eb;  /* 청량하고 전문적인 블루 */
   --color-brand-accent-hover: #1d4ed8;
   --color-kakao: #fee500;
   --color-kakao-hover: #fdd835;
+  --font-sans: 'S-CoreDream', system-ui, sans-serif;
 }
 
 body {
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
   color: #1f2937;
   background-color: #f9fafb;
 }
