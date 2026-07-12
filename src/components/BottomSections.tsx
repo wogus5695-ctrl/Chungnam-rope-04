@@ -140,46 +140,48 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
   const activeDetail = serviceDetailMap[activeServiceName] || fallbackDetail;
 
   return (
-    <section id="services" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+    <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* 상단 타이틀 */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">선택한 서비스 안내</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">
+        <div className="text-center max-w-3xl lg:mx-auto mb-10 sm:mb-12 lg:mb-[44px]">
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-3 lg:mb-[12px] lg:text-[15px]">
+            선택한 서비스 안내
+          </h2>
+          <p className="text-2xl sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-tight lg:leading-[1.25] keep-all break-keep">
             {regionName} {activeServiceName}, 어떤 부분을 확인하나요?
           </p>
-          <p className="text-zinc-500 mt-3 text-sm sm:text-base">
+          <p className="text-zinc-500 mt-3 lg:mt-[16px] text-sm sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[730px] lg:mx-auto">
             증상과 외부 상태를 함께 비교해 실제 원인과 필요한 작업 범위를 판단합니다.
           </p>
         </div>
 
-        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (정보 단순화 모델) */}
-        <div className="mb-12 p-8 bg-zinc-50 border border-zinc-100 rounded-3xl shadow-sm space-y-6">
-          <div className="border-b border-zinc-200/80 pb-4">
-            <h3 className="text-2xl font-black text-brand-primary">{activeServiceName}</h3>
-            <p className="text-zinc-500 mt-2 font-medium leading-relaxed">{activeDetail.desc}</p>
+        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (PC 컴팩트 3열 구조 개편) */}
+        <div className="mb-10 lg:mb-[44px] p-6 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[20px] shadow-sm space-y-6">
+          <div className="border-b border-zinc-200/80 pb-4 flex flex-col lg:flex-row lg:items-baseline lg:gap-4">
+            <h3 className="text-2xl lg:text-[28px] font-[800] text-brand-primary">{activeServiceName}</h3>
+            <p className="text-zinc-500 text-sm sm:text-base lg:text-[16px] mt-1 lg:mt-0 font-medium leading-relaxed">{activeDetail.desc}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
-            <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-1.5">주요 증상</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeDetail.symptom}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm divide-y md:divide-y-0 md:divide-x divide-zinc-200">
+            <div className="pt-4 md:pt-0 md:pl-0">
+              <span className="block text-[13px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">주요 증상</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] lg:line-clamp-2">{activeDetail.symptom}</p>
             </div>
-            <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-1.5">확인 부위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeDetail.target}</p>
+            <div className="pt-4 md:pt-0 md:pl-6">
+              <span className="block text-[13px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">확인 부위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] lg:line-clamp-2">{activeDetail.target}</p>
             </div>
-            <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-1.5">안내 범위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeDetail.scope}</p>
+            <div className="pt-4 md:pt-0 md:pl-6">
+              <span className="block text-[13px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">안내 범위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] lg:line-clamp-2">{activeDetail.scope}</p>
             </div>
           </div>
         </div>
 
         {/* 2. 함께 확인하면 좋은 관련 서비스 2종 링킹 영역 */}
         <div className="space-y-6">
-          <h4 className="text-lg font-bold text-brand-primary border-l-4 border-brand-accent pl-2.5">
+          <h4 className="text-lg lg:text-[20px] font-black text-brand-primary border-l-4 border-brand-accent pl-2.5">
             함께 확인하면 좋은 관련 서비스
           </h4>
           
@@ -190,13 +192,13 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
                 <Link 
                   key={name} 
                   href={`/?k=${regionName}-${name}`}
-                  className="p-6 bg-white border border-zinc-150 rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-col justify-between"
+                  className="p-6 lg:p-[24px] bg-white border border-zinc-150 rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-col justify-between h-full"
                 >
                   <div>
-                    <h5 className="text-[17px] font-black text-zinc-900 group-hover:text-brand-accent transition-colors mb-2">{name}</h5>
-                    <p className="text-sm text-zinc-500 leading-relaxed mb-4">{meta.desc}</p>
+                    <h5 className="text-[19px] lg:text-[21px] font-[800] text-zinc-900 group-hover:text-brand-accent transition-colors mb-2 tracking-tight">{name}</h5>
+                    <p className="text-sm lg:text-[15px] text-zinc-500 leading-relaxed lg:line-clamp-2 mb-4">{meta.desc}</p>
                   </div>
-                  <div className="text-xs font-extrabold text-brand-accent flex items-center gap-1 group-hover:underline pt-3 border-t border-zinc-100">
+                  <div className="text-[13px] lg:text-[14px] font-extrabold text-brand-accent flex items-center gap-1 group-hover:underline pt-3 border-t border-zinc-100">
                     <span>{meta.linkText}</span>
                     <span>&rarr;</span>
                   </div>
