@@ -90,17 +90,17 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
     <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-[46px]">
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 sm:mb-[12px]">
             {hasDynamicList ? `${dynamicServiceName} 점검이 필요한 신호` : "놓치기 쉬운 누수 신호"}
           </h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight keep-all break-keep">
+          <p className="text-2xl sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-tight lg:leading-[1.25] keep-all break-keep">
             {hasDynamicList 
               ? `${dynamicRegionName} ${dynamicServiceName}, 이런 증상이 반복되면 확인이 필요합니다` 
               : "비 온 뒤 이런 흔적이 반복된다면 누수 원인을 확인해야 합니다"
             }
           </p>
-          <div className="text-zinc-500 mt-4 text-sm sm:text-base leading-relaxed keep-all break-keep max-w-2xl mx-auto">
+          <div className="text-zinc-500 mt-4 lg:mt-[16px] text-sm sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] mx-auto">
             {hasDynamicList ? (
               `${dynamicRegionName} 현장에서 아래와 같은 흔적이 반복된다면, 내부 마감 손상이 커지기 전에 실제 유입 경로와 외부 마감 상태를 확인해야 합니다.`
             ) : (
@@ -111,14 +111,14 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
           {displaySymptoms.map((s, idx) => (
             <div
               key={idx}
-              className="bg-zinc-50 border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-xl hover:border-brand-accent/20 transition-all duration-300 group flex flex-col"
+              className="bg-zinc-50 border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-lg lg:hover:shadow-md transition-all duration-300 group flex flex-col h-full"
             >
-              {/* 실사 원인 이미지 삽입 */}
-              <div className="relative w-full h-48 overflow-hidden bg-zinc-200">
+              {/* 실사 원인 이미지 삽입 (PC 4:3 가로 고정비율 설정) */}
+              <div className="relative w-full h-44 lg:h-auto lg:aspect-[4/3] overflow-hidden bg-zinc-200">
                 <Image
                   src={s.image}
                   alt={s.title}
@@ -128,10 +128,10 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
                   className="group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="p-6 flex-grow flex flex-col justify-between">
+              <div className="p-5 lg:p-[24px] flex-grow flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-2">{s.title}</h3>
-                  <p className="text-sm text-zinc-600 leading-relaxed">{s.desc}</p>
+                  <h3 className="text-base sm:text-lg lg:text-[20px] font-[800] text-zinc-900 mb-2 tracking-tight lg:leading-[1.3] truncate lg:whitespace-normal lg:line-clamp-2">{s.title}</h3>
+                  <p className="text-xs sm:text-sm lg:text-[15px] text-zinc-600 leading-relaxed lg:leading-[1.65] lg:line-clamp-3">{s.desc}</p>
                 </div>
               </div>
             </div>
