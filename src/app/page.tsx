@@ -391,7 +391,7 @@ export default async function Home({ searchParams }: PageProps) {
           dynamicRegionName={regionName} 
           dynamicServiceName={serviceName} 
         />
-        <FinalCTA />
+        <FinalCTA activeServiceName={serviceName} regionName={regionName} />
 
       </main>
 

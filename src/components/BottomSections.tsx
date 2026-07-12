@@ -736,28 +736,58 @@ export function FAQSection({ customFaqs, dynamicRegionName, dynamicServiceName }
 }
 
 // 7. 최종 CTA
-export function FinalCTA() {
+interface FinalCTAProps {
+  activeServiceName?: string;
+  regionName?: string;
+}
+
+export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
+  const isDynamic = !!(activeServiceName && regionName);
+
+  // 1. 상단 라벨
+  const labelText = "빠른 상담 안내";
+
+  // 2. H2 타이틀
+  const h2Text = isDynamic
+    ? `${regionName} ${activeServiceName}, 증상이 반복되면 먼저 상담하세요`
+    : "비 올 때 반복되는 누수, 원인부터 확인하세요";
+
+  // 3. 설명문 분기 처리
+  let descText = "물자국 위치와 발생 시점을 알려주시면 점검이 필요한 부위와 상담 절차를 안내합니다.";
+  
+  if (isDynamic) {
+    const isLeakType = ["빗물누수", "창틀누수", "외벽누수"].includes(activeServiceName);
+    const isCockingType = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(activeServiceName);
+
+    if (isLeakType) {
+      descText = "물자국 위치와 비가 올 때 나타나는 증상을 알려주시면 외벽·창틀 중 확인이 필요한 범위를 안내합니다.";
+    } else if (isCockingType) {
+      descText = "갈라짐과 들뜸 상태를 사진으로 보내주시면 기존 코킹 확인과 시공 상담 절차를 안내합니다.";
+    } else {
+      descText = "현재 증상과 외부 마감 상태를 알려주시면 확인이 필요한 부위와 상담 절차를 안내합니다.";
+    }
+  }
+
   return (
-    <section className="py-16 sm:py-24 bg-brand-primary text-white relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-brand-primary text-white relative overflow-hidden px-5 sm:px-6 lg:px-0">
       {/* 장식용 그라데이션 */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.15),transparent_70%)]"></div>
       
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-8">
-        <p className="text-sm font-bold text-brand-accent tracking-wider uppercase">상담 센터 운영 중</p>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
-          더 이상의 물 고임과 벽지 젖음 방치 금지!<br />
-          지금 레인가드에 정밀 진단을 문의하세요.
+      <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
+        <span className="text-sm font-bold text-brand-accent tracking-wider uppercase">{labelText}</span>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight whitespace-pre-line keep-all break-keep">
+          {h2Text}
         </h2>
-        <p className="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto font-medium">
-          친절한 상담원이 빗물 누수가 일어나는 현재 양상과 조건에 맞추어 현명한 조치 방법을 상담해 드립니다.
+        <p className="text-zinc-300 text-sm sm:text-base max-w-xl mx-auto font-medium leading-relaxed keep-all break-keep">
+          {descText}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto pt-4">
           <a
             href={`tel:${siteConfig.phonePlaceholder}`}
             className="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
           >
-            전화 상담원 바로 연결
+            전화로 증상 상담
           </a>
           <a
             href={siteConfig.kakaoUrlPlaceholder}
@@ -765,9 +795,13 @@ export function FinalCTA() {
             rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 py-4 bg-[#fee500] hover:bg-[#fdd835] text-black text-base font-extrabold rounded-xl transition-all text-center"
           >
-            카카오톡 1:1 대화
+            사진 보내 상담
           </a>
         </div>
+
+        <p className="text-zinc-400 text-xs font-semibold pt-2">
+          사진을 함께 보내주시면 증상 확인에 도움이 됩니다.
+        </p>
       </div>
     </section>
   );
