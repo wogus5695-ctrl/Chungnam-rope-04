@@ -112,7 +112,21 @@ export default async function Home({ searchParams }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <Hero imageSrc={siteConfig.MAIN_HERO_IMAGE} badge="충남 전 지역 빗물누수·창틀코킹 대응" />
+        <Hero 
+          imageSrc={siteConfig.MAIN_HERO_IMAGE} 
+          badge="충남 전 지역 빗물누수·창틀코킹 대응" 
+          title={
+            <>
+              충청남도 빗물누수·창틀코킹,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 정확한 진단과 보수, 레인가드</span>
+            </>
+          }
+          subtitle={
+            <>
+              비가 올 때 반복되는 누수 원인을 외벽 균열, 창틀 틈새, 노후 실리콘 상태까지 함께 점검하고 현장에 맞는 보수 범위를 안내합니다.
+            </>
+          }
+        />
         <main className="flex-grow">
           <LeakSymptoms />
           <LeakPath />

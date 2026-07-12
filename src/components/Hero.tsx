@@ -74,19 +74,19 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
                 <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>외벽과 창틀 주변 누수 유입 경로 정밀 분석</span>
+                <span>외벽·창틀 누수 유입 경로 정밀 점검</span>
               </li>
               <li className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>기존 노후 실리콘의 마모 및 벌어짐 진단</span>
+                <span>노후 실리콘 손상 상태 확인</span>
               </li>
               <li className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>구조물의 상태에 가장 알맞은 보수 방향 설계</span>
+                <span>구조와 원인에 맞는 보수 범위 안내</span>
               </li>
             </ul>
           )}
