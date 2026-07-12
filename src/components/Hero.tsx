@@ -26,10 +26,10 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               style={{ objectFit: "cover" }}
               className="object-[68%_center] md:object-[72%_center]"
             />
-            {/* 왼쪽에서 오른쪽으로 옅어지는 밝은 그라데이션 오버레이 */}
+            {/* 왼쪽에서 오른쪽으로 옅어지는 브랜드 다크블루(#0f172a) 그라데이션 오버레이 */}
             {/* 데스크톱은 글자 영역만 투명하게 지탱하고, 모바일에서는 조금 더 강한 불투명 레이어로 텍스트 가독성을 완전 수호 */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/96 via-white/80 md:via-white/60 to-transparent hidden md:block" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white/96 via-white/90 to-white/40 md:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/96 via-[#0f172a]/80 md:via-[#0f172a]/60 to-transparent hidden md:block" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/96 via-[#0f172a]/90 to-[#0f172a]/40 md:hidden" />
           </div>
         </>
       ) : (
@@ -43,23 +43,23 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
         <div className="text-center md:text-left max-w-3xl space-y-6 sm:space-y-8">
           
           {/* 배지 태그 */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-brand-accent text-xs sm:text-sm font-bold">
-            <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+          <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-bold ${imageSrc ? 'bg-white/10 text-white' : 'bg-blue-50 text-brand-accent'}`}>
+            <span className={`w-2 h-2 rounded-full animate-pulse ${imageSrc ? 'bg-white' : 'bg-brand-accent'}`}></span>
             {badge || "충남 전 지역 신속 진단 및 시공"}
           </div>
 
           {/* 메인 H1 타이틀 */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-brand-primary leading-tight sm:leading-none tracking-tight">
+          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight sm:leading-none tracking-tight ${imageSrc ? 'text-white' : 'text-brand-primary'}`}>
             {title || (
               <>
                 충청남도 빗물누수·창틀코킹<br className="hidden sm:inline" />
-                <span className="text-brand-accent"> 전문 {siteConfig.brandName}</span>
+                <span className={imageSrc ? 'text-brand-accent' : 'text-brand-accent'}> 전문 {siteConfig.brandName}</span>
               </>
             )}
           </h1>
 
           {/* 보조 설명 문구 */}
-          <div className="text-base sm:text-lg md:text-xl text-zinc-600 leading-relaxed font-medium">
+          <div className={`text-base sm:text-lg md:text-xl leading-relaxed font-medium ${imageSrc ? 'text-zinc-300' : 'text-zinc-600'}`}>
             {subtitle || (
               <>
                 빗물이 집안으로 스며드는 답답함을 명확히 해결합니다. <br className="hidden md:inline" />
@@ -69,21 +69,21 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </div>
 
           {showBulletPoints && (
-            <ul className="space-y-2 text-sm text-zinc-500 font-semibold max-w-md mx-auto md:mx-0">
+            <ul className={`space-y-2 text-sm font-semibold max-w-md mx-auto md:mx-0 ${imageSrc ? 'text-zinc-400' : 'text-zinc-500'}`}>
               <li className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>외벽과 창틀 주변 누수 유입 경로 정밀 분석</span>
               </li>
               <li className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>기존 노후 실리콘의 마모 및 벌어짐 진단</span>
               </li>
               <li className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>구조물의 상태에 가장 알맞은 보수 방향 설계</span>
