@@ -214,30 +214,91 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
 }
 
 // 2. 축소된 작업 진행 과정
-export function ProcessSection() {
+interface ProcessSectionProps {
+  activeServiceName?: string;
+}
+
+export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
+  const isDynamic = !!activeServiceName;
+  
+  const label = isDynamic ? `${activeServiceName} 작업 진행 과정` : "작업 진행 과정";
+  const h2Text = "원인을 확인한 뒤 필요한 범위만 작업합니다";
+  const description = isDynamic
+    ? "증상과 외부 상태를 함께 확인해 실제 원인에 맞는 점검과 작업 범위를 안내합니다."
+    : "보이는 흔적만 막지 않고 외벽과 창틀 상태를 함께 확인한 뒤 필요한 작업 범위를 안내합니다.";
+
   const steps = [
-    { num: "01", name: "현장 상태 확인", desc: "누수가 발생하는 실내 징후와 외부 마감 상태를 육안 및 장비로 정밀 점검합니다." },
-    { num: "02", name: "원인 분석", desc: "빗물이 들어오는 틈새와 균열 위치를 파악하고 보수 필요한 범위를 분석합니다." },
-    { num: "03", name: "맞춤 시공 진행", desc: "노후 마감재를 깨끗이 제거하고 고기밀 방수 자재를 이용해 빈틈없이 실링 처리를 완료합니다." }
+    {
+      num: "01",
+      name: "증상과 현장 확인",
+      desc: "물자국 위치와 발생 시점, 건물 구조와 외부 상태를 함께 확인합니다."
+    },
+    {
+      num: "02",
+      name: "유입 가능 부위 점검",
+      desc: "외벽 균열, 창틀 접합부와 기존 실리콘 손상 여부를 살펴봅니다."
+    },
+    {
+      num: "03",
+      name: "필요한 범위 보수",
+      desc: "확인된 원인을 기준으로 불필요한 범위를 제외하고 필요한 작업을 진행합니다."
+    }
   ];
 
   return (
-    <section id="process" className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">시공 과정</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">작업 진행 과정</p>
+    <section id="process" className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* 상단 타이틀 */}
+        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-10 sm:mb-12 lg:mb-[44px]">
+          <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 lg:mb-[12px] lg:text-[15px]">
+            {label}
+          </h2>
+          <p className="text-[28px] sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
+            {h2Text}
+          </p>
+          <p className="text-zinc-500 mt-3 lg:mt-[16px] text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[730px] lg:mx-auto">
+            {description}
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 모바일 뷰: 세로형 콤팩트 타임라인 (lg:hidden) */}
+        <div className="block lg:hidden relative pl-6 border-l border-zinc-200/80 space-y-8 ml-3">
           {steps.map((st, i) => (
-            <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl relative shadow-sm">
-              <span className="text-4xl font-black text-brand-accent/20 absolute right-6 top-6">{st.num}</span>
-              <h3 className="text-lg font-bold text-zinc-900 mb-3 pr-8">{st.name}</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">{st.desc}</p>
+            <div key={i} className="relative min-h-[90px] flex flex-col justify-start">
+              {/* 타임라인 원형 번호 */}
+              <span className="absolute -left-[37px] top-0 flex items-center justify-center w-[22px] h-[22px] rounded-full bg-white border border-brand-accent text-brand-accent text-[11px] font-bold">
+                {st.num}
+              </span>
+              <div>
+                <h3 className="text-[17px] font-extrabold text-zinc-900 leading-tight mb-1.5">{st.name}</h3>
+                <p className="text-[14px] text-zinc-500 leading-relaxed font-semibold">{st.desc}</p>
+              </div>
             </div>
           ))}
         </div>
+
+        {/* PC 뷰: 수평 3열 카드 및 연결선 (hidden lg:grid) */}
+        <div className="hidden lg:grid lg:grid-cols-3 gap-8 relative items-stretch">
+          {steps.map((st, i) => (
+            <div key={i} className="p-6 bg-white border border-zinc-150 rounded-2xl relative shadow-sm flex flex-col h-full justify-between">
+              <div>
+                {/* 상위 우측 미니 숫자 */}
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-[19px] font-extrabold text-zinc-900">{st.name}</h3>
+                  <span className="text-[14px] font-black text-brand-accent/50">{st.num}</span>
+                </div>
+                <p className="text-sm text-zinc-500 leading-relaxed font-semibold">{st.desc}</p>
+              </div>
+              
+              {/* 단계 간 연결 흐름 얇은 가로선 (01, 02단계 오른쪽에만 표시) */}
+              {i < 2 && (
+                <div className="hidden lg:block absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-4 border-t border-dashed border-zinc-300" />
+              )}
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

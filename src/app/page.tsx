@@ -339,7 +339,7 @@ export default async function Home({ searchParams }: PageProps) {
         <WorkCasesSection regionName={regionName} serviceName={serviceName} />
 
         {/* 8. 축소된 작업 진행 과정 */}
-        <ProcessSection />
+        <ProcessSection activeServiceName={serviceName} />
 
         {/* 10. 인접 지역 및 관련 서비스 교차 추천 */}
         <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
