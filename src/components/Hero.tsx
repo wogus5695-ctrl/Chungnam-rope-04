@@ -11,6 +11,11 @@ interface HeroProps {
 export default function Hero({ badge, title, subtitle, showBulletPoints = true }: HeroProps) {
   return (
     <section className="relative hero-gradient overflow-hidden py-16 sm:py-24 md:py-32 border-b border-zinc-100">
+      {/* 배경 작업 이미지 오버레이 */}
+      <div 
+        className="absolute inset-0 bg-cover bg-right md:bg-right-bottom opacity-15 pointer-events-none z-0"
+        style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center md:text-left max-w-3xl space-y-6 sm:space-y-8">
           
