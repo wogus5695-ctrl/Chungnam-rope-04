@@ -68,17 +68,17 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
     : "외벽과 창틀을 따라 실내로 이동하는 빗물 누수 경로";
 
   return (
-    <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto">
         
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-[48px]">
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 sm:mb-[12px]">
             {hasDynamicList 
               ? (isCockingGroup ? `${dynamicServiceName} 손상 진행 과정` : `${dynamicServiceName} 원인과 유입 경로`) 
               : "누수 원인을 찾는 핵심"
             }
           </h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight keep-all break-keep">
+          <p className="text-2xl sm:text-3xl lg:text-[42px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-tight lg:leading-[1.25] keep-all break-keep">
             {hasDynamicList 
               ? (isCockingGroup 
                   ? `${dynamicRegionName} ${dynamicServiceName}, 노후와 들뜸이 시작된 부위부터 확인합니다` 
@@ -86,7 +86,7 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
               : "물이 보이는 곳과 들어오는 곳은 다를 수 있습니다"
             }
           </p>
-          <p className="text-zinc-500 mt-3 text-sm sm:text-base leading-relaxed keep-all break-keep max-w-2xl mx-auto">
+          <p className="text-zinc-500 mt-3 text-sm sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] mx-auto">
             {hasDynamicList ? (
               isCockingGroup
                 ? "실리콘의 갈라짐과 접합부 들뜸은 작은 틈을 만들고, 빗물이 침투할 수 있는 원인이 될 수 있습니다."
@@ -97,9 +97,40 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
           </p>
         </div>
 
-        {/* 빗물 누수 유입 경로 시각화 이미지 패널 영역 */}
-        <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] lg:aspect-[21/9] rounded-2xl overflow-hidden mb-12 bg-zinc-200">
-          <div className="absolute inset-0 z-0">
+        {/* 데스크톱(lg 이상): 이미지-단계 결합 단일 거대 패널(좌 60% : 우 40%) */}
+        {/* 모바일/태블릿: 상단 이미지 패널 + 하단 세로형 단계 리스트 순차 노출 */}
+        <div className="hidden lg:flex w-full h-[580px] bg-white border border-zinc-100 rounded-[24px] overflow-hidden shadow-sm">
+          {/* 왼쪽 이미지 영역 (60%) */}
+          <div className="relative w-[60%] h-full bg-zinc-200">
+            <Image
+              src="/images/symptoms/leak-path-panel.jpg"
+              alt={imageAlt}
+              fill
+              loading="lazy"
+              sizes="60vw"
+              style={{ objectFit: "cover", objectPosition: "center 45%" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/30 to-transparent" />
+          </div>
+
+          {/* 오른쪽 4단계 세로 목록 영역 (40%) */}
+          <div className="w-[40%] h-full flex flex-col justify-between divide-y divide-zinc-100 bg-white">
+            {displayPaths.map((p, idx) => (
+              <div key={idx} className="flex-1 flex flex-col justify-center px-8 xl:px-[36px] py-4">
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="text-xs font-bold text-brand-accent/70 tracking-wider">STEP {p.step}</span>
+                </div>
+                <h3 className="text-[19px] xl:text-[21px] font-[800] text-zinc-900 mb-1">{p.name}</h3>
+                <p className="text-[14px] xl:text-[15px] text-zinc-500 leading-normal">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 모바일/태블릿 뷰포트 레이아웃 */}
+        <div className="lg:hidden flex flex-col gap-8">
+          {/* 상단 이미지 패널 */}
+          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-zinc-200">
             <Image
               src="/images/symptoms/leak-path-panel.jpg"
               alt={imageAlt}
@@ -108,21 +139,15 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
               sizes="100vw"
               style={{ objectFit: "cover", objectPosition: "center 45%" }}
             />
-            {/* 이미지 위에 얹어지는 네이비 계열의 약한 gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
           </div>
-        </div>
 
-        {/* 경로 가로/세로 레이아웃 흐름 */}
-        <div className="relative">
-          {/* 모바일에서는 세로선, 데스크톱에서는 가로선 데코레이션 */}
-          <div className="hidden lg:block absolute top-1/2 left-4 right-4 h-0.5 bg-zinc-200 -translate-y-1/2 z-0"></div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative z-10">
+          {/* 하단 4단계 리스트 */}
+          <div className="flex flex-col gap-6 sm:grid sm:grid-cols-2">
             {displayPaths.map((p, idx) => (
               <div
                 key={idx}
-                className="flex flex-col items-center text-center p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+                className="flex flex-col items-center text-center p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm"
               >
                 {/* 단계 표시 원형 */}
                 <div className="w-12 h-12 rounded-full bg-brand-accent text-white flex items-center justify-center font-black text-lg mb-4 shadow-md shadow-brand-accent/20">
@@ -131,15 +156,6 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
                 
                 <h3 className="text-base sm:text-lg font-bold text-zinc-900 mb-2">{p.name}</h3>
                 <p className="text-xs sm:text-sm text-zinc-500 leading-relaxed max-w-xs">{p.desc}</p>
-                
-                {/* 모바일 하향 화살표 지시자 */}
-                {idx < 3 && (
-                  <div className="lg:hidden mt-6 text-brand-accent animate-bounce">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                  </div>
-                )}
               </div>
             ))}
           </div>
