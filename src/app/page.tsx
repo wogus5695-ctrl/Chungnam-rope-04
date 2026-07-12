@@ -328,7 +328,11 @@ export default async function Home({ searchParams }: PageProps) {
         />
 
         {/* 4. 누수 발생 원인 또는 유입 경로 (메인과 동일한 4단계 경로 UI 공통화) */}
-        <LeakPath pathList={serviceData.pathSteps} />
+        <LeakPath 
+          pathList={serviceData.pathSteps} 
+          dynamicRegionName={regionName} 
+          dynamicServiceName={serviceName} 
+        />
 
         {/* 5. 점검해야 할 부위 (체크리스트 카드 구조화) */}
         <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">

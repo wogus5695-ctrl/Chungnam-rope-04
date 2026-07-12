@@ -2,43 +2,93 @@ import { PathStep } from "@/types";
 
 interface LeakPathProps {
   pathList?: PathStep[];
+  dynamicRegionName?: string;
+  dynamicServiceName?: string;
 }
 
-export default function LeakPath({ pathList }: LeakPathProps) {
+export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceName }: LeakPathProps) {
   const defaultPaths = [
     {
       step: "01",
-      name: "외벽 균열 유입",
-      desc: "옹벽의 미세한 크랙 틈새로 빗물이 흡수됩니다."
+      name: "틈과 균열 발생",
+      desc: "노후 실리콘과 외벽 마감에 미세한 틈이 생깁니다."
     },
     {
       step: "02",
-      name: "샷시·외벽 접합부 침투",
-      desc: "샤시 틀과 콘크리트 마감재가 만나는 접점이 벌어집니다."
+      name: "빗물 침투",
+      desc: "비바람을 받은 빗물이 틈을 통해 내부로 스며듭니다."
     },
     {
       step: "03",
-      name: "창틀 상부와 프레임 침적",
-      desc: "내부로 파고든 수분이 샷시 프레임 상부에 고여 고정됩니다."
+      name: "벽체 내부 이동",
+      desc: "들어온 물이 창틀과 벽체 내부를 따라 이동합니다."
     },
     {
       step: "04",
-      name: "실내 벽지·몰딩 변색",
-      desc: "최종적으로 벽지와 몰딩 마감재를 적시며 습기를 노출시킵니다."
+      name: "실내 흔적 발생",
+      desc: "벽지와 몰딩의 물자국이나 변색으로 나타납니다."
     }
   ];
 
-  const displayPaths = pathList && pathList.length > 0 ? pathList : defaultPaths;
+  const hasDynamicList = !!(dynamicRegionName && dynamicServiceName);
+
+  // 코킹/실리콘 계열 vs 누수 계열 4단계 분기 정의
+  const isCockingGroup = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(dynamicServiceName || "");
+  
+  const dynamicPaths = isCockingGroup
+    ? [
+        {
+          step: "01",
+          name: "실리콘 노후화",
+          desc: "햇빛과 온도 변화로 실리콘이 굳고 갈라집니다."
+        },
+        {
+          step: "02",
+          name: "접합부 들뜸",
+          desc: "실리콘이 창틀이나 외벽에서 떨어져 틈이 생깁니다."
+        },
+        {
+          step: "03",
+          name: "틈새 빗물 유입",
+          desc: "비바람을 받은 빗물이 벌어진 접합부로 스며듭니다."
+        },
+        {
+          step: "04",
+          name: "누수 흔적 발생",
+          desc: "창틀 주변의 물자국과 습기, 변색으로 나타납니다."
+        }
+      ]
+    : defaultPaths;
+
+  const displayPaths = hasDynamicList ? dynamicPaths : defaultPaths;
 
   return (
     <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">원인 및 전파 경로</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">누수 유입 경로</p>
-          <p className="text-zinc-500 mt-3 text-sm sm:text-base">
-            빗물이 외부에서 실내 마감재까지 이어지는 대표적인 4단계 누수 진입 메커니즘입니다.
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">
+            {hasDynamicList 
+              ? (isCockingGroup ? `${dynamicServiceName} 손상 진행 과정` : `${dynamicServiceName} 원인과 유입 경로`) 
+              : "누수 원인을 찾는 핵심"
+            }
+          </h2>
+          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight keep-all break-keep">
+            {hasDynamicList 
+              ? (isCockingGroup 
+                  ? `${dynamicRegionName} ${dynamicServiceName}, 노후와 들뜸이 시작된 부위부터 확인합니다` 
+                  : `${dynamicRegionName} ${dynamicServiceName}, 물이 들어온 지점부터 확인합니다`)
+              : "물이 보이는 곳과 들어오는 곳은 다를 수 있습니다"
+            }
+          </p>
+          <p className="text-zinc-500 mt-3 text-sm sm:text-base leading-relaxed keep-all break-keep max-w-2xl mx-auto">
+            {hasDynamicList ? (
+              isCockingGroup
+                ? "실리콘의 갈라짐과 접합부 들뜸은 작은 틈을 만들고, 빗물이 침투할 수 있는 원인이 될 수 있습니다."
+                : "실내 물자국과 실제 유입 지점은 다를 수 있어 외벽 균열, 창틀 접합부와 실리콘 상태를 함께 확인해야 합니다."
+            ) : (
+              "외벽의 작은 균열이나 창틀 접합부로 들어온 빗물은 벽체 내부를 따라 이동한 뒤 실내 물자국으로 나타납니다."
+            )}
           </p>
         </div>
 
