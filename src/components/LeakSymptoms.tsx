@@ -3,9 +3,11 @@ import { SymptomCard } from "@/types";
 
 interface LeakSymptomsProps {
   symptomList?: SymptomCard[];
+  dynamicRegionName?: string;
+  dynamicServiceName?: string;
 }
 
-export default function LeakSymptoms({ symptomList }: LeakSymptomsProps) {
+export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicServiceName }: LeakSymptomsProps) {
   const defaultSymptoms = [
     {
       title: "창틀 틈새 빗물 유입",
@@ -37,9 +39,51 @@ export default function LeakSymptoms({ symptomList }: LeakSymptomsProps) {
     "/images/symptoms/symptom-4.jpg"
   ];
 
-  const hasDynamicList = symptomList && symptomList.length > 0;
+  const hasDynamicList = !!(dynamicRegionName && dynamicServiceName);
+
+  // 콘텐츠 그룹 분기 조건에 의한 카드 데이터 매핑
+  const isCockingGroup = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(dynamicServiceName || "");
+  
+  const dynamicSymptoms = isCockingGroup 
+    ? [
+        {
+          title: "실리콘 표면 갈라짐",
+          desc: "외부 실리콘이 굳고 갈라져 접합부 틈이 드러나는 상태"
+        },
+        {
+          title: "접합부 들뜸",
+          desc: "실리콘이 창틀이나 외벽 면에서 분리되어 틈이 생긴 상태"
+        },
+        {
+          title: "기존 코킹 박리",
+          desc: "오래된 코킹이 부스러지거나 일부가 떨어져 기밀성이 저하된 상태"
+        },
+        {
+          title: "창틀 주변 미세 틈",
+          desc: "샷시 프레임과 외벽 접합부 사이에 미세한 틈이 확인되는 상태"
+        }
+      ]
+    : [
+        {
+          title: "창틀 틈새 빗물 유입",
+          desc: "비바람이 칠 때 창틀 하단이나 모서리에서 물이 고이거나 흘러내리는 증상"
+        },
+        {
+          title: "벽지·몰딩 변색",
+          desc: "창문 주변 벽지가 눅눅해지거나 몰딩을 따라 얼룩과 들뜸이 생기는 증상"
+        },
+        {
+          title: "반복되는 습기 흔적",
+          desc: "비가 그치면 마르지만 강우 시 같은 위치가 다시 젖는 증상"
+        },
+        {
+          title: "외벽 균열 누수",
+          desc: "외벽 균열 주변에서 비가 올 때마다 실내 물자국과 습기가 반복되는 증상"
+        }
+      ];
+
   const displaySymptoms = hasDynamicList
-    ? symptomList.map((s, idx) => ({ ...s, image: symptomImages[idx] || symptomImages[0] })) 
+    ? dynamicSymptoms.map((s, idx) => ({ ...s, image: symptomImages[idx] || symptomImages[0] })) 
     : defaultSymptoms;
 
   return (
@@ -48,17 +92,17 @@ export default function LeakSymptoms({ symptomList }: LeakSymptomsProps) {
         
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">
-            {hasDynamicList ? "원인 파악의 시작" : "놓치기 쉬운 누수 신호"}
+            {hasDynamicList ? `${dynamicServiceName} 점검이 필요한 신호` : "놓치기 쉬운 누수 신호"}
           </h2>
           <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight keep-all break-keep">
             {hasDynamicList 
-              ? "대표적인 누수 증상" 
+              ? `${dynamicRegionName} ${dynamicServiceName}, 이런 증상이 반복되면 확인이 필요합니다` 
               : "비 온 뒤 이런 흔적이 반복된다면 누수 원인을 확인해야 합니다"
             }
           </p>
           <div className="text-zinc-500 mt-4 text-sm sm:text-base leading-relaxed keep-all break-keep max-w-2xl mx-auto">
             {hasDynamicList ? (
-              "아래와 같은 증상이 발견되면 내부 마감재 손상이 커지기 전에 빗물 차단 보수가 필요합니다."
+              `${dynamicRegionName} 현장에서 아래와 같은 흔적이 반복된다면, 내부 마감 손상이 커지기 전에 실제 유입 경로와 외부 마감 상태를 확인해야 합니다.`
             ) : (
               <p>
                 비가 올 때 <strong className="text-brand-accent font-extrabold">같은 위치에서 물자국과 변색이 반복된다면</strong>, 벽지·몰딩 등 내부 마감 손상이 커지기 전에 실제 유입 경로를 확인해야 합니다.

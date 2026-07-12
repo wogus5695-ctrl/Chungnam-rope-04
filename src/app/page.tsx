@@ -321,7 +321,11 @@ export default async function Home({ searchParams }: PageProps) {
       <main className="flex-grow bg-white">
         
         {/* 3. 해당 서비스의 대표 증상 카드 (메인과 동일한 카드 UI 공통화) */}
-        <LeakSymptoms symptomList={serviceData.symptomObjects} />
+        <LeakSymptoms 
+          symptomList={serviceData.symptomObjects} 
+          dynamicRegionName={regionName} 
+          dynamicServiceName={serviceName} 
+        />
 
         {/* 4. 누수 발생 원인 또는 유입 경로 (메인과 동일한 4단계 경로 UI 공통화) */}
         <LeakPath pathList={serviceData.pathSteps} />
