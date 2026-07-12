@@ -25,12 +25,14 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               priority
               sizes="100vw"
               style={{ objectFit: "cover" }}
-              className="object-[68%_center] lg:object-[78%_center]"
+              className="object-[82%_center] lg:object-[78%_center]"
             />
-            {/* 왼쪽에서 오른쪽으로 옅어지는 브랜드 다크블루(#0f172a) 그라데이션 오버레이 */}
-            {/* 데스크톱은 글자 영역만 투명하게 지탱하고, 모바일에서는 조금 더 강한 불투명 레이어로 텍스트 가독성을 완전 수호 */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/98 via-[#0f172a]/85 lg:via-[#0f172a]/55 to-transparent hidden md:block" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/96 via-[#0f172a]/90 to-[#0f172a]/40 md:hidden" />
+            {/* PC/태블릿 오버레이: 좌측 매우 어두움(90%) -> 중앙(65%) -> 우측(30%) 자연스러운 그라데이션 */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/92 via-[#0f172a]/65 to-[#0f172a]/30 hidden md:block" />
+            
+            {/* 모바일 오버레이: 가독성을 위해 전체 기본 어두운 오버레이 70% + 텍스트 상단/좌측 영역 85% 중첩 처리 */}
+            <div className="absolute inset-0 bg-[#0f172a]/70 md:hidden" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/85 via-[#0f172a]/75 to-transparent md:hidden" />
           </div>
         </>
       ) : (
