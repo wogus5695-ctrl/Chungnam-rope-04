@@ -87,20 +87,20 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
     : defaultSymptoms;
 
   return (
-    <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 sm:py-24 bg-white border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto">
         
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-[46px]">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 sm:mb-[12px]">
+        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-9 sm:mb-12 lg:mb-[46px]">
+          <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 sm:mb-[12px]">
             {hasDynamicList ? `${dynamicServiceName} 점검이 필요한 신호` : "놓치기 쉬운 누수 신호"}
           </h2>
-          <p className="text-2xl sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-tight lg:leading-[1.25] keep-all break-keep">
+          <p className="text-[26px] sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
             {hasDynamicList 
               ? `${dynamicRegionName} ${dynamicServiceName}, 이런 증상이 반복되면 확인이 필요합니다` 
               : "비 온 뒤 이런 흔적이 반복된다면 누수 원인을 확인해야 합니다"
             }
           </p>
-          <div className="text-zinc-500 mt-4 lg:mt-[16px] text-sm sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] mx-auto">
+          <div className="text-zinc-500 mt-3 sm:mt-4 lg:mt-[16px] text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] lg:mx-auto">
             {hasDynamicList ? (
               `${dynamicRegionName} 현장에서 아래와 같은 흔적이 반복된다면, 내부 마감 손상이 커지기 전에 실제 유입 경로와 외부 마감 상태를 확인해야 합니다.`
             ) : (
@@ -111,27 +111,28 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
+        {/* 모바일에서는 flex-col 세로 리스트의 가로형 콤팩트 카드 형태, md 이상에서는 기존 4열 그리드 */}
+        <div className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {displaySymptoms.map((s, idx) => (
             <div
               key={idx}
-              className="bg-zinc-50 border border-zinc-100 rounded-2xl overflow-hidden hover:shadow-lg lg:hover:shadow-md transition-all duration-300 group flex flex-col h-full"
+              className="bg-zinc-50 border border-zinc-100 rounded-[16px] overflow-hidden hover:shadow-lg lg:hover:shadow-md transition-all duration-300 group flex flex-row md:flex-col h-[145px] md:h-full"
             >
-              {/* 실사 원인 이미지 삽입 (PC 4:3 가로 고정비율 설정) */}
-              <div className="relative w-full h-44 lg:h-auto lg:aspect-[4/3] overflow-hidden bg-zinc-200">
+              {/* 실사 원인 이미지 삽입 (모바일 가로형 콤팩트 비중 35% 적용, PC 4:3 가로 고정비율 설정) */}
+              <div className="relative w-[35%] md:w-full h-full md:h-44 lg:h-auto lg:aspect-[4/3] overflow-hidden bg-zinc-200 flex-shrink-0">
                 <Image
                   src={s.image}
                   alt={s.title}
                   fill
-                  sizes="(max-w-768px) 100vw, 25vw"
+                  sizes="(max-w-768px) 35vw, 25vw"
                   style={{ objectFit: "cover" }}
                   className="group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="p-5 lg:p-[24px] flex-grow flex flex-col justify-between">
+              <div className="p-4 sm:p-5 lg:p-[24px] flex-grow flex flex-col justify-center md:justify-between w-[65%] md:w-auto">
                 <div>
-                  <h3 className="text-base sm:text-lg lg:text-[20px] font-[800] text-zinc-900 mb-2 tracking-tight lg:leading-[1.3] truncate lg:whitespace-normal lg:line-clamp-2">{s.title}</h3>
-                  <p className="text-xs sm:text-sm lg:text-[15px] text-zinc-600 leading-relaxed lg:leading-[1.65] lg:line-clamp-3">{s.desc}</p>
+                  <h3 className="text-[17px] sm:text-lg lg:text-[20px] font-[800] text-zinc-900 mb-1.5 sm:mb-2 tracking-tight leading-[1.3] truncate lg:whitespace-normal lg:line-clamp-2">{s.title}</h3>
+                  <p className="text-[14px] sm:text-sm lg:text-[15px] text-zinc-600 leading-[1.55] lg:leading-[1.65] line-clamp-2 lg:line-clamp-3">{s.desc}</p>
                 </div>
               </div>
             </div>
