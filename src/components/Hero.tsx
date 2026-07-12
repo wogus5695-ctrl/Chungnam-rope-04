@@ -7,10 +7,11 @@ interface HeroProps {
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
   showBulletPoints?: boolean;
+  bulletPoints?: string[];
   imageSrc?: string;
 }
 
-export default function Hero({ badge, title, subtitle, showBulletPoints = true, imageSrc }: HeroProps) {
+export default function Hero({ badge, title, subtitle, showBulletPoints = true, bulletPoints, imageSrc }: HeroProps) {
   return (
     <section className="relative hero-gradient overflow-hidden py-16 sm:py-24 md:py-32 border-b border-zinc-100 min-h-[480px]">
       {imageSrc ? (
@@ -70,24 +71,18 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
 
           {showBulletPoints && (
             <ul className={`space-y-2 text-sm font-semibold max-w-md mx-auto md:mx-0 ${imageSrc ? 'text-zinc-400' : 'text-zinc-500'}`}>
-              <li className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-                <span>외벽·창틀 누수 유입 경로 정밀 점검</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-                <span>노후 실리콘 손상 상태 확인</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                </svg>
-                <span>구조와 원인에 맞는 보수 범위 안내</span>
-              </li>
+              {(bulletPoints || [
+                "외벽·창틀 누수 유입 경로 정밀 점검",
+                "노후 실리콘 손상 상태 확인",
+                "구조와 원인에 맞는 보수 범위 안내"
+              ]).map((text, idx) => (
+                <li key={idx} className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>{text}</span>
+                </li>
+              ))}
             </ul>
           )}
 

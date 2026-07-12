@@ -195,22 +195,127 @@ export default async function Home({ searchParams }: PageProps) {
       <Header />
       
       {/* 2. 동적 Hero 적용 */}
-      <Hero
-        badge={`${regionName} 현장 진단 가능`}
-        title={
+      {(() => {
+        // H1 타이틀 작업별 분기 템플릿
+        let dynamicTitle = (
           <>
             {regionName} {serviceName},<br className="hidden sm:inline" />
-            <span className="text-brand-accent"> 누수 원인부터 확인하는 레인가드</span>
+            <span className="text-brand-accent"> 현장 상태부터 정확히 확인</span>
           </>
+        );
+        if (serviceName === "빗물누수") {
+          dynamicTitle = (
+            <>
+              {regionName} 빗물누수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 원인부터 정확히 진단</span>
+            </>
+          );
+        } else if (serviceName === "창틀누수") {
+          dynamicTitle = (
+            <>
+              {regionName} 창틀누수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 유입 경로부터 꼼꼼히 점검</span>
+            </>
+          );
+        } else if (serviceName === "외벽누수") {
+          dynamicTitle = (
+            <>
+              {regionName} 외벽누수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 균열과 접합부부터 확인</span>
+            </>
+          );
+        } else if (serviceName === "창틀코킹") {
+          dynamicTitle = (
+            <>
+              {regionName} 창틀코킹,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 노후 상태부터 꼼꼼히 확인</span>
+            </>
+          );
+        } else if (serviceName === "창틀실리콘") {
+          dynamicTitle = (
+            <>
+              {regionName} 창틀실리콘,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 갈라짐과 들뜸부터 점검</span>
+            </>
+          );
+        } else if (serviceName === "샷시실리콘") {
+          dynamicTitle = (
+            <>
+              {regionName} 샷시실리콘,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 접합부 상태부터 정확히 확인</span>
+            </>
+          );
         }
-        subtitle={
+
+        // 설명문 요약 분기
+        let dynamicSubtitle = (
           <>
-            {regionName} 주변 현장 조건 및 노후화 상태에 맞는 정확한 진단 방식을 기반으로, {serviceData.heroSubtitle}
+            기존 실리콘의 갈라짐과 들뜸, 접합부 손상 상태를 확인한 뒤 현장에 맞는 시공 범위를 안내합니다.
           </>
+        );
+        if (serviceName === "빗물누수") {
+          dynamicSubtitle = (
+            <>
+              비가 올 때 반복되는 누수 원인을 외벽·창틀·실리콘 상태까지 함께 점검하고 필요한 보수 범위를 안내합니다.
+            </>
+          );
+        } else if (serviceName === "창틀누수") {
+          dynamicSubtitle = (
+            <>
+              창틀 상부와 측면, 샷시 틈새와 주변 외벽을 함께 확인하여 실제 물 유입 경로를 점검합니다.
+            </>
+          );
+        } else if (serviceName === "외벽누수") {
+          dynamicSubtitle = (
+            <>
+              외벽 균열과 줄눈, 창호 접합부를 점검하여 빗물이 스며드는 원인과 필요한 보수 범위를 확인합니다.
+            </>
+          );
         }
-        showBulletPoints={false}
-        imageSrc={siteConfig.MAIN_HERO_IMAGE}
-      />
+
+        // 체크포인트 3종 분기
+        let dynamicBulletPoints = [
+          "외벽·창틀 누수 유입 경로 점검",
+          "노후 실리콘과 균열 상태 확인",
+          "현장에 필요한 보수 범위 안내"
+        ];
+        if (serviceName === "빗물누수") {
+          dynamicBulletPoints = [
+            "비바람 방향별 누수 반응 확인",
+            "외벽·창틀 누수 유입 경로 점검",
+            "必要な 방수·코킹 범위 안내"
+          ];
+        } else if (serviceName === "창틀누수") {
+          dynamicBulletPoints = [
+            "창틀 상부·측면 누수 흔적 확인",
+            "샷시 틈새와 외벽 접합부 점검",
+            "원인에 맞는 보수 범위 안내"
+          ];
+        } else if (serviceName === "외벽누수") {
+          dynamicBulletPoints = [
+            "외벽 균열과 줄눈 손상 점검",
+            "창호 접합부 주변 유입 흔적 확인",
+            "균열 상태에 맞는 보수 방향 안내"
+          ];
+        } else if (["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(serviceName)) {
+          dynamicBulletPoints = [
+            "기존 실리콘 갈라짐과 들뜸 확인",
+            "창호와 외벽 접합부 상태 점검",
+            "제거 및 재시공 필요 범위 안내"
+          ];
+        }
+
+        return (
+          <Hero
+            badge={`${regionName} 현장 진단 가능`}
+            title={dynamicTitle}
+            subtitle={dynamicSubtitle}
+            showBulletPoints={true}
+            bulletPoints={dynamicBulletPoints}
+            imageSrc={siteConfig.MAIN_HERO_IMAGE}
+          />
+        );
+      })()}
 
       {/* 동적 키워드별 세부 상세 레이아웃 섹션 구성 */}
       <main className="flex-grow bg-white">
