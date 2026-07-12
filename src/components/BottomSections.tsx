@@ -1,7 +1,11 @@
+"use client";
+
 import { services } from "@/data/services";
 import { regions } from "@/data/regions";
 import { siteConfig } from "@/config/site";
+import { workCases } from "@/data/workCases";
 import Link from "next/link";
+import { useState } from "react";
 
 // 1. 서비스 안내
 interface ServiceSectionProps {
@@ -304,58 +308,113 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
   );
 }
 
-// 3. 실제 작업 사례 (기본 컴포넌트 구조화)
+// 3. 실제 작업 사례 (PC 환경 탭식 변환 레이아웃 구현)
 interface WorkCasesProps {
   regionName?: string;
   serviceName?: string;
 }
 
 export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
-  // 실제 사례 데이터 흡수를 위한 구조 정의
-  const mockCases = [
-    {
-      title: `${regionName || "충남"} 현장 시공 사례`,
-      type: serviceName || "빗물방수",
-      beforeSymptom: "비가 오면 발생하는 벽면 누수 흔적",
-      targetArea: "외부 창틀 실리콘 및 주변 균열 부위",
-      actionDesc: "노후 실리콘 제거 후 실란트 밀폐 보강",
-      afterState: "우천 시에도 실내 습기 발생 없이 완전 기밀"
-    }
-  ];
+  const isDynamic = !!serviceName;
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const label = isDynamic ? "유사 현장 작업 사례" : "실제 작업 사례";
+  const h2Text = isDynamic 
+    ? `${regionName} ${serviceName} 상담 전, 유사 작업 사례를 확인하세요`
+    : "사진으로 확인하는 작업 전·후 상태";
+  const description = isDynamic
+    ? "선택한 서비스와 관련된 유사 현장의 작업 전·후 상태를 사진으로 안내합니다."
+    : "실제 현장에서 촬영한 작업 전·후 이미지를 통해 외부 마감과 접합부의 변화를 확인할 수 있습니다.";
+
+  const activeCase = workCases[activeIdx] || workCases[0];
 
   return (
-    <section id="work-cases" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">현장 기록</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">실제 작업 사례</p>
+    <section id="work-cases" className="py-16 sm:py-24 bg-white border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* 상단 타이틀 */}
+        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-10 sm:mb-12 lg:mb-[44px]">
+          <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 lg:mb-[12px] lg:text-[15px]">
+            {label}
+          </h2>
+          <p className="text-[28px] sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
+            {h2Text}
+          </p>
+          <p className="text-zinc-500 mt-3 lg:mt-[16px] text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[730px] lg:mx-auto">
+            {description}
+          </p>
         </div>
 
-        <div className="space-y-8">
-          {mockCases.map((c, i) => (
-            <div key={i} className="p-6 border border-zinc-100 bg-zinc-50 rounded-2xl">
-              <h3 className="text-xl font-bold text-zinc-900 mb-4">{c.title}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-                <div>
-                  <span className="block text-xs font-bold text-zinc-400 mb-1">작업 전 증상</span>
-                  <p className="text-zinc-700 font-semibold">{c.beforeSymptom}</p>
-                </div>
-                <div>
-                  <span className="block text-xs font-bold text-zinc-400 mb-1">확인한 부위</span>
-                  <p className="text-zinc-700 font-semibold">{c.targetArea}</p>
-                </div>
-                <div>
-                  <span className="block text-xs font-bold text-zinc-400 mb-1">실제 작업 내용</span>
-                  <p className="text-zinc-700 font-semibold">{c.actionDesc}</p>
-                </div>
-                <div>
-                  <span className="block text-xs font-bold text-zinc-400 mb-1">작업 후 상태</span>
-                  <p className="text-zinc-700 font-semibold">{c.afterState}</p>
-                </div>
-              </div>
-            </div>
+        {/* 탭 버튼 영역 */}
+        <div className="flex flex-wrap gap-2 justify-start lg:justify-center mb-8">
+          {workCases.map((wc, idx) => (
+            <button
+              key={wc.caseId}
+              type="button"
+              onClick={() => setActiveIdx(idx)}
+              className={`px-4 py-2 text-sm font-extrabold rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-brand-accent/40 ${
+                activeIdx === idx
+                  ? "bg-brand-accent text-white border-brand-accent"
+                  : "bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100"
+              }`}
+            >
+              사례 0{wc.caseNumber}
+            </button>
           ))}
         </div>
+
+        {/* 메인 사례 컨테이너 패널 */}
+        <div className="p-6 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[20px] shadow-sm space-y-6 lg:space-y-8">
+          
+          {/* 작업 전 / 작업 후 이미지 2열 구성 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <span className="inline-block px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md">작업 전</span>
+              <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
+                <img
+                  src={activeCase.beforeImage}
+                  alt={activeCase.beforeAlt}
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <span className="inline-block px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md">작업 후</span>
+              <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
+                <img
+                  src={activeCase.afterImage}
+                  alt={activeCase.afterAlt}
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 작업 설명 정보 4열 바인딩 (수평 구분선 처리) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-sm pt-6 border-t border-zinc-200">
+            <div>
+              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">작업 전 상태</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.symptom}</p>
+            </div>
+            <div>
+              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">확인 부위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.inspectionPoint}</p>
+            </div>
+            <div>
+              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">작업 내용</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.workPerformed}</p>
+            </div>
+            <div>
+              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">작업 후 상태</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.afterState}</p>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );
