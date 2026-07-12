@@ -112,7 +112,7 @@ export default async function Home({ searchParams }: PageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <Hero mainHero={true} />
+        <Hero imageSrc={siteConfig.MAIN_HERO_IMAGE} />
         <main className="flex-grow">
           <LeakSymptoms />
           <LeakPath />

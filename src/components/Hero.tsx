@@ -7,18 +7,18 @@ interface HeroProps {
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
   showBulletPoints?: boolean;
-  mainHero?: boolean;
+  imageSrc?: string;
 }
 
-export default function Hero({ badge, title, subtitle, showBulletPoints = true, mainHero = false }: HeroProps) {
+export default function Hero({ badge, title, subtitle, showBulletPoints = true, imageSrc }: HeroProps) {
   return (
     <section className="relative hero-gradient overflow-hidden py-16 sm:py-24 md:py-32 border-b border-zinc-100 min-h-[480px]">
-      {mainHero ? (
+      {imageSrc ? (
         <>
           {/* 메인 Hero 전용 next/image 백그라운드 레이어 */}
           <div className="absolute inset-0 z-0">
             <Image
-              src={siteConfig.MAIN_HERO_IMAGE || (() => { throw new Error("MAIN_HERO_IMAGE is required"); })()}
+              src={imageSrc}
               alt=""
               fill
               priority
