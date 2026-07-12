@@ -195,6 +195,7 @@ export default async function Home({ searchParams }: PageProps) {
           </>
         }
         showBulletPoints={false}
+        imageSrc={siteConfig.MAIN_HERO_IMAGE}
       />
 
       {/* 동적 키워드별 세부 상세 레이아웃 섹션 구성 */}
