@@ -8,26 +8,43 @@ interface LeakPathProps {
 }
 
 export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceName }: LeakPathProps) {
+  // desc 문자열에 직접 <span> 혹은 HTML 태그가 가미된 구조로 선언
   const defaultPaths = [
     {
       step: "01",
       name: "틈과 균열 발생",
-      desc: "노후 실리콘과 외벽 마감에 미세한 틈이 생깁니다."
+      desc: (
+        <>
+          노후 실리콘과 외벽 마감에 <span className="text-brand-accent font-bold">미세한 틈</span>이 생깁니다.
+        </>
+      )
     },
     {
       step: "02",
       name: "빗물 침투",
-      desc: "비바람을 받은 빗물이 틈을 통해 내부로 스며듭니다."
+      desc: (
+        <>
+          비바람을 받은 빗물이 <span className="text-brand-accent font-bold">틈을 통해 내부로 스며듭니다</span>.
+        </>
+      )
     },
     {
       step: "03",
       name: "벽체 내부 이동",
-      desc: "들어온 물이 창틀과 벽체 내부를 따라 이동합니다."
+      desc: (
+        <>
+          들어온 물이 <span className="text-brand-accent font-bold">창틀과 벽체 내부</span>를 따라 이동합니다.
+        </>
+      )
     },
     {
       step: "04",
       name: "실내 흔적 발생",
-      desc: "벽지와 몰딩의 물자국이나 변색으로 나타납니다."
+      desc: (
+        <>
+          벽지와 몰딩의 <span className="text-brand-accent font-bold">물자국이나 변색</span>으로 나타납니다.
+        </>
+      )
     }
   ];
 
@@ -79,20 +96,35 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
             }
           </h2>
           <p className="text-[28px] sm:text-3xl lg:text-[42px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
-            {hasDynamicList 
-              ? (isCockingGroup 
-                  ? `${dynamicRegionName} ${dynamicServiceName}, 노후와 들뜸이 시작된 부위부터 확인합니다` 
-                  : `${dynamicRegionName} ${dynamicServiceName}, 물이 들어온 지점부터 확인합니다`)
-              : "물이 보이는 곳과 들어오는 곳은 다를 수 있습니다"
-            }
+            {hasDynamicList ? (
+              isCockingGroup ? (
+                <>
+                  {dynamicRegionName} {dynamicServiceName}, 노후와 들뜸이 시작된 부위부터 확인합니다
+                </>
+              ) : (
+                <>
+                  {dynamicRegionName} {dynamicServiceName}, <span className="text-brand-accent">물이 들어온 지점</span>부터 확인합니다
+                </>
+              )
+            ) : (
+              <>
+                물이 보이는 곳과 <span className="text-brand-accent">물이 들어온 지점</span>은 다를 수 있습니다
+              </>
+            )}
           </p>
           <p className="text-zinc-500 mt-3 text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[760px] lg:mx-auto">
             {hasDynamicList ? (
-              isCockingGroup
-                ? "실리콘의 갈라짐과 접합부 들뜸은 작은 틈을 만들고, 빗물이 침투할 수 있는 원인이 될 수 있습니다."
-                : "실내 물자국과 실제 유입 지점은 다를 수 있어 외벽 균열, 창틀 접합부와 실리콘 상태를 함께 확인해야 합니다."
+              isCockingGroup ? (
+                "실리콘의 갈라짐과 접합부 들뜸은 작은 틈을 만들고, 빗물이 침투할 수 있는 원인이 될 수 있습니다."
+              ) : (
+                <>
+                  <span className="underline decoration-brand-accent/50 underline-offset-4 font-bold text-zinc-800">실제 유입 지점은 다를 수 있어</span> 외벽 균열, 창틀 접합부와 실리콘 상태를 함께 확인해야 합니다.
+                </>
+              )
             ) : (
-              "외벽의 작은 균열이나 창틀 접합부로 들어온 빗물은 벽체 내부를 따라 이동한 뒤 실내 물자국으로 나타납니다."
+              <>
+                외벽의 작은 균열이나 창틀 접합부로 들어온 빗물은 <span className="underline decoration-brand-accent/50 underline-offset-4 font-bold text-zinc-800">실제 유입 지점은 다를 수 있어</span> 벽체 내부를 따라 이동한 뒤 실내 물자국으로 나타납니다.
+              </>
             )}
           </p>
         </div>
@@ -121,7 +153,7 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
                   <span className="text-xs font-bold text-brand-accent/70 tracking-wider">STEP {p.step}</span>
                 </div>
                 <h3 className="text-[19px] xl:text-[21px] font-[800] text-zinc-900 mb-1">{p.name}</h3>
-                <p className="text-[14px] xl:text-[15px] text-zinc-500 leading-normal">{p.desc}</p>
+                <div className="text-[14px] xl:text-[15px] text-zinc-500 leading-normal">{p.desc}</div>
               </div>
             ))}
           </div>
@@ -151,12 +183,11 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
               >
                 <span className="text-[12px] font-bold text-brand-accent/80 tracking-wider mb-0.5 sm:mb-1 block">STEP {p.step}</span>
                 <h3 className="text-[15px] sm:text-[16px] font-[800] text-zinc-900 mb-1 leading-tight line-clamp-1">{p.name}</h3>
-                <p className="text-[13px] text-zinc-500 leading-[1.5] line-clamp-2">{p.desc}</p>
+                <div className="text-[13px] text-zinc-500 leading-[1.5] line-clamp-2">{p.desc}</div>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );
