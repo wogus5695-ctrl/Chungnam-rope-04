@@ -634,7 +634,7 @@ export function RegionSection() {
   );
 }
 
-// 6. FAQ
+// 6. FAQ (상태 관리형 아코디언)
 interface FAQSectionProps {
   customFaqs?: { q: string; a: string }[];
   dynamicRegionName?: string;
@@ -642,6 +642,8 @@ interface FAQSectionProps {
 }
 
 export function FAQSection({ customFaqs, dynamicRegionName, dynamicServiceName }: FAQSectionProps) {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+
   const defaultFaqs = [
     { q: "창틀 누수가 일어나는 가장 주요한 원인은 무엇인가요?", a: "기본적으로 오랜 시간 자외선 및 기온 변화에 노출되며 마감 코킹이 노후화되어 갈라지는 현상과 함께, 주변 외벽 콘크리트에 생긴 미세한 거미줄형 균열로 빗물이 침입하는 것이 주요인입니다." },
     { q: "기존 실리콘을 제거하지 않고 그 위에 덧방(덧칠) 시공을 하나요?", a: "레인가드는 접착력이 현저히 감소한 노후 실리콘을 최대한 칼로 긁어내 완전히 걷어낸 후 새 제품으로 시공하는 것을 철칙으로 삼습니다. 접착면에 부유물이 남아 있으면 금방 다시 누수가 일어나기 때문입니다." },
@@ -653,7 +655,7 @@ export function FAQSection({ customFaqs, dynamicRegionName, dynamicServiceName }
   const hasDynamic = !!(dynamicRegionName && dynamicServiceName);
   let displayFaqs = customFaqs && customFaqs.length > 0 ? [...customFaqs] : [...defaultFaqs];
 
-  // 동적 키워드 페이지일 경우 2번째(인덱스 1 또는 2) 항목에 신규 질문 주입
+  // 동적 키워드 페이지일 경우 3번째(인덱스 2) 자리에 질문 주입
   if (hasDynamic) {
     const isCocking = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(dynamicServiceName);
     const newQuestion = isCocking
@@ -666,28 +668,67 @@ export function FAQSection({ customFaqs, dynamicRegionName, dynamicServiceName }
           a: "누수가 발생하는 날의 바람 방향과 물자국 위치를 확인하고, 외벽 균열과 창틀 접합부, 기존 실리콘의 손상 상태를 함께 점검합니다. 실내 흔적과 외부 상태를 비교해 실제 빗물 유입 가능성이 높은 부위와 필요한 보수 범위를 판단합니다."
         };
     
-    // 기존에 인덱스 2(3번째) 자리에 주입 (2번째 또는 3번째 조건 충족)
     displayFaqs.splice(2, 0, newQuestion);
   }
 
+  const toggleFaq = (idx: number) => {
+    setOpenIdx(openIdx === idx ? null : idx);
+  };
+
   return (
-    <section id="faq" className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
+    <section id="faq" className="py-12 sm:py-24 bg-zinc-50 border-b border-zinc-100 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8 sm:mb-16">
           <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">도움말</h2>
           <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">자주 묻는 질문 (FAQ)</p>
         </div>
 
-        <div className="space-y-6">
-          {displayFaqs.map((faq, i) => (
-            <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-              <h3 className="text-base sm:text-lg font-bold text-zinc-900 mb-2 flex items-start gap-2">
-                <span className="text-brand-accent font-black">Q.</span>
-                <span>{faq.q}</span>
-              </h3>
-              <p className="text-sm text-zinc-600 leading-relaxed pl-5 whitespace-pre-line">{faq.a}</p>
-            </div>
-          ))}
+        <div className="space-y-3 sm:space-y-4">
+          {displayFaqs.map((faq, i) => {
+            const isOpen = openIdx === i;
+            return (
+              <div 
+                key={i} 
+                className="bg-white border border-zinc-150 rounded-[12px] sm:rounded-2xl shadow-sm overflow-hidden"
+              >
+                {/* 질문 토글 버튼 */}
+                <button
+                  type="button"
+                  onClick={() => toggleFaq(i)}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${i}`}
+                  className="w-full text-left p-4 sm:p-5 hover:bg-zinc-50/50 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:ring-inset flex justify-between items-center gap-4 group"
+                >
+                  <h3 className="text-[15px] sm:text-lg font-bold text-zinc-900 flex items-start gap-2.5 leading-tight sm:leading-snug pr-4">
+                    <span className="text-brand-accent font-black select-none">Q.</span>
+                    <span className="group-hover:text-brand-accent transition-colors">{faq.q}</span>
+                  </h3>
+                  {/* Chevron 아이콘 */}
+                  <span 
+                    className={`text-zinc-400 group-hover:text-brand-accent transition-transform duration-300 font-extrabold text-[15px] sm:text-lg select-none shrink-0 ${
+                      isOpen ? "rotate-180" : ""
+                    } motion-reduce:transition-none`}
+                  >
+                    &#9662;
+                  </span>
+                </button>
+
+                {/* 답변 콘텐츠 영역 (짧은 아코디언 슬라이드 전환) */}
+                <div
+                  id={`faq-answer-${i}`}
+                  className={`transition-all duration-[250ms] ease-in-out ${
+                    isOpen ? "max-h-[500px] border-t border-zinc-100" : "max-h-0 pointer-events-none"
+                  } overflow-hidden motion-reduce:transition-none`}
+                >
+                  <div className="p-4 sm:p-5 bg-zinc-50/30">
+                    <p className="text-[14px] sm:text-base text-zinc-600 leading-relaxed pl-5 whitespace-pre-line font-medium">
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
