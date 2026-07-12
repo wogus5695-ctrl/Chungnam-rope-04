@@ -140,67 +140,67 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
   const activeDetail = serviceDetailMap[activeServiceName] || fallbackDetail;
 
   return (
-    <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 sm:py-24 bg-white border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
+      <div className="max-w-7xl mx-auto">
         
-        {/* 상단 타이틀 */}
-        <div className="text-center max-w-3xl lg:mx-auto mb-10 sm:mb-12 lg:mb-[44px]">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-3 lg:mb-[12px] lg:text-[15px]">
+        {/* 상단 타이틀 (모바일 좌측 정렬) */}
+        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-7 sm:mb-9 lg:mb-[44px]">
+          <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 lg:mb-[12px] lg:text-[15px]">
             선택한 서비스 안내
           </h2>
-          <p className="text-2xl sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-tight lg:leading-[1.25] keep-all break-keep">
+          <p className="text-[28px] sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
             {regionName} {activeServiceName}, 어떤 부분을 확인하나요?
           </p>
-          <p className="text-zinc-500 mt-3 lg:mt-[16px] text-sm sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[730px] lg:mx-auto">
+          <p className="text-zinc-500 mt-3 lg:mt-[16px] text-[15px] sm:text-base lg:text-[18px] leading-relaxed lg:leading-[1.7] keep-all break-keep max-w-[730px] lg:mx-auto">
             증상과 외부 상태를 함께 비교해 실제 원인과 필요한 작업 범위를 판단합니다.
           </p>
         </div>
 
-        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (PC 컴팩트 3열 구조 개편) */}
-        <div className="mb-10 lg:mb-[44px] p-6 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[20px] shadow-sm space-y-6">
-          <div className="border-b border-zinc-200/80 pb-4 flex flex-col lg:flex-row lg:items-baseline lg:gap-4">
-            <h3 className="text-2xl lg:text-[28px] font-[800] text-brand-primary">{activeServiceName}</h3>
+        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (PC 컴팩트 3열 구조, 모바일 콤팩트 세로 목록 통합) */}
+        <div className="mb-8 lg:mb-[44px] p-5 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[16px] lg:rounded-[20px] shadow-sm space-y-4 lg:space-y-6">
+          <div className="border-b border-zinc-200/80 pb-3 flex flex-col lg:flex-row lg:items-baseline lg:gap-4">
+            <h3 className="text-[22px] lg:text-[28px] font-[800] text-brand-primary leading-tight">{activeServiceName}</h3>
             <p className="text-zinc-500 text-sm sm:text-base lg:text-[16px] mt-1 lg:mt-0 font-medium leading-relaxed">{activeDetail.desc}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm divide-y md:divide-y-0 md:divide-x divide-zinc-200">
-            <div className="pt-4 md:pt-0 md:pl-0">
-              <span className="block text-[13px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">주요 증상</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] lg:line-clamp-2">{activeDetail.symptom}</p>
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-3.5 lg:gap-6 text-sm lg:divide-x lg:divide-zinc-200">
+            <div>
+              <span className="block text-[12px] lg:text-[13px] font-bold text-zinc-400 mb-0.5 lg:mb-1.5 uppercase tracking-wider">주요 증상</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] line-clamp-2">{activeDetail.symptom}</p>
             </div>
-            <div className="pt-4 md:pt-0 md:pl-6">
-              <span className="block text-[13px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">확인 부위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] lg:line-clamp-2">{activeDetail.target}</p>
+            <div className="lg:pl-6">
+              <span className="block text-[12px] lg:text-[13px] font-bold text-zinc-400 mb-0.5 lg:mb-1.5 uppercase tracking-wider">확인 부위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] line-clamp-2">{activeDetail.target}</p>
             </div>
-            <div className="pt-4 md:pt-0 md:pl-6">
-              <span className="block text-[13px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">안내 범위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] lg:line-clamp-2">{activeDetail.scope}</p>
+            <div className="lg:pl-6">
+              <span className="block text-[12px] lg:text-[13px] font-bold text-zinc-400 mb-0.5 lg:mb-1.5 uppercase tracking-wider">안내 범위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] line-clamp-2">{activeDetail.scope}</p>
             </div>
           </div>
         </div>
 
         {/* 2. 함께 확인하면 좋은 관련 서비스 2종 링킹 영역 */}
-        <div className="space-y-6">
-          <h4 className="text-lg lg:text-[20px] font-black text-brand-primary border-l-4 border-brand-accent pl-2.5">
+        <div className="space-y-5 lg:space-y-6">
+          <h4 className="text-[21px] lg:text-[20px] font-black text-brand-primary border-l-4 border-brand-accent pl-2.5 leading-[1.3]">
             함께 확인하면 좋은 관련 서비스
           </h4>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3 lg:gap-6">
             {relatedNames.map((name) => {
               const meta = relatedMetaMap[name] || { desc: "", linkText: `${name} 보기` };
               return (
                 <Link 
                   key={name} 
                   href={`/?k=${regionName}-${name}`}
-                  className="p-6 lg:p-[24px] bg-white border border-zinc-150 rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-col justify-between h-full"
+                  className="p-4 lg:p-[24px] bg-white border border-zinc-150 rounded-[14px] lg:rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-row lg:flex-col justify-between items-center lg:items-stretch h-[92px] lg:h-full"
                 >
-                  <div>
-                    <h5 className="text-[19px] lg:text-[21px] font-[800] text-zinc-900 group-hover:text-brand-accent transition-colors mb-2 tracking-tight">{name}</h5>
-                    <p className="text-sm lg:text-[15px] text-zinc-500 leading-relaxed lg:line-clamp-2 mb-4">{meta.desc}</p>
+                  <div className="text-left w-[82%] lg:w-auto">
+                    <h5 className="text-[17px] lg:text-[21px] font-[800] text-zinc-900 group-hover:text-brand-accent transition-colors mb-0.5 lg:mb-2 tracking-tight leading-tight">{name}</h5>
+                    <p className="text-[13px] lg:text-[15px] text-zinc-500 leading-relaxed line-clamp-1 lg:line-clamp-2">{meta.desc}</p>
                   </div>
-                  <div className="text-[13px] lg:text-[14px] font-extrabold text-brand-accent flex items-center gap-1 group-hover:underline pt-3 border-t border-zinc-100">
-                    <span>{meta.linkText}</span>
-                    <span>&rarr;</span>
+                  <div className="text-[13px] lg:text-[14px] font-extrabold text-brand-accent flex items-center justify-end w-[18%] lg:w-auto lg:pt-3 lg:border-t lg:border-zinc-100 group-hover:underline">
+                    <span className="hidden lg:inline mr-1">{meta.linkText}</span>
+                    <span className="text-[18px] lg:text-sm leading-none">&rarr;</span>
                   </div>
                 </Link>
               );
