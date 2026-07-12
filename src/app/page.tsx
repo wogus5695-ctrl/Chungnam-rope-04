@@ -13,8 +13,7 @@ import { getJsonLd } from "@/lib/jsonld";
 import {
   ServiceSection,
   ProcessSection,
-  CasesSection,
-  WhyUsSection,
+  WorkCasesSection,
   RegionSection,
   FAQSection,
   FinalCTA,
@@ -131,9 +130,8 @@ export default async function Home({ searchParams }: PageProps) {
           <LeakSymptoms />
           <LeakPath />
           <ServiceSection />
+          <WorkCasesSection />
           <ProcessSection />
-          <CasesSection />
-          <WhyUsSection />
           <RegionSection />
           <FAQSection />
           <FinalCTA />
@@ -334,17 +332,14 @@ export default async function Home({ searchParams }: PageProps) {
           dynamicServiceName={serviceName} 
         />
 
-        {/* 6. 관련 서비스 안내 */}
+        {/* 6. 관련 서비스 안내 및 관련 서비스 */}
         <ServiceSection activeServiceName={serviceName} regionName={regionName} />
 
-        {/* 7. 진단 및 시공 절차 */}
+        {/* 7. 실제 작업 사례 */}
+        <WorkCasesSection regionName={regionName} serviceName={serviceName} />
+
+        {/* 8. 축소된 작업 진행 과정 */}
         <ProcessSection />
-
-        {/* 8. 관련 현장 사례 */}
-        <CasesSection customCases={serviceData.caseObjects} />
-
-        {/* 9. 레인가드 선택 이유 */}
-        <WhyUsSection />
 
         {/* 10. 인접 지역 및 관련 서비스 교차 추천 */}
         <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">

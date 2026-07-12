@@ -213,26 +213,25 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
   );
 }
 
-// 2. 진단 및 시공 절차
+// 2. 축소된 작업 진행 과정
 export function ProcessSection() {
   const steps = [
-    { num: "01", name: "증상 및 현장 조건 확인", desc: "누수가 발생하는 실내외 징후와 건물의 구조적 특성을 경청하고 사전 판단합니다." },
-    { num: "02", name: "누수 예상 경로 점검", desc: "빗물이 침입할 수 있는 다양한 외벽 크랙, 조인트 틈새 등을 육안 및 장비로 상세히 짚어냅니다." },
-    { num: "03", name: "기존 실리콘과 균열 상태 확인", desc: "도포되어 있던 오래된 실리콘의 탈락 깊이와 콘크리트 박리 크기를 정밀 분석합니다." },
-    { num: "04", name: "필요한 범위의 보수 작업 진행", desc: "불필요한 과잉 공사를 막고 원인이 되는 지점을 타겟팅하여 고기밀 코킹 마감을 선사합니다." }
+    { num: "01", name: "현장 상태 확인", desc: "누수가 발생하는 실내 징후와 외부 마감 상태를 육안 및 장비로 정밀 점검합니다." },
+    { num: "02", name: "원인 분석", desc: "빗물이 들어오는 틈새와 균열 위치를 파악하고 보수 필요한 범위를 분석합니다." },
+    { num: "03", name: "맞춤 시공 진행", desc: "노후 마감재를 깨끗이 제거하고 고기밀 방수 자재를 이용해 빈틈없이 실링 처리를 완료합니다." }
   ];
 
   return (
     <section id="process" className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">투명한 프로세스</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">진단 및 시공 절차</p>
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">시공 과정</h2>
+          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">작업 진행 과정</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((st, i) => (
-            <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl relative shadow-sm hover:shadow-md transition-shadow">
+            <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl relative shadow-sm">
               <span className="text-4xl font-black text-brand-accent/20 absolute right-6 top-6">{st.num}</span>
               <h3 className="text-lg font-bold text-zinc-900 mb-3 pr-8">{st.name}</h3>
               <p className="text-sm text-zinc-500 leading-relaxed">{st.desc}</p>
@@ -244,65 +243,55 @@ export function ProcessSection() {
   );
 }
 
-// 3. 현장 사례
-import { CaseCard } from "@/types";
-
-interface CasesSectionProps {
-  customCases?: CaseCard[];
+// 3. 실제 작업 사례 (기본 컴포넌트 구조화)
+interface WorkCasesProps {
+  regionName?: string;
+  serviceName?: string;
 }
 
-export function CasesSection({ customCases }: CasesSectionProps) {
-  const defaultCases = [
-    { title: "아파트 외부 창틀 누수 보수", type: "공동주택", desc: "노화되어 들뜬 아파트 샷시 외부의 기존 마감재를 깨끗이 긁어낸 후 외장 우레탄 실란트로 균열을 밀폐 시공하였습니다." },
-    { title: "상업 빌딩 샷시 실리콘 노후 보강", type: "상가건물", desc: "유리와 금속 틈새의 벌어짐 부위를 샌딩하고 접착력을 올려주는 기밀 프라이머 처리 후 탄성 마감을 전개하였습니다." },
-    { title: "외벽 균열 유입 차단 실링", type: "주택외벽", desc: "창문 주변의 콘크리트 외벽 미세 균열을 조기에 메워 다가오는 우기 시 물 고임 경로를 예방 및 봉쇄하였습니다." }
+export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
+  // 실제 사례 데이터 흡수를 위한 구조 정의
+  const mockCases = [
+    {
+      title: `${regionName || "충남"} 현장 시공 사례`,
+      type: serviceName || "빗물방수",
+      beforeSymptom: "비가 오면 발생하는 벽면 누수 흔적",
+      targetArea: "외부 창틀 실리콘 및 주변 균열 부위",
+      actionDesc: "노후 실리콘 제거 후 실란트 밀폐 보강",
+      afterState: "우천 시에도 실내 습기 발생 없이 완전 기밀"
+    }
   ];
 
-  const displayCases = customCases && customCases.length > 0 ? customCases : defaultCases;
-
   return (
-    <section id="cases" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+    <section id="work-cases" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">점검 범위 유형</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">자주 확인되는 작업 유형</p>
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">현장 기록</h2>
+          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">실제 작업 사례</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {displayCases.map((c, i) => (
+        <div className="space-y-8">
+          {mockCases.map((c, i) => (
             <div key={i} className="p-6 border border-zinc-100 bg-zinc-50 rounded-2xl">
-              <span className="inline-block px-2.5 py-1 bg-brand-accent/10 text-brand-accent text-xs font-bold rounded-md mb-4">{c.type}</span>
-              <h3 className="text-lg font-bold text-zinc-900 mb-3">{c.title}</h3>
-              <p className="text-sm text-zinc-600 leading-relaxed">{c.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// 4. 선택 이유
-export function WhyUsSection() {
-  const points = [
-    { title: "원인을 먼저 확인하는 진단 방식", desc: "단순히 실리콘을 덮어씌우는 공사가 아닙니다. 어디서 어떻게 빗물이 투과되는지 누수 이동 통로를 정밀 분석합니다." },
-    { title: "작업 범위를 과도하게 넓히지 않는 안내", desc: "정확한 균열 지점과 코킹 탈락 지점만 집중 공략하여, 불필요한 전체 재시공 요구나 비용 부풀리기를 배제합니다." },
-    { title: "창틀과 외벽을 함께 살피는 점검 구조", desc: "샤시 내부 틈새만 메우면 외벽 크랙으로 타고 흐르는 물을 막지 못합니다. 창틀 주변 콘크리트 옹벽을 총체적으로 점검합니다." }
-  ];
-
-  return (
-    <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">차별화 가치</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">레인가드를 선택하는 이유</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {points.map((p, i) => (
-            <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-              <h3 className="text-lg font-bold text-brand-primary mb-3">{p.title}</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">{p.desc}</p>
+              <h3 className="text-xl font-bold text-zinc-900 mb-4">{c.title}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+                <div>
+                  <span className="block text-xs font-bold text-zinc-400 mb-1">작업 전 증상</span>
+                  <p className="text-zinc-700 font-semibold">{c.beforeSymptom}</p>
+                </div>
+                <div>
+                  <span className="block text-xs font-bold text-zinc-400 mb-1">확인한 부위</span>
+                  <p className="text-zinc-700 font-semibold">{c.targetArea}</p>
+                </div>
+                <div>
+                  <span className="block text-xs font-bold text-zinc-400 mb-1">실제 작업 내용</span>
+                  <p className="text-zinc-700 font-semibold">{c.actionDesc}</p>
+                </div>
+                <div>
+                  <span className="block text-xs font-bold text-zinc-400 mb-1">작업 후 상태</span>
+                  <p className="text-zinc-700 font-semibold">{c.afterState}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
