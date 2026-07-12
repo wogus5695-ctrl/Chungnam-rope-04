@@ -769,31 +769,31 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
   }
 
   return (
-    <section className="py-16 lg:py-[82px] bg-brand-primary text-white relative overflow-hidden px-5 sm:px-6 lg:px-0">
+    <section className="py-[62px] lg:py-[82px] bg-brand-primary text-white relative overflow-hidden px-[18px] sm:px-6 lg:px-0 pb-[80px] md:pb-[62px]">
       {/* 장식용 그라데이션 */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.15),transparent_70%)]"></div>
       
-      <div className="max-w-4xl mx-auto text-center relative z-10 flex flex-col items-center">
+      <div className="max-w-4xl mx-auto text-left lg:text-center relative z-10 flex flex-col items-start lg:items-center">
         {/* 상단 라벨 */}
-        <span className="text-sm lg:text-[15px] font-bold text-brand-accent tracking-wider uppercase mb-5 lg:mb-[20px] select-none">
+        <span className="text-[13px] sm:text-sm lg:text-[15px] font-bold text-brand-accent tracking-wider uppercase mb-3.5 lg:mb-[20px] select-none">
           {labelText}
         </span>
 
         {/* H2 타이틀 */}
-        <h2 className="text-2xl sm:text-3xl lg:text-[44px] font-black tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.22] whitespace-pre-line keep-all break-keep max-w-[750px] mb-5 lg:mb-[24px]">
+        <h2 className="text-[29px] sm:text-3xl lg:text-[44px] font-black tracking-tight lg:tracking-[-0.03em] leading-[1.28] lg:leading-[1.22] whitespace-pre-line keep-all break-keep max-w-[750px] mb-[18px] lg:mb-[24px]">
           {h2Text}
         </h2>
 
         {/* 설명문 */}
-        <p className="text-zinc-200 text-sm sm:text-base lg:text-[17px] max-w-xl lg:max-w-[660px] font-medium leading-relaxed lg:leading-[1.7] keep-all break-keep mb-7 lg:mb-[32px]">
+        <p className="text-zinc-200 text-[15px] sm:text-base lg:text-[17px] max-w-xl lg:max-w-[660px] font-medium leading-[1.7] keep-all break-keep mb-6 lg:mb-[32px]">
           {descText}
         </p>
 
         {/* CTA 버튼 세트 */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-[15px] w-full max-w-md mx-auto mb-4 lg:mb-[16px]">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 lg:gap-[15px] w-full max-w-md lg:mx-auto mb-3.5 lg:mb-[16px]">
           <a
             href={`tel:${siteConfig.phonePlaceholder}`}
-            className="w-full sm:w-[200px] h-[54px] lg:h-[56px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
+            className="w-full sm:w-[200px] h-[54px] lg:h-[56px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-md transition-all text-center"
           >
             전화로 증상 상담
           </a>
@@ -808,7 +808,7 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
         </div>
 
         {/* 보조 안내 */}
-        <p className="text-zinc-400 text-xs lg:text-[13px] font-semibold tracking-wide">
+        <p className="text-zinc-400 text-[13px] lg:text-[13px] font-semibold tracking-wide leading-relaxed">
           사진을 함께 보내주시면 증상 확인에 도움이 됩니다.
         </p>
       </div>
