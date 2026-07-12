@@ -1,5 +1,11 @@
-export default function LeakSymptoms() {
-  const symptoms = [
+import { SymptomCard } from "@/types";
+
+interface LeakSymptomsProps {
+  symptomList?: SymptomCard[];
+}
+
+export default function LeakSymptoms({ symptomList }: LeakSymptomsProps) {
+  const defaultSymptoms = [
     {
       title: "비가 올 때 창틀 빗물 유입",
       desc: "비바람이 칠 때 샷시 하단 틈새나 코너 주변부로 물이 고이거나 타고 흘러내리는 경우",
@@ -22,6 +28,8 @@ export default function LeakSymptoms() {
     }
   ];
 
+  const displaySymptoms = symptomList && symptomList.length > 0 ? symptomList : defaultSymptoms;
+
   return (
     <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,7 +43,7 @@ export default function LeakSymptoms() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {symptoms.map((s, idx) => (
+          {displaySymptoms.map((s, idx) => (
             <div
               key={idx}
               className="p-6 bg-zinc-50 border border-zinc-100 rounded-2xl hover:shadow-xl hover:border-brand-accent/20 transition-all duration-300 group"

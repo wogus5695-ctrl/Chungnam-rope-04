@@ -160,9 +160,16 @@ export default async function Home({ searchParams }: PageProps) {
   });
 
   // 상호 교차 링크 리스트 추출
+  const currentFlatRegion = parsed.region;
   const allFlatRegions = getFlatRegions();
-  const adjacentRegions = allFlatRegions.filter(r => r.name !== regionName).slice(0, 8); // 지면 한도 내 추출
-  const relativeServices = services.filter(s => s.name !== serviceName);
+  
+  // 동일한 시·군(또는 구) 내의 타 읍면동만 필터링 (최대 6개)
+  const adjacentRegions = allFlatRegions
+    .filter(r => r.name !== regionName && r.rootParentName === currentFlatRegion.rootParentName)
+    .slice(0, 6);
+
+  // 현재 서비스를 제외한 5종 서비스 목록
+  const relativeServices = services.filter(s => s.name !== serviceName).slice(0, 5);
 
   return (
     <div className="pb-16 md:pb-0 min-h-screen flex flex-col">
@@ -191,102 +198,89 @@ export default async function Home({ searchParams }: PageProps) {
       />
 
       {/* 동적 키워드별 세부 상세 레이아웃 섹션 구성 */}
-      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12 bg-white">
+      <main className="flex-grow bg-white">
         
-        {/* 3. 해당 서비스의 대표 증상 */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start border-b border-zinc-100 pb-12">
-          <div className="lg:col-span-1">
-            <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">주요 징후</span>
-            <h2 className="text-xl sm:text-2xl font-black text-brand-primary mt-1">대표 누수 증상</h2>
-          </div>
-          <div className="lg:col-span-2">
-            <ul className="list-disc list-inside space-y-2 text-zinc-600 text-sm sm:text-base">
-              {serviceData.symptoms.map((sym, idx) => (
-                <li key={idx} className="font-semibold">{sym}</li>
+        {/* 3. 해당 서비스의 대표 증상 카드 (메인과 동일한 카드 UI 공통화) */}
+        <LeakSymptoms symptomList={serviceData.symptomObjects} />
+
+        {/* 4. 누수 발생 원인 또는 유입 경로 (메인과 동일한 4단계 경로 UI 공통화) */}
+        <LeakPath pathList={serviceData.pathSteps} />
+
+        {/* 5. 점검해야 할 부위 (체크리스트 카드 구조화) */}
+        <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+              <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">정밀 스캔</h2>
+              <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">{regionName} {serviceName} 점검 항목</p>
+              <p className="text-zinc-500 mt-3 text-sm sm:text-base">
+                현장 마모도 상태에 맞추어 시공 범위를 합리적으로 설계하기 위한 주요 4대 체크리스트 부위입니다.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {serviceData.checkPoints.map((cp, idx) => (
+                <div key={idx} className="flex items-start gap-4 p-6 bg-zinc-50 border border-zinc-100 rounded-2xl">
+                  <div className="w-8 h-8 rounded-full bg-blue-50 text-brand-accent flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    ✓
+                  </div>
+                  <p className="text-sm sm:text-base text-zinc-700 leading-relaxed font-semibold pt-0.5">{cp}</p>
+                </div>
               ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* 4. 누수 발생 원인 또는 유입 경로 */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start border-b border-zinc-100 pb-12">
-          <div className="lg:col-span-1">
-            <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">유입로 파악</span>
-            <h2 className="text-xl sm:text-2xl font-black text-brand-primary mt-1">누수 발생 원인</h2>
-          </div>
-          <div className="lg:col-span-2">
-            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed whitespace-pre-line">
-              {regionName} 인근 현장의 관찰 결과, {serviceData.cause}
-            </p>
-          </div>
-        </section>
-
-        {/* 5. 점검해야 할 부위 */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start border-b border-zinc-100 pb-12">
-          <div className="lg:col-span-1">
-            <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">주요 검사</span>
-            <h2 className="text-xl sm:text-2xl font-black text-brand-primary mt-1">점검해야 할 부위</h2>
-          </div>
-          <div className="lg:col-span-2">
-            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed whitespace-pre-line font-medium text-brand-accent">
-              {serviceData.checkPoint}
-            </p>
+            </div>
           </div>
         </section>
 
         {/* 6. 관련 서비스 안내 */}
-        <div className="border-b border-zinc-100 pb-12">
-          <ServiceSection />
-        </div>
+        <ServiceSection activeServiceName={serviceName} regionName={regionName} />
 
         {/* 7. 진단 및 시공 절차 */}
-        <div className="border-b border-zinc-100 pb-12">
-          <ProcessSection />
-        </div>
+        <ProcessSection />
 
         {/* 8. 관련 현장 사례 */}
-        <div className="border-b border-zinc-100 pb-12">
-          <CasesSection />
-        </div>
+        <CasesSection customCases={serviceData.caseObjects} />
 
         {/* 9. 레인가드 선택 이유 */}
-        <div className="border-b border-zinc-100 pb-12">
-          <WhyUsSection />
-        </div>
+        <WhyUsSection />
 
         {/* 10. 인접 지역 및 관련 서비스 교차 추천 */}
-        <section className="p-6 border border-zinc-100 rounded-2xl bg-zinc-50 space-y-6">
-          <h3 className="text-base sm:text-lg font-bold text-brand-primary">
-            {regionName} 인근 지역 및 관련 서비스 바로가기
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-2">인근 다른 지역 ({serviceName})</span>
-              <div className="flex flex-wrap gap-2">
-                {adjacentRegions.map((ar, idx) => (
-                  <Link
-                    key={idx}
-                    href={`/?k=${ar.name}-${serviceName}`}
-                    className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
-                  >
-                    {ar.name} {serviceName}
-                  </Link>
-                ))}
-              </div>
-            </div>
+        <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="p-6 border border-zinc-100 rounded-2xl bg-zinc-50 space-y-6">
+              <h3 className="text-base sm:text-lg font-bold text-brand-primary">
+                {regionName} 및 {currentFlatRegion.rootParentName} 서비스 바로가기
+              </h3>
+              <div className="space-y-4">
+                {adjacentRegions.length > 0 && (
+                  <div>
+                    <span className="block text-xs font-bold text-zinc-400 mb-2">{currentFlatRegion.rootParentName}의 다른 서비스 지역 ({serviceName})</span>
+                    <div className="flex flex-wrap gap-2">
+                      {adjacentRegions.map((ar, idx) => (
+                        <Link
+                          key={idx}
+                          href={`/?k=${ar.name}-${serviceName}`}
+                          className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
+                        >
+                          {ar.name} {serviceName}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-            <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-2">{regionName} 내 다른 서비스</span>
-              <div className="flex flex-wrap gap-2">
-                {relativeServices.map((rs, idx) => (
-                  <Link
-                    key={idx}
-                    href={`/?k=${regionName}-${rs.name}`}
-                    className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
-                  >
-                    {regionName} {rs.name}
-                  </Link>
-                ))}
+                <div>
+                  <span className="block text-xs font-bold text-zinc-400 mb-2">{regionName}의 다른 누수·코킹 서비스</span>
+                  <div className="flex flex-wrap gap-2">
+                    {relativeServices.map((rs, idx) => (
+                      <Link
+                        key={idx}
+                        href={`/?k=${regionName}-${rs.name}`}
+                        className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
+                      >
+                        {regionName} {rs.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

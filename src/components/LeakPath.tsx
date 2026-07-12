@@ -1,5 +1,11 @@
-export default function LeakPath() {
-  const paths = [
+import { PathStep } from "@/types";
+
+interface LeakPathProps {
+  pathList?: PathStep[];
+}
+
+export default function LeakPath({ pathList }: LeakPathProps) {
+  const defaultPaths = [
     {
       step: "01",
       name: "외벽 균열 유입",
@@ -22,6 +28,8 @@ export default function LeakPath() {
     }
   ];
 
+  const displayPaths = pathList && pathList.length > 0 ? pathList : defaultPaths;
+
   return (
     <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +48,7 @@ export default function LeakPath() {
           <div className="hidden lg:block absolute top-1/2 left-4 right-4 h-0.5 bg-zinc-200 -translate-y-1/2 z-0"></div>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative z-10">
-            {paths.map((p, idx) => (
+            {displayPaths.map((p, idx) => (
               <div
                 key={idx}
                 className="flex flex-col items-center text-center p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow"

@@ -9,19 +9,17 @@ export interface FlatRegion {
   fullName: string;  // 천안시 서북구 성정동
   canonicalName: string; // 성정동
   parentName: string; // 서북구 또는 아산시 등 상위 명칭
+  rootParentName: string; // 천안시 또는 아산시 등 최상위 명칭
   aliases: string[];
 }
 
 export function getFlatRegions(): FlatRegion[] {
   const list: FlatRegion[] = [];
 
-  function traverse(node: RegionData, parentPath: string[] = [], parentName: string = "") {
+  function traverse(node: RegionData, parentPath: string[] = [], parentName: string = "", rootParentName: string = "") {
     const currentPath = [...parentPath, node.name];
     const fullName = currentPath.join(" ");
 
-    // 단말 노드(읍/면/동) 또는 리프 노드 판단
-    // 이번 단계에서는 테스트로 등록된 4개 읍면동이 단말 노드임.
-    // 또한 subRegions가 없는 시/군도 단말이 될 수 있지만 읍면동 위주로 추출
     const isEupMyeonDong = node.name.endsWith("읍") || node.name.endsWith("면") || node.name.endsWith("동");
     
     if (isEupMyeonDong) {
@@ -30,18 +28,19 @@ export function getFlatRegions(): FlatRegion[] {
         fullName,
         canonicalName: node.name,
         parentName: parentName,
+        rootParentName: rootParentName,
         aliases: node.alias || []
       });
     }
 
     if (node.subRegions) {
       node.subRegions.forEach((sub: RegionData) => {
-        traverse(sub, currentPath, node.name);
+        traverse(sub, currentPath, node.name, rootParentName || node.name);
       });
     }
   }
 
-  regions.forEach(r => traverse(r, [], r.name));
+  regions.forEach(r => traverse(r, [], r.name, r.name));
   return list;
 }
 

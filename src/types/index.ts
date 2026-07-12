@@ -19,6 +19,24 @@ export interface FAQItem {
   a: string;
 }
 
+export interface SymptomCard {
+  title: string;
+  desc: string;
+  icon: string;
+}
+
+export interface PathStep {
+  step: string;
+  name: string;
+  desc: string;
+}
+
+export interface CaseCard {
+  title: string;
+  type: string;
+  desc: string;
+}
+
 export interface ServiceData {
   id: string;
   name: string;
@@ -33,6 +51,10 @@ export interface ServiceData {
   solutionDetail: string;
   processDesc: string[];
   faqs: FAQItem[];
+  symptomObjects: SymptomCard[];
+  pathSteps: PathStep[];
+  checkPoints: string[];
+  caseObjects: CaseCard[];
 }
 
 export interface RegionData {

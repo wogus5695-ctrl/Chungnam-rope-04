@@ -4,39 +4,159 @@ import { siteConfig } from "@/config/site";
 import Link from "next/link";
 
 // 1. 서비스 안내
-export function ServiceSection() {
-  return (
-    <section id="services" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">시공 범위</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">제공하는 전문 서비스</p>
-          <p className="text-zinc-500 mt-3 text-sm sm:text-base">
-            빗물이 유입될 수 있는 모든 경로를 차단하며 균열 및 접합부 기밀 성능을 완벽 복구합니다.
-          </p>
-        </div>
+interface ServiceSectionProps {
+  activeServiceName?: string;
+  regionName?: string;
+}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((s) => (
-            <div key={s.id} className="p-8 bg-zinc-50 border border-zinc-100 rounded-2xl hover:shadow-lg transition-all duration-300">
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">{s.name}</h3>
-              <p className="text-sm text-zinc-600 leading-relaxed mb-6 h-12 overflow-hidden">{s.shortDescription}</p>
-              
-              <div className="space-y-3 pt-4 border-t border-zinc-200/60">
-                <div>
-                  <span className="inline-block text-xs font-bold text-zinc-400 mb-1">관련 대표 증상</span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {s.symptoms.map((sym, i) => (
-                      <span key={i} className="px-2 py-0.5 bg-zinc-200/50 text-zinc-700 text-xs font-semibold rounded">
-                        {sym}
-                      </span>
-                    ))}
+export function ServiceSection({ activeServiceName, regionName }: ServiceSectionProps) {
+  // 메인 페이지일 경우 기존 레이아웃 그대로 출력
+  if (!activeServiceName || !regionName) {
+    return (
+      <section id="services" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">시공 범위</h2>
+            <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">제공하는 전문 서비스</p>
+            <p className="text-zinc-500 mt-3 text-sm sm:text-base">
+              빗물이 유입될 수 있는 모든 경로를 차단하며 균열 및 접합부 기밀 성능을 완벽 복구합니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((s) => (
+              <div key={s.id} className="p-8 bg-zinc-50 border border-zinc-100 rounded-2xl hover:shadow-lg transition-all duration-300">
+                <h3 className="text-xl font-bold text-zinc-900 mb-3">{s.name}</h3>
+                <p className="text-sm text-zinc-600 leading-relaxed mb-6 h-12 overflow-hidden">{s.shortDescription}</p>
+                
+                <div className="space-y-3 pt-4 border-t border-zinc-200/60">
+                  <div>
+                    <span className="inline-block text-xs font-bold text-zinc-400 mb-1">관련 대표 증상</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {s.symptoms.map((sym, i) => (
+                        <span key={i} className="px-2 py-0.5 bg-zinc-200/50 text-zinc-700 text-xs font-semibold rounded">
+                          {sym}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+      </section>
+    );
+  }
+
+  // 동적 페이지일 때 매핑 정책 정의
+  const currentService = services.find(s => s.name === activeServiceName)!;
+
+  const relationMap: Record<string, string[]> = {
+    "창틀코킹": ["창틀실리콘", "샷시실리콘", "창틀누수"],
+    "창틀누수": ["빗물누수", "창틀코킹", "외벽누수"],
+    "빗물누수": ["창틀누수", "외벽누수", "창틀코킹"],
+    "창틀실리콘": ["창틀코킹", "샷시실리콘", "창틀누수"],
+    "샷시실리콘": ["창틀실리콘", "창틀코킹", "창틀누수"],
+    "외벽누수": ["빗물누수", "창틀누수", "창틀코킹"]
+  };
+
+  const relatedNames = relationMap[activeServiceName] || [];
+  const relatedServices = services.filter(s => relatedNames.includes(s.name));
+  const remainingServices = services.filter(s => s.name !== activeServiceName && !relatedNames.includes(s.name));
+
+  return (
+    <section id="services" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* 상단 타이틀 */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">집중 진단 범위</h2>
+          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">
+            현재 점검 중인 서비스: <span className="text-brand-accent">{activeServiceName}</span>
+          </p>
+          <p className="text-zinc-500 mt-3 text-sm sm:text-base">
+            {regionName} 현장에 적용되는 대표적인 시공 가이드와 밀접하게 연동된 보완 방수 옵션을 안내합니다.
+          </p>
+        </div>
+
+        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 */}
+        <div className="mb-12 p-8 bg-zinc-50 border-2 border-brand-accent rounded-3xl shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-zinc-200/80 pb-4">
+            <div>
+              <span className="inline-block px-2.5 py-1 bg-brand-accent text-white text-xs font-black rounded mb-2">선택된 서비스</span>
+              <h3 className="text-2xl font-black text-brand-primary">{currentService.name}</h3>
+            </div>
+            <span className="text-zinc-400 text-xs font-bold">📍 {regionName} 출장 우선 배정</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+            <div>
+              <span className="block text-xs font-bold text-zinc-400 mb-1.5">대표 의심 증상</span>
+              <div className="flex flex-wrap gap-1.5">
+                {currentService.symptoms.map((sym, i) => (
+                  <span key={i} className="px-2 py-1 bg-zinc-200/50 text-zinc-700 font-semibold rounded">{sym}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="block text-xs font-bold text-zinc-400 mb-1.5">정밀 해결 방식</span>
+              <div className="flex flex-wrap gap-1.5">
+                {currentService.solutions.map((sol, i) => (
+                  <span key={i} className="px-2 py-1 bg-blue-50 text-brand-accent font-semibold rounded">{sol}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <span className="block text-xs font-bold text-zinc-400 mb-1.5">검토 대상 작업</span>
+              <p className="text-zinc-600 leading-relaxed font-semibold">{currentService.shortDescription}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 2. 관련 서비스 3종 링킹 카드 영역 */}
+        <div className="mb-12 space-y-6">
+          <h4 className="text-lg font-bold text-brand-primary border-l-4 border-brand-accent pl-2.5">
+            연관하여 함께 점검이 필요한 방수 서비스
+          </h4>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {relatedServices.map((rs) => (
+              <Link 
+                key={rs.id} 
+                href={`/?k=${regionName}-${rs.name}`}
+                className="p-6 bg-white border border-zinc-150 rounded-2xl hover:shadow-md hover:border-brand-accent/20 transition-all group flex flex-col justify-between"
+              >
+                <div>
+                  <h5 className="text-base font-bold text-zinc-800 group-hover:text-brand-accent transition-colors mb-2">{rs.name} &rarr;</h5>
+                  <p className="text-xs text-zinc-500 leading-relaxed mb-4">{rs.shortDescription}</p>
+                </div>
+                <div className="flex flex-wrap gap-1 pt-3 border-t border-zinc-100">
+                  {rs.symptoms.slice(0, 2).map((sym, i) => (
+                    <span key={i} className="px-1.5 py-0.5 bg-zinc-100 text-zinc-500 text-[10px] font-bold rounded">{sym}</span>
+                  ))}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. 나머지 서비스 텍스트 링크 간결 제공 */}
+        <div className="p-5 bg-zinc-50 border border-zinc-100 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <span className="text-xs font-bold text-zinc-400">기타 출장 안내</span>
+          <div className="flex flex-wrap gap-3">
+            {remainingServices.map((rem) => (
+              <Link
+                key={rem.id}
+                href={`/?k=${regionName}-${rem.name}`}
+                className="text-xs text-zinc-600 hover:text-brand-accent hover:underline font-semibold"
+              >
+                {rem.name} 바로 가기
+              </Link>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -74,23 +194,31 @@ export function ProcessSection() {
 }
 
 // 3. 현장 사례
-export function CasesSection() {
-  const cases = [
+import { CaseCard } from "@/types";
+
+interface CasesSectionProps {
+  customCases?: CaseCard[];
+}
+
+export function CasesSection({ customCases }: CasesSectionProps) {
+  const defaultCases = [
     { title: "아파트 외부 창틀 누수 보수", type: "공동주택", desc: "노화되어 들뜬 아파트 샷시 외부의 기존 마감재를 깨끗이 긁어낸 후 외장 우레탄 실란트로 균열을 밀폐 시공하였습니다." },
     { title: "상업 빌딩 샷시 실리콘 노후 보강", type: "상가건물", desc: "유리와 금속 틈새의 벌어짐 부위를 샌딩하고 접착력을 올려주는 기밀 프라이머 처리 후 탄성 마감을 전개하였습니다." },
     { title: "외벽 균열 유입 차단 실링", type: "주택외벽", desc: "창문 주변의 콘크리트 외벽 미세 균열을 조기에 메워 다가오는 우기 시 물 고임 경로를 예방 및 봉쇄하였습니다." }
   ];
 
+  const displayCases = customCases && customCases.length > 0 ? customCases : defaultCases;
+
   return (
     <section id="cases" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">시공 실적</h2>
-          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">대표 현장 사례</p>
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">점검 범위 유형</h2>
+          <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">자주 확인되는 작업 유형</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cases.map((c, i) => (
+          {displayCases.map((c, i) => (
             <div key={i} className="p-6 border border-zinc-100 bg-zinc-50 rounded-2xl">
               <span className="inline-block px-2.5 py-1 bg-brand-accent/10 text-brand-accent text-xs font-bold rounded-md mb-4">{c.type}</span>
               <h3 className="text-lg font-bold text-zinc-900 mb-3">{c.title}</h3>
