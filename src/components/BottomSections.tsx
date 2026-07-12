@@ -308,15 +308,27 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
   );
 }
 
-// 3. 실제 작업 사례 (PC 환경 탭식 변환 레이아웃 구현)
+// 3. 실제 작업 사례 (모바일 캐러셀 + PC 고정형 하이브리드)
 interface WorkCasesProps {
   regionName?: string;
   serviceName?: string;
 }
 
+import { useEffect, useRef } from "react";
+
 export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
   const isDynamic = !!serviceName;
   const [activeIdx, setActiveIdx] = useState(0);
+  
+  // 모바일 전용 슬라이드 상태 (0: 작업 전, 1: 작업 후)
+  const [slideIdx, setSlideIdx] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const userInteractionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // 터치 스와이프 감지용 ref
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const label = isDynamic ? "유사 현장 작업 사례" : "실제 작업 사례";
   const h2Text = isDynamic 
@@ -328,12 +340,100 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
 
   const activeCase = workCases[activeIdx] || workCases[0];
 
+  // 사례 탭 클릭 핸들러 (작업 전 이미지부터 재시작)
+  const handleCaseSelect = (idx: number) => {
+    setActiveIdx(idx);
+    setSlideIdx(0);
+    resetUserInteractionTimer();
+  };
+
+  // 수동 제어 타이머 초기화 (8~10초 후 자동 재생 재개)
+  const resetUserInteractionTimer = () => {
+    setIsPaused(true);
+    if (userInteractionTimeoutRef.current) {
+      clearTimeout(userInteractionTimeoutRef.current);
+    }
+    userInteractionTimeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 9000); // 9초 대기
+  };
+
+  // 모바일 수동 슬라이드 토글
+  const handlePrev = () => {
+    setSlideIdx((prev) => (prev === 0 ? 1 : 0));
+    resetUserInteractionTimer();
+  };
+
+  const handleNext = () => {
+    setSlideIdx((prev) => (prev === 0 ? 1 : 0));
+    resetUserInteractionTimer();
+  };
+
+  // 터치 스와이프 핸들러
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      // 50px 이상 스와이프 시 전환
+      setSlideIdx((prev) => (prev === 0 ? 1 : 0));
+      resetUserInteractionTimer();
+    }
+  };
+
+  // 모바일 전용 5초 자동 재생 로직 (다양한 정지 조건 검증)
+  useEffect(() => {
+    // 1. prefers-reduced-motion 체크
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) return;
+
+    let intervalId: NodeJS.Timeout;
+
+    const tick = () => {
+      // 2. 일시 정지 상태 체크
+      if (isPaused) return;
+
+      // 3. 브라우저 탭 활성화 여부
+      if (document.hidden) return;
+
+      // 4. 뷰포트 내 교차 영역(Intersection Observer) 확인
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!inViewport) return;
+      }
+
+      // 상태 전환
+      setSlideIdx((prev) => (prev === 0 ? 1 : 0));
+    };
+
+    intervalId = setInterval(tick, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isPaused]);
+
+  useEffect(() => {
+    return () => {
+      if (userInteractionTimeoutRef.current) {
+        clearTimeout(userInteractionTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="work-cases" className="py-16 sm:py-24 bg-white border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
+    <section id="work-cases" ref={containerRef} className="py-16 sm:py-24 bg-white border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
       <div className="max-w-7xl mx-auto">
         
         {/* 상단 타이틀 */}
-        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-10 sm:mb-12 lg:mb-[44px]">
+        <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-8 lg:mb-[44px]">
           <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 lg:mb-[12px] lg:text-[15px]">
             {label}
           </h2>
@@ -345,29 +445,104 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
           </p>
         </div>
 
-        {/* 탭 버튼 영역 */}
-        <div className="flex flex-wrap gap-2 justify-start lg:justify-center mb-8">
-          {workCases.map((wc, idx) => (
-            <button
-              key={wc.caseId}
-              type="button"
-              onClick={() => setActiveIdx(idx)}
-              className={`px-4 py-2 text-sm font-extrabold rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-brand-accent/40 ${
-                activeIdx === idx
-                  ? "bg-brand-accent text-white border-brand-accent"
-                  : "bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100"
-              }`}
-            >
-              사례 0{wc.caseNumber}
-            </button>
-          ))}
+        {/* 탭 버튼 영역 (모바일 가로 스크롤 허용, 데스크톱 중앙 정렬) */}
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide -mx-5 px-5 lg:mx-0 lg:px-0 lg:justify-center">
+          <div className="flex gap-2">
+            {workCases.map((wc, idx) => (
+              <button
+                key={wc.caseId}
+                type="button"
+                onClick={() => handleCaseSelect(idx)}
+                className={`px-4 py-2 text-sm font-extrabold rounded-full border transition-all whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-brand-accent/40 ${
+                  activeIdx === idx
+                    ? "bg-brand-accent text-white border-brand-accent"
+                    : "bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100"
+                }`}
+              >
+                사례 0{wc.caseNumber}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* 메인 사례 컨테이너 패널 */}
-        <div className="p-6 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[20px] shadow-sm space-y-6 lg:space-y-8">
+        <div 
+          className="p-5 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[16px] lg:rounded-[20px] shadow-sm space-y-6 lg:space-y-8"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onFocus={() => setIsPaused(true)}
+          onBlur={() => setIsPaused(false)}
+        >
           
-          {/* 작업 전 / 작업 후 이미지 2열 구성 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* 1. 모바일 뷰: 전·후 자동 슬라이더 (lg:hidden) */}
+          <div className="block lg:hidden relative">
+            <div 
+              className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200 bg-black"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {/* 전 슬라이드 (fade 효과 전환) */}
+              <div 
+                className={`absolute inset-0 transition-opacity duration-[400ms] ${
+                  slideIdx === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
+              >
+                <span className="absolute left-3 top-3 px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md z-20">
+                  작업 전
+                </span>
+                <img
+                  src={activeCase.beforeImage}
+                  alt={activeCase.beforeAlt}
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+
+              {/* 후 슬라이드 (fade 효과 전환) */}
+              <div 
+                className={`absolute inset-0 transition-opacity duration-[400ms] ${
+                  slideIdx === 1 ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
+              >
+                <span className="absolute left-3 top-3 px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md z-20">
+                  작업 후
+                </span>
+                <img
+                  src={activeCase.afterImage}
+                  alt={activeCase.afterAlt}
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+
+              {/* 이전, 다음 버튼 */}
+              <button 
+                type="button"
+                onClick={handlePrev}
+                aria-label="이전 상태 보기"
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+              >
+                &larr;
+              </button>
+              <button 
+                type="button"
+                onClick={handleNext}
+                aria-label="다음 상태 보기"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+              >
+                &rarr;
+              </button>
+            </div>
+
+            {/* 인디케이터 (1 / 2 표시) */}
+            <div className="flex justify-center items-center gap-1.5 mt-3">
+              <span className={`w-2 h-2 rounded-full transition-all ${slideIdx === 0 ? "bg-brand-accent scale-110" : "bg-zinc-300"}`} />
+              <span className={`w-2 h-2 rounded-full transition-all ${slideIdx === 1 ? "bg-brand-accent scale-110" : "bg-zinc-300"}`} />
+              <span className="text-[12px] text-zinc-400 font-extrabold ml-1">{slideIdx === 0 ? "1 / 2" : "2 / 2"}</span>
+            </div>
+          </div>
+
+          {/* 2. PC 뷰: 작업 전 / 작업 후 이미지 2열 구성 (hidden lg:grid) */}
+          <div className="hidden lg:grid grid-cols-2 gap-6">
             <div className="space-y-2">
               <span className="inline-block px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md">작업 전</span>
               <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
