@@ -13,7 +13,7 @@ interface HeroProps {
 
 export default function Hero({ badge, title, subtitle, showBulletPoints = true, bulletPoints, imageSrc }: HeroProps) {
   return (
-    <section className="relative hero-gradient overflow-hidden py-16 sm:py-24 lg:py-0 lg:h-[640px] lg:min-h-[580px] flex items-center border-b border-zinc-100">
+    <section className="relative hero-gradient overflow-hidden px-5 sm:px-6 lg:px-0 pt-[72px] pb-[60px] sm:py-24 lg:py-0 lg:h-[640px] lg:min-h-[580px] flex items-center border-b border-zinc-100 w-full min-h-auto">
       {imageSrc ? (
         <>
           {/* 메인 Hero 전용 next/image 백그라운드 레이어 */}
@@ -40,17 +40,17 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           style={{ backgroundImage: "url('/images/hero-bg.png')" }}
         />
       )}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="text-center md:text-left max-w-3xl lg:max-w-[680px] flex flex-col items-center md:items-start">
+      <div className="max-w-7xl mx-auto lg:px-8 relative z-10 w-full">
+        <div className="text-left max-w-3xl lg:max-w-[680px] flex flex-col items-start">
           
           {/* 배지 태그 */}
-          <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-6 lg:mb-[28px] ${imageSrc ? 'bg-white/10 text-white' : 'bg-blue-50 text-brand-accent'}`}>
-            <span className={`w-2 h-2 rounded-full animate-pulse ${imageSrc ? 'bg-white' : 'bg-brand-accent'}`}></span>
-            {badge || "충남 전 지역 신속 진단 및 시공"}
+          <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-4 sm:mb-6 lg:mb-[28px] max-w-full ${imageSrc ? 'bg-white/10 text-white' : 'bg-blue-50 text-brand-accent'}`}>
+            <span className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-pulse ${imageSrc ? 'bg-white' : 'bg-brand-accent'}`}></span>
+            <span className="truncate whitespace-nowrap">{badge || "충남 전 지역 신속 진단 및 시공"}</span>
           </div>
  
           {/* 메인 H1 타이틀 */}
-          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[52px] font-black leading-tight lg:leading-[1.14] tracking-tight mb-6 lg:mb-[26px] ${imageSrc ? 'text-white' : 'text-brand-primary'} keep-all break-keep`}>
+          <h1 className={`text-[30px] sm:text-[34px] md:text-[40px] lg:text-[46px] xl:text-[52px] font-black leading-[1.2] lg:leading-[1.14] tracking-tight mb-4 sm:mb-6 lg:mb-[26px] ${imageSrc ? 'text-white' : 'text-brand-primary'} keep-all break-keep overflow-wrap break-word`}>
             {title || (
               <>
                 충청남도 빗물누수·창틀코킹,<br className="hidden sm:inline" />
@@ -60,7 +60,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </h1>
  
           {/* 보조 설명 문구 */}
-          <div className={`text-base sm:text-lg lg:text-[19px] leading-relaxed lg:leading-[1.7] font-medium mb-6 lg:mb-[24px] max-w-[650px] ${imageSrc ? 'text-zinc-300' : 'text-zinc-600'} keep-all break-keep`}>
+          <div className={`text-[15px] sm:text-base lg:text-[19px] leading-relaxed lg:leading-[1.7] font-medium mb-5 sm:mb-6 lg:mb-[24px] max-w-[650px] text-left ${imageSrc ? 'text-zinc-300' : 'text-zinc-600'} keep-all break-keep`}>
             {subtitle || (
               <>
                 빗물이 집안으로 스며드는 답답함을 명확히 해결합니다. <br className="hidden md:inline" />
@@ -70,7 +70,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </div>
  
           {showBulletPoints && (
-            <ul className={`space-y-2 lg:space-y-[12px] text-sm lg:text-[16px] font-semibold max-w-md mx-auto md:mx-0 mb-8 lg:mb-[36px] ${imageSrc ? 'text-zinc-400' : 'text-zinc-500'}`}>
+            <ul className={`space-y-2 lg:space-y-[12px] text-[14px] sm:text-base font-semibold max-w-full mx-0 mb-6 sm:mb-8 lg:mb-[36px] ${imageSrc ? 'text-zinc-400' : 'text-zinc-500'}`}>
               {(bulletPoints || [
                 "외벽·창틀 누수 유입 경로 정밀 점검",
                 "노후 실리콘 손상 상태 확인",
@@ -80,17 +80,17 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
                   <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="whitespace-nowrap">{text}</span>
+                  <span className="break-keep">{text}</span>
                 </li>
               ))}
             </ul>
           )}
  
           {/* CTA 버튼 그룹 */}
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 lg:gap-[16px] w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-[16px] w-full sm:w-auto">
             <a
               href={`tel:${siteConfig.phonePlaceholder}`}
-              className="w-full sm:w-[200px] h-[56px] lg:h-[58px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base lg:text-[17px] font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
+              className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base lg:text-[17px] font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
             >
               전화 문의
             </a>
@@ -98,7 +98,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               href={siteConfig.kakaoUrlPlaceholder}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-[200px] h-[56px] lg:h-[58px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-base lg:text-[17px] font-extrabold rounded-xl transition-all text-center"
+              className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-base lg:text-[17px] font-extrabold rounded-xl transition-all text-center"
             >
               카카오톡 문의
             </a>
