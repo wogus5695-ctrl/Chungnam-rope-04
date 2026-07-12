@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { siteConfig } from "@/config/site";
 import React from "react";
 
@@ -6,16 +7,38 @@ interface HeroProps {
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
   showBulletPoints?: boolean;
+  mainHero?: boolean;
 }
 
-export default function Hero({ badge, title, subtitle, showBulletPoints = true }: HeroProps) {
+export default function Hero({ badge, title, subtitle, showBulletPoints = true, mainHero = false }: HeroProps) {
   return (
-    <section className="relative hero-gradient overflow-hidden py-16 sm:py-24 md:py-32 border-b border-zinc-100">
-      {/* 배경 작업 이미지 오버레이 */}
-      <div 
-        className="absolute inset-0 bg-cover bg-right md:bg-right-bottom opacity-15 pointer-events-none z-0"
-        style={{ backgroundImage: "url('/images/hero-bg.png')" }}
-      />
+    <section className="relative hero-gradient overflow-hidden py-16 sm:py-24 md:py-32 border-b border-zinc-100 min-h-[480px]">
+      {mainHero ? (
+        <>
+          {/* 메인 Hero 전용 next/image 백그라운드 레이어 */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/hero/rainguard-chungnam-main-hero.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: "cover" }}
+              className="object-[68%_center] md:object-[72%_center]"
+            />
+            {/* 왼쪽에서 오른쪽으로 옅어지는 밝은 그라데이션 오버레이 */}
+            {/* 데스크톱은 글자 영역만 투명하게 지탱하고, 모바일에서는 조금 더 강한 불투명 레이어로 텍스트 가독성을 완전 수호 */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/96 via-white/80 md:via-white/60 to-transparent hidden md:block" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white/96 via-white/90 to-white/40 md:hidden" />
+          </div>
+        </>
+      ) : (
+        /* 배경 작업 이미지 오버레이 (동적 페이지용 기존 구조 유지) */
+        <div 
+          className="absolute inset-0 bg-cover bg-right md:bg-right-bottom opacity-15 pointer-events-none z-0"
+          style={{ backgroundImage: "url('/images/hero-bg.png')" }}
+        />
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center md:text-left max-w-3xl space-y-6 sm:space-y-8">
           
