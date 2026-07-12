@@ -1,4 +1,5 @@
 import { PathStep } from "@/types";
+import Image from "next/image";
 
 interface LeakPathProps {
   pathList?: PathStep[];
@@ -62,6 +63,10 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
 
   const displayPaths = hasDynamicList ? dynamicPaths : defaultPaths;
 
+  const imageAlt = hasDynamicList
+    ? `${dynamicRegionName} ${dynamicServiceName} 원인과 누수 유입 경로를 설명하는 현장 이미지`
+    : "외벽과 창틀을 따라 실내로 이동하는 빗물 누수 경로";
+
   return (
     <section className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,6 +95,22 @@ export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceNa
               "외벽의 작은 균열이나 창틀 접합부로 들어온 빗물은 벽체 내부를 따라 이동한 뒤 실내 물자국으로 나타납니다."
             )}
           </p>
+        </div>
+
+        {/* 빗물 누수 유입 경로 시각화 이미지 패널 영역 */}
+        <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] lg:aspect-[21/9] rounded-2xl overflow-hidden mb-12 bg-zinc-200">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/symptoms/leak-path-panel.jpg"
+              alt={imageAlt}
+              fill
+              loading="lazy"
+              sizes="100vw"
+              style={{ objectFit: "cover", objectPosition: "center 45%" }}
+            />
+            {/* 이미지 위에 얹어지는 네이비 계열의 약한 gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
+          </div>
         </div>
 
         {/* 경로 가로/세로 레이아웃 흐름 */}
