@@ -50,8 +50,6 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
   }
 
   // 동적 페이지일 때 매핑 정책 정의
-  const currentService = services.find(s => s.name === activeServiceName)!;
-
   const relationMap: Record<string, string[]> = {
     "창틀코킹": ["창틀실리콘", "샷시실리콘", "창틀누수"],
     "창틀누수": ["빗물누수", "창틀코킹", "외벽누수"],
@@ -65,51 +63,90 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
   const relatedServices = services.filter(s => relatedNames.includes(s.name));
   const remainingServices = services.filter(s => s.name !== activeServiceName && !relatedNames.includes(s.name));
 
+  // 작업명별 요약 콘텐츠 매핑 사전
+  const serviceDetailMap: Record<string, { desc: string; symptom: string; target: string; scope: string }> = {
+    "빗물누수": {
+      desc: "비바람의 방향과 외벽·창틀 상태를 비교해 실제 빗물 유입 경로를 확인하는 서비스입니다.",
+      symptom: "비바람이 강할 때 반복되는 창틀·벽면 물자국",
+      target: "외벽 균열, 창틀 상부, 실리콘 접합부",
+      scope: "실제 유입 가능성이 높은 부위와 필요한 보수 범위"
+    },
+    "창틀누수": {
+      desc: "창틀 주변의 누수 흔적과 외부 접합부를 비교해 물이 들어오는 위치를 확인하는 서비스입니다.",
+      symptom: "창틀 상부·측면 물자국과 주변 벽지 젖음",
+      target: "창틀 접합부, 실리콘, 인접 외벽",
+      scope: "창틀과 외벽 중 실제 원인 부위 구분"
+    },
+    "외벽누수": {
+      desc: "외벽의 균열과 줄눈, 창호 접합부를 점검해 빗물 침투 가능성을 확인하는 서비스입니다.",
+      symptom: "벽지 상단 변색과 외벽 균열 주변 반복 습기",
+      target: "외벽 크랙, 줄눈, 창호 접합부",
+      scope: "균열 보수와 방수 작업이 필요한 범위"
+    },
+    "창틀코킹": {
+      desc: "기존 코킹의 손상 상태와 접합부 틈을 확인해 제거 및 재시공 범위를 판단하는 서비스입니다.",
+      symptom: "실리콘 갈라짐, 들뜸, 창틀 주변 틈새",
+      target: "기존 실리콘과 창틀·외벽 접합면",
+      scope: "기존 코킹 제거 여부와 재시공 범위"
+    },
+    "창틀실리콘": {
+      desc: "창틀 외부 실리콘의 경화와 갈라짐 상태를 확인해 필요한 보수 범위를 판단합니다.",
+      symptom: "실리콘 표면 갈라짐과 접합부 들뜸",
+      target: "창틀 외부 실리콘과 주변 접착면",
+      scope: "손상 부위 제거 및 재시공 필요 범위"
+    },
+    "샷시실리콘": {
+      desc: "샷시 프레임과 외벽 사이 실리콘 상태를 확인해 접합부 보수가 필요한 범위를 판단합니다.",
+      symptom: "샷시 주변 실리콘 박리와 미세 틈",
+      target: "샷시 프레임, 외벽 접합부, 기존 실리콘",
+      scope: "접합부 보강 및 실리콘 재시공 범위"
+    }
+  };
+
+  // Fallback 공통 컨텐츠
+  const fallbackDetail = {
+    desc: "현장 증상과 외부 마감 상태를 비교해 실제 원인과 필요한 작업 범위를 확인합니다.",
+    symptom: "반복되는 물자국, 습기 또는 외부 마감 손상",
+    target: "외벽, 창틀, 접합부와 기존 마감 상태",
+    scope: "확인된 원인에 맞는 점검 및 보수 범위"
+  };
+
+  const activeDetail = serviceDetailMap[activeServiceName] || fallbackDetail;
+
   return (
     <section id="services" className="py-16 sm:py-24 bg-white border-b border-zinc-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* 상단 타이틀 */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">집중 진단 범위</h2>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h2 className="text-sm font-bold text-brand-accent tracking-wider uppercase mb-2">선택한 서비스 안내</h2>
           <p className="text-2xl sm:text-3xl font-black text-brand-primary tracking-tight">
-            현재 점검 중인 서비스: <span className="text-brand-accent">{activeServiceName}</span>
+            {regionName} {activeServiceName}, 어떤 부분을 확인하나요?
           </p>
           <p className="text-zinc-500 mt-3 text-sm sm:text-base">
-            {regionName} 현장에 적용되는 대표적인 시공 가이드와 밀접하게 연동된 보완 방수 옵션을 안내합니다.
+            증상과 외부 상태를 함께 비교해 실제 원인과 필요한 작업 범위를 판단합니다.
           </p>
         </div>
 
-        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 */}
-        <div className="mb-12 p-8 bg-zinc-50 border-2 border-brand-accent rounded-3xl shadow-sm space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-zinc-200/80 pb-4">
-            <div>
-              <span className="inline-block px-2.5 py-1 bg-brand-accent text-white text-xs font-black rounded mb-2">선택된 서비스</span>
-              <h3 className="text-2xl font-black text-brand-primary">{currentService.name}</h3>
-            </div>
-            <span className="text-zinc-400 text-xs font-bold">📍 {regionName} 출장 우선 배정</span>
+        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (정보 단순화 모델) */}
+        <div className="mb-12 p-8 bg-zinc-50 border border-zinc-100 rounded-3xl shadow-sm space-y-6">
+          <div className="border-b border-zinc-200/80 pb-4">
+            <h3 className="text-2xl font-black text-brand-primary">{activeServiceName}</h3>
+            <p className="text-zinc-500 mt-2 font-medium leading-relaxed">{activeDetail.desc}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
             <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-1.5">대표 의심 증상</span>
-              <div className="flex flex-wrap gap-1.5">
-                {currentService.symptoms.map((sym, i) => (
-                  <span key={i} className="px-2 py-1 bg-zinc-200/50 text-zinc-700 font-semibold rounded">{sym}</span>
-                ))}
-              </div>
+              <span className="block text-xs font-bold text-zinc-400 mb-1.5">주요 증상</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeDetail.symptom}</p>
             </div>
             <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-1.5">정밀 해결 방식</span>
-              <div className="flex flex-wrap gap-1.5">
-                {currentService.solutions.map((sol, i) => (
-                  <span key={i} className="px-2 py-1 bg-blue-50 text-brand-accent font-semibold rounded">{sol}</span>
-                ))}
-              </div>
+              <span className="block text-xs font-bold text-zinc-400 mb-1.5">확인 부위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeDetail.target}</p>
             </div>
             <div>
-              <span className="block text-xs font-bold text-zinc-400 mb-1.5">검토 대상 작업</span>
-              <p className="text-zinc-600 leading-relaxed font-semibold">{currentService.shortDescription}</p>
+              <span className="block text-xs font-bold text-zinc-400 mb-1.5">안내 범위</span>
+              <p className="text-zinc-700 leading-relaxed font-semibold">{activeDetail.scope}</p>
             </div>
           </div>
         </div>
