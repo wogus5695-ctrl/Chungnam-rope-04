@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SymptomCard } from "@/types";
+import { siteConfig } from "@/config/site";
 
 interface LeakSymptomsProps {
   symptomList?: SymptomCard[];
@@ -137,6 +138,34 @@ export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicSe
               </div>
             </div>
           ))}
+        </div>
+
+        {/* 하단 콤팩트 전환 안내 영역 추가 */}
+        <div className="mt-9 sm:mt-[36px] lg:mt-[48px] pt-8 lg:pt-[36px] border-t border-zinc-100 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div className="max-w-2xl text-left">
+            <h4 className="text-[18px] sm:text-xl lg:text-[22px] font-black text-brand-primary tracking-tight mb-2">
+              위 증상 중 하나라도 비가 올 때 반복되나요?
+            </h4>
+            <p className="text-[14px] sm:text-base lg:text-[16px] text-zinc-500 font-semibold leading-relaxed">
+              보이는 물자국만으로 시공 범위를 단정하지 않고, 발생 위치와 외부 마감 상태부터 확인합니다.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-4 w-full lg:w-auto">
+            <a
+              href={`tel:${siteConfig.phonePlaceholder}`}
+              className="w-full sm:w-[180px] h-[52px] lg:h-[54px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-[15px] lg:text-[16px] font-extrabold rounded-xl shadow-md shadow-brand-accent/10 transition-all text-center"
+            >
+              전화로 증상 상담
+            </a>
+            <a
+              href={siteConfig.kakaoUrlPlaceholder}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-[180px] h-[52px] lg:h-[54px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-[15px] lg:text-[16px] font-extrabold rounded-xl transition-all text-center"
+            >
+              사진으로 상태 문의
+            </a>
+          </div>
         </div>
 
       </div>
