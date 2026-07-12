@@ -769,23 +769,31 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
   }
 
   return (
-    <section className="py-16 sm:py-24 bg-brand-primary text-white relative overflow-hidden px-5 sm:px-6 lg:px-0">
+    <section className="py-16 lg:py-[82px] bg-brand-primary text-white relative overflow-hidden px-5 sm:px-6 lg:px-0">
       {/* 장식용 그라데이션 */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(37,99,235,0.15),transparent_70%)]"></div>
       
-      <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
-        <span className="text-sm font-bold text-brand-accent tracking-wider uppercase">{labelText}</span>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight whitespace-pre-line keep-all break-keep">
+      <div className="max-w-4xl mx-auto text-center relative z-10 flex flex-col items-center">
+        {/* 상단 라벨 */}
+        <span className="text-sm lg:text-[15px] font-bold text-brand-accent tracking-wider uppercase mb-5 lg:mb-[20px] select-none">
+          {labelText}
+        </span>
+
+        {/* H2 타이틀 */}
+        <h2 className="text-2xl sm:text-3xl lg:text-[44px] font-black tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.22] whitespace-pre-line keep-all break-keep max-w-[750px] mb-5 lg:mb-[24px]">
           {h2Text}
         </h2>
-        <p className="text-zinc-300 text-sm sm:text-base max-w-xl mx-auto font-medium leading-relaxed keep-all break-keep">
+
+        {/* 설명문 */}
+        <p className="text-zinc-200 text-sm sm:text-base lg:text-[17px] max-w-xl lg:max-w-[660px] font-medium leading-relaxed lg:leading-[1.7] keep-all break-keep mb-7 lg:mb-[32px]">
           {descText}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto pt-4">
+        {/* CTA 버튼 세트 */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-[15px] w-full max-w-md mx-auto mb-4 lg:mb-[16px]">
           <a
             href={`tel:${siteConfig.phonePlaceholder}`}
-            className="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
+            className="w-full sm:w-[200px] h-[54px] lg:h-[56px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
           >
             전화로 증상 상담
           </a>
@@ -793,13 +801,14 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
             href={siteConfig.kakaoUrlPlaceholder}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-4 bg-[#fee500] hover:bg-[#fdd835] text-black text-base font-extrabold rounded-xl transition-all text-center"
+            className="w-full sm:w-[200px] h-[54px] lg:h-[56px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-base font-extrabold rounded-xl transition-all text-center"
           >
             사진 보내 상담
           </a>
         </div>
 
-        <p className="text-zinc-400 text-xs font-semibold pt-2">
+        {/* 보조 안내 */}
+        <p className="text-zinc-400 text-xs lg:text-[13px] font-semibold tracking-wide">
           사진을 함께 보내주시면 증상 확인에 도움이 됩니다.
         </p>
       </div>
