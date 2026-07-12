@@ -14,5 +14,5 @@ export const siteConfig: SiteConfig = {
   SEARCH_THUMBNAIL_WIDTH: 1200,
   SEARCH_THUMBNAIL_HEIGHT: 630,
   SEARCH_THUMBNAIL_ALT: "충청남도 창틀코킹 및 빗물누수 전문 레인가드",
-  MAIN_HERO_IMAGE: "/images/hero/rainguard-chungnam-main-hero.jpg"
+  MAIN_HERO_IMAGE: "/images/hero/rainguard-chungnam-hero-v2.jpg"
 };
