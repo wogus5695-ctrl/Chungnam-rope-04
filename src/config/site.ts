@@ -3,7 +3,7 @@ import { SiteConfig } from "@/types";
 export const siteConfig: SiteConfig = {
   brandName: "레인가드",
   branchName: "레인가드 충청남도 지점",
-  phonePlaceholder: "010-XXXX-XXXX",
+  phonePlaceholder: "010-4667-5568",
   kakaoUrlPlaceholder: "https://open.kakao.com/o/placeholder",
   defaultTitle: "레인가드 충청남도 지점 | 창틀코킹, 빗물누수 전문",
   defaultDescription: "충청남도 전 지역 아파트/상가 창틀누수, 창틀코킹, 외벽누수 정밀 진단 및 시공 전문 레인가드입니다.",

@@ -849,12 +849,22 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-zinc-600">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-zinc-600 border-t border-zinc-900/50">
           <p>&copy; {new Date().getFullYear()} {siteConfig.brandName}. All rights reserved.</p>
-          <div className="flex items-center gap-3">
-            <span>지점명: {siteConfig.branchName}</span>
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <span>사업자 명: <strong className="text-zinc-400 font-semibold">김재현</strong></span>
             <span>&bull;</span>
-            <span>문의처: {siteConfig.phonePlaceholder}</span>
+            <span>상호명: <strong className="text-zinc-400 font-semibold">{siteConfig.brandName}</strong></span>
+            <span>&bull;</span>
+            <span>
+              연락처:{" "}
+              <a 
+                href={`tel:${siteConfig.phonePlaceholder}`}
+                className="text-brand-accent hover:underline font-extrabold hover:text-brand-accent-hover transition-colors"
+              >
+                {siteConfig.phonePlaceholder}
+              </a>
+            </span>
           </div>
         </div>
       </div>
