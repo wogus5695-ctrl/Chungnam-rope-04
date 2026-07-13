@@ -877,7 +877,9 @@ export function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <span>사업자 명: <strong className="text-zinc-400 font-semibold">김재현</strong></span>
             <span>&bull;</span>
-            <span>상호명: <strong className="text-zinc-400 font-semibold">{siteConfig.brandName}</strong></span>
+            <span>상호명: <strong className="text-zinc-400 font-semibold">올케어 서비스</strong></span>
+            <span>&bull;</span>
+            <span>사업자 번호: <strong className="text-zinc-400 font-semibold">405-15-02677</strong></span>
             <span>&bull;</span>
             <span>
               연락처:{" "}
