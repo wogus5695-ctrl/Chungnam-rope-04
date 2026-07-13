@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { workCases } from "@/data/workCases";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 // 1. 서비스 안내
 interface ServiceSectionProps {
@@ -825,9 +826,20 @@ export function Footer() {
     <footer className="bg-zinc-950 text-zinc-500 py-12 sm:py-16 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-zinc-900">
-          <div>
-            <span className="text-lg font-black text-white tracking-tight">{siteConfig.brandName}</span>
-            <span className="text-zinc-600 text-xs font-semibold ml-2">충남 전역 서비스 지점</span>
+          <div className="flex items-center gap-3">
+            <div className="relative w-12 h-12 overflow-hidden rounded-lg">
+              <Image
+                src="/images/brand/rainguard-logo-symbol.webp"
+                alt="레인가드 로고"
+                fill
+                sizes="48px"
+                className="object-contain"
+              />
+            </div>
+            <div>
+              <span className="text-lg font-black text-white tracking-tight block leading-tight">{siteConfig.brandName}</span>
+              <span className="text-zinc-600 text-xs font-semibold block mt-0.5">충남 전역 서비스 지점</span>
+            </div>
           </div>
 
           <div className="flex gap-6 text-sm font-semibold">

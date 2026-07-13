@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
+import Image from "next/image";
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -13,8 +15,19 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* 로고 영역 */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="text-xl sm:text-2xl font-black text-brand-primary tracking-tight">
-              {siteConfig.brandName}<span className="text-brand-accent font-semibold text-xs sm:text-sm ml-2">충남지점</span>
+            <Link href="/" className="flex items-center gap-2 text-xl sm:text-2xl font-black text-brand-primary tracking-tight">
+              <div className="relative w-[34px] h-[34px] sm:w-[40px] sm:h-[40px] overflow-hidden rounded-lg">
+                <Image
+                  src="/images/brand/rainguard-logo-symbol.webp"
+                  alt="레인가드 로고"
+                  fill
+                  sizes="(max-width: 640px) 34px, 40px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <span>{siteConfig.brandName}</span>
+              <span className="text-brand-accent font-semibold text-xs sm:text-sm ml-1 select-none">충남지점</span>
             </Link>
           </div>
 
