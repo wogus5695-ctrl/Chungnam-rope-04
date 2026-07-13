@@ -20,15 +20,15 @@ export function getFlatRegions(): FlatRegion[] {
     const currentPath = [...parentPath, node.name];
     const fullName = currentPath.join(" ");
 
-    const isEupMyeonDong = node.name.endsWith("읍") || node.name.endsWith("면") || node.name.endsWith("동");
+    const isMatchTarget = node.name.endsWith("읍") || node.name.endsWith("면") || node.name.endsWith("동") || node.name.endsWith("시") || node.name.endsWith("군");
     
-    if (isEupMyeonDong) {
+    if (isMatchTarget) {
       list.push({
         name: node.name,
         fullName,
         canonicalName: node.name,
         parentName: parentName,
-        rootParentName: rootParentName,
+        rootParentName: rootParentName || node.name,
         aliases: node.alias || []
       });
     }
