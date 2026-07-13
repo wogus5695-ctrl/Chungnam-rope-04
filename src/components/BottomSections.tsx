@@ -870,12 +870,6 @@ export function Footer() {
               <span className="text-zinc-600 text-xs font-semibold block mt-0.5">충남 전역 서비스 지점</span>
             </div>
           </div>
-
-          <div className="flex gap-6 text-sm font-semibold">
-            <Link href="/sitemap-chungnam" className="hover:text-white transition-colors">
-              충청남도 서비스 지역
-            </Link>
-          </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-zinc-600 border-t border-zinc-900/50">
