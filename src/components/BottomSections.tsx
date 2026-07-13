@@ -375,15 +375,15 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
+  const activeCase = workCases[activeIdx] || workCases[0];
+  const isLocationVerified = !!activeCase.verifiedLocation;
   const label = isDynamic ? "유사 현장 작업 사례" : "실제 작업 사례";
   const h2Text = isDynamic 
     ? `${regionName} ${serviceName} 상담 전, 유사 작업 사례를 확인하세요`
     : "사진으로 확인하는 작업 전·후 상태";
   const description = isDynamic
-    ? "선택한 서비스와 관련된 유사 현장의 작업 전·후 상태를 사진으로 안내합니다."
-    : "실제 현장에서 촬영한 작업 전·후 이미지를 통해 외부 마감과 접합부의 변화를 확인할 수 있습니다.";
-
-  const activeCase = workCases[activeIdx] || workCases[0];
+    ? "실제 작업 정보가 확인된 사례와 유사 작업 예시를 구분해 안내합니다. 선택한 서비스와 관련된 유사 현장의 작업 전·후 상태를 사진으로 안내합니다."
+    : "실제 작업 정보가 확인된 사례와 유사 작업 예시를 구분해 안내합니다. 실제 현장에서 촬영한 작업 전·후 이미지를 통해 외부 마감과 접합부의 변화를 확인할 수 있습니다.";
 
   // 사례 탭 클릭 핸들러 (작업 전 이미지부터 재시작)
   const handleCaseSelect = (idx: number) => {
@@ -478,7 +478,7 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
         {/* 상단 타이틀 */}
         <div className="text-left lg:text-center max-w-3xl lg:mx-auto mb-8 lg:mb-[44px]">
           <h2 className="text-[13px] sm:text-sm font-bold text-brand-accent tracking-wider uppercase mb-2 lg:mb-[12px] lg:text-[15px]">
-            {label}
+            {isLocationVerified ? `${activeCase.verifiedLocation} 작업 사례` : "유사 작업 예시"}
           </h2>
           <p className="text-[28px] sm:text-3xl lg:text-[40px] font-black text-brand-primary tracking-tight lg:tracking-[-0.03em] leading-[1.3] lg:leading-[1.25] keep-all break-keep">
             {h2Text}
@@ -502,7 +502,7 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
                     : "bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100"
                 }`}
               >
-                사례 0{wc.caseNumber}
+                사례 {String(wc.caseNumber).padStart(2, '0')}
               </button>
             ))}
           </div>
@@ -532,7 +532,7 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
                 }`}
               >
                 <span className="absolute left-3 top-3 px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md z-20">
-                  작업 전
+                  {isLocationVerified ? "작업 전" : "점검 전 상태 예시"}
                 </span>
                 <img
                   src={activeCase.beforeImage}
@@ -548,7 +548,7 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
                 }`}
               >
                 <span className="absolute left-3 top-3 px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md z-20">
-                  작업 후
+                  {isLocationVerified ? "작업 후" : "보수 마감 예시"}
                 </span>
                 <img
                   src={activeCase.afterImage}
@@ -587,7 +587,9 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
           {/* 2. PC 뷰: 작업 전 / 작업 후 이미지 2열 구성 (hidden lg:grid) */}
           <div className="hidden lg:grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <span className="inline-block px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md">작업 전</span>
+              <span className="inline-block px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md">
+                {isLocationVerified ? "작업 전" : "점검 전 상태 예시"}
+              </span>
               <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
                 <img
                   src={activeCase.beforeImage}
@@ -599,7 +601,9 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
             </div>
 
             <div className="space-y-2">
-              <span className="inline-block px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md">작업 후</span>
+              <span className="inline-block px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md">
+                {isLocationVerified ? "작업 후" : "보수 마감 예시"}
+              </span>
               <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
                 <img
                   src={activeCase.afterImage}
