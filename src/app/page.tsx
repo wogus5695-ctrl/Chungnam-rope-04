@@ -159,8 +159,6 @@ export default async function Home({ searchParams }: PageProps) {
   // 5. 정상 canonical 키워드인 경우: 동적 랜딩 렌더링
   const regionName = parsed.region.name;
   const serviceName = parsed.service.name;
-  const parentRegion = parsed.region.parentName;
-
   // 세부 정규 콘텐츠 데이터 확보
   const serviceData = services.find(s => s.name === serviceName)!;
 
@@ -172,7 +170,7 @@ export default async function Home({ searchParams }: PageProps) {
     canonicalKey: parsed.canonicalKey,
     shortDescription: serviceData.shortDescription,
     faqs: faqListForJsonLd
-  } as any);
+  } as Parameters<typeof getJsonLd>[1]);
 
   // 상호 교차 링크 리스트 추출
   const currentFlatRegion = parsed.region;

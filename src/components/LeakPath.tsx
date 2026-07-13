@@ -1,13 +1,11 @@
-import { PathStep } from "@/types";
 import Image from "next/image";
 
 interface LeakPathProps {
-  pathList?: PathStep[];
   dynamicRegionName?: string;
   dynamicServiceName?: string;
 }
 
-export default function LeakPath({ pathList, dynamicRegionName, dynamicServiceName }: LeakPathProps) {
+export default function LeakPath({ dynamicRegionName, dynamicServiceName }: LeakPathProps) {
   // desc 문자열에 직접 <span> 혹은 HTML 태그가 가미된 구조로 선언
   const defaultPaths = [
     {

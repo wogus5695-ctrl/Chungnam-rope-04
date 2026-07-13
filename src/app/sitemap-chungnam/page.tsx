@@ -50,10 +50,7 @@ export default function SitemapChungnamPage() {
     });
   });
 
-  const uniqueKeys = Array.from(new Set(canonicalLinks.map(l => l.key)));
-  const uniqueLinks = uniqueKeys.map(key => {
-    return canonicalLinks.find(l => l.key === key)!;
-  });
+
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50">

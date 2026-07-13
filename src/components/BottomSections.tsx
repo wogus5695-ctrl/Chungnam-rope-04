@@ -449,8 +449,6 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mediaQuery.matches) return;
 
-    let intervalId: NodeJS.Timeout;
-
     const tick = () => {
       // 2. 일시 정지 상태 체크
       if (isPaused) return;
@@ -469,7 +467,7 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
       setSlideIdx((prev) => (prev === 0 ? 1 : 0));
     };
 
-    intervalId = setInterval(tick, 5000);
+    const intervalId = setInterval(tick, 5000);
 
     return () => {
       clearInterval(intervalId);
@@ -705,7 +703,7 @@ export function getFAQList(customFaqs: { q: string; a: string }[] | undefined, d
   ];
 
   const hasDynamic = !!(dynamicRegionName && dynamicServiceName);
-  let baseFaqs = customFaqs && customFaqs.length > 0 ? [...customFaqs] : [...defaultFaqs];
+  const baseFaqs = customFaqs && customFaqs.length > 0 ? [...customFaqs] : [...defaultFaqs];
 
   // 공통 백업용 질문 풀
   const commonFaqsPool = [

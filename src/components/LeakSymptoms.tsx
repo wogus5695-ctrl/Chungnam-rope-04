@@ -1,14 +1,12 @@
 import Image from "next/image";
-import { SymptomCard } from "@/types";
 import { siteConfig } from "@/config/site";
 
 interface LeakSymptomsProps {
-  symptomList?: SymptomCard[];
   dynamicRegionName?: string;
   dynamicServiceName?: string;
 }
 
-export default function LeakSymptoms({ symptomList, dynamicRegionName, dynamicServiceName }: LeakSymptomsProps) {
+export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: LeakSymptomsProps) {
   const defaultSymptoms = [
     {
       title: "창틀 틈새 빗물 유입",

@@ -100,7 +100,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
   }
 
   if (type === "landing" && data) {
-    const { regionName, serviceName, canonicalKey, shortDescription, faqs } = data as any;
+    const { regionName, serviceName, canonicalKey, shortDescription, faqs } = data;
     
     const breadcrumb = {
       "@context": "https://schema.org",
@@ -150,13 +150,13 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
     };
 
     const faqPage = faqs && faqs.length > 0 ? {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": faqs.map((f: any) => ({
-        "@type": "Question",
+      "@context": "https://schema.org" as const,
+      "@type": "FAQPage" as const,
+      "mainEntity": faqs.map((f: { q: string; a: string }) => ({
+        "@type": "Question" as const,
         "name": f.q,
         "acceptedAnswer": {
-          "@type": "Answer",
+          "@type": "Answer" as const,
           "text": f.a
         }
       }))
@@ -164,7 +164,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
 
     const returnList = [website, organization, breadcrumb, service, imageObject];
     if (faqPage) {
-      returnList.push(faqPage as any);
+      returnList.push(faqPage as unknown as typeof website);
     }
 
     return returnList;
