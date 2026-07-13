@@ -667,13 +667,21 @@ export function RegionSection() {
             ))}
           </div>
 
-          <div className="text-center">
-            <Link
-              href="/sitemap-chungnam"
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-brand-accent text-brand-accent hover:bg-brand-accent hover:text-white font-bold rounded-xl transition-all"
+          <div className="text-center flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+            <a
+              href={`tel:${siteConfig.phonePlaceholder}`}
+              className="w-full sm:w-[200px] h-[52px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-[15px] font-extrabold rounded-xl shadow-md shadow-brand-accent/10 transition-all text-center"
             >
-              충남 지역별 상세 서비스 안내 바로가기 &rarr;
-            </Link>
+              전화로 지역 상담
+            </a>
+            <a
+              href={siteConfig.kakaoUrlPlaceholder}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-[200px] h-[52px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-[15px] font-extrabold rounded-xl transition-all text-center"
+            >
+              카카오톡으로 작업 가능 지역 문의
+            </a>
           </div>
         </div>
       </div>
@@ -865,7 +873,7 @@ export function Footer() {
 
           <div className="flex gap-6 text-sm font-semibold">
             <Link href="/sitemap-chungnam" className="hover:text-white transition-colors">
-              충남 지역별 서비스
+              충청남도 서비스 지역
             </Link>
           </div>
         </div>

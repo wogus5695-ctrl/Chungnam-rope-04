@@ -36,7 +36,6 @@ export default function Header() {
             <a href="#services" className="hover:text-brand-accent transition-colors">서비스 안내</a>
             <a href="#process" className="hover:text-brand-accent transition-colors">시공 절차</a>
             <a href="#cases" className="hover:text-brand-accent transition-colors">현장 사례</a>
-            <a href="#regions" className="hover:text-brand-accent transition-colors">서비스 지역</a>
             <a href="#faq" className="hover:text-brand-accent transition-colors">FAQ</a>
           </nav>
 
@@ -101,13 +100,6 @@ export default function Header() {
             className="block px-3 py-2 rounded-md text-base font-semibold text-zinc-600 hover:bg-zinc-50 hover:text-brand-accent"
           >
             현장 사례
-          </a>
-          <a
-            href="#regions"
-            onClick={() => setIsOpen(false)}
-            className="block px-3 py-2 rounded-md text-base font-semibold text-zinc-600 hover:bg-zinc-50 hover:text-brand-accent"
-          >
-            서비스 지역
           </a>
           <a
             href="#faq"
