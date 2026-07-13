@@ -5,6 +5,7 @@ interface LandingJsonLdData {
   serviceName: string;
   canonicalKey: string;
   shortDescription: string;
+  faqs?: { q: string; a: string }[];
 }
 
 export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLdData) {
