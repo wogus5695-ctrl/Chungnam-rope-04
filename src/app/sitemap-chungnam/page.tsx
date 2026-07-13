@@ -88,7 +88,7 @@ export default function SitemapChungnamPage() {
             </div>
             <div className="p-4 bg-white border border-zinc-100 rounded-xl text-center shadow-sm">
               <span className="block text-xs font-semibold text-zinc-400">제공 서비스</span>
-              <span className="text-lg font-black text-brand-accent">6종 전문 코킹·방수</span>
+              <span className="text-lg font-black text-brand-accent">11종 전문 코킹·방수</span>
             </div>
           </div>
 
