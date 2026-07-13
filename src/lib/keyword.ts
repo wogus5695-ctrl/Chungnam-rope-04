@@ -82,6 +82,11 @@ export function parseKeyword(k: string | null | undefined): ParsedKeyword | null
 
   if (!region) return null;
 
+  // 지역 또는 서비스 입력 형태가 canonical 표준 표기와 불일치할 시 alias 리디렉션 강제화
+  if (regionInput !== region.name || serviceInput !== service.name) {
+    isAlias = true;
+  }
+
   const canonicalKey = `${region.name}-${service.name}`;
 
   return {
