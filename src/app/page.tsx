@@ -201,6 +201,43 @@ export default async function Home({ searchParams }: PageProps) {
             <span className="text-brand-accent"> 현장 상태부터 정확히 확인</span>
           </>
         );
+
+        if (serviceName === "외벽방수") {
+          dynamicTitle = (
+            <>
+              {regionName} 외벽방수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 외벽 균열과 보수 범위 확인</span>
+            </>
+          );
+        } else if (serviceName === "옥상방수") {
+          dynamicTitle = (
+            <>
+              {regionName} 옥상방수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 우레탄 및 방수 범위 진단</span>
+            </>
+          );
+        } else if (serviceName === "건물방수") {
+          dynamicTitle = (
+            <>
+              {regionName} 건물방수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 내외벽 종합 진단 후 시공</span>
+            </>
+          );
+        } else if (serviceName === "지붕방수") {
+          dynamicTitle = (
+            <>
+              {regionName} 지붕방수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 지붕 이음부와 고정부 점검</span>
+            </>
+          );
+        } else if (serviceName === "우레탄방수") {
+          dynamicTitle = (
+            <>
+              {regionName} 우레탄방수,<br className="hidden sm:inline" />
+              <span className="text-brand-accent"> 하도·중도·상도 공정 관리</span>
+            </>
+          );
+        }
         if (serviceName === "빗물누수") {
           dynamicTitle = (
             <>
@@ -251,6 +288,38 @@ export default async function Home({ searchParams }: PageProps) {
             기존 실리콘의 갈라짐과 들뜸, 접합부 손상 상태를 확인한 뒤 현장에 맞는 시공 범위를 안내합니다.
           </>
         );
+
+        if (serviceName === "외벽방수") {
+          dynamicSubtitle = (
+            <>
+              로프 접근을 통해 높은 외벽 균열과 줄눈, 창호 테두리를 정밀 보수하고 침투 방수 범위를 설계합니다.
+            </>
+          );
+        } else if (serviceName === "옥상방수") {
+          dynamicSubtitle = (
+            <>
+              옥상 바닥 균열과 파라펫 옹벽의 손상 상태를 정밀 체크하여 적합한 면적별 방수 계획을 안내합니다.
+            </>
+          );
+        } else if (serviceName === "건물방수") {
+          dynamicSubtitle = (
+            <>
+              외벽·옥상·지붕·창호를 종합 점검해 꼭 필요한 부위에 알맞은 차별화된 방수 기법을 매칭합니다.
+            </>
+          );
+        } else if (serviceName === "지붕방수") {
+          dynamicSubtitle = (
+            <>
+              판넬 및 금속 지붕의 용마루와 겹침부 조인트, 볼트 틈새를 꼼꼼히 점검하여 지붕형 맞춤 실링을 적용합니다.
+            </>
+          );
+        } else if (serviceName === "우레탄방수") {
+          dynamicSubtitle = (
+            <>
+              기존 우레탄의 들뜸을 연삭 제거하고 3회 도포(하도·중도·상도) 공정에 맞춰 견고한 코팅막을 제공합니다.
+            </>
+          );
+        }
         if (serviceName === "빗물누수") {
           dynamicSubtitle = (
             <>
@@ -277,11 +346,44 @@ export default async function Home({ searchParams }: PageProps) {
           "노후 실리콘과 균열 상태 확인",
           "현장에 필요한 보수 범위 안내"
         ];
+
+        if (serviceName === "외벽방수") {
+          dynamicBulletPoints = [
+            "외벽 균열부 정밀 코킹 및 충진",
+            "로프 하강 방식 초근접 외벽 보수",
+            "침투 방수액 도포 범위 진단"
+          ];
+        } else if (serviceName === "옥상방수") {
+          dynamicBulletPoints = [
+            "옥상 바닥 우레탄 들뜸 상태 검사",
+            "난간 파라펫 콘크리트 크랙 확인",
+            "배수구 및 드레인 이음부 보완"
+          ];
+        } else if (serviceName === "건물방수") {
+          dynamicBulletPoints = [
+            "외벽·옥상·지붕 다각도 정밀 점검",
+            "누수 양상에 따른 국소 공법 매칭",
+            "비용 절감형 부위별 시공 설계"
+          ];
+        } else if (serviceName === "지붕방수") {
+          dynamicBulletPoints = [
+            "판넬 및 용마루 조인트 틈새 차단",
+            "지붕 고정용 볼트 캡 실링 보완",
+            "경사 지붕 및 처마 배수로 점검"
+          ];
+        } else if (serviceName === "우레탄방수") {
+          dynamicBulletPoints = [
+            "바닥 함수율 및 건조 상태 진단",
+            "바닥 모래 연삭 면처리 공정 포함",
+            "우레탄 하도·중도·상도 정량 도포"
+          ];
+        }
+
         if (serviceName === "빗물누수") {
           dynamicBulletPoints = [
             "비바람 방향별 누수 반응 확인",
             "외벽·창틀 누수 유입 경로 점검",
-            "必要な 방수·코킹 범위 안내"
+            "필요한 방수·코킹 범위 안내"
           ];
         } else if (serviceName === "창틀누수") {
           dynamicBulletPoints = [
