@@ -127,63 +127,34 @@ export default function LeakPath({ dynamicRegionName, dynamicServiceName }: Leak
           </p>
         </div>
 
-        {/* 데스크톱(lg 이상): 이미지-단계 결합 단일 거대 패널(좌 60% : 우 40%) */}
-        {/* 모바일/태블릿: 상단 이미지 패널 + 하단 세로형 단계 리스트 순차 노출 */}
-        <div className="hidden lg:flex w-full h-[580px] bg-white border border-zinc-100 rounded-[24px] overflow-hidden shadow-sm">
-          {/* 왼쪽 이미지 영역 (60%) */}
-          <div className="relative w-[60%] h-full bg-zinc-200">
+        {/* 반응형 통합 과정 레이아웃 (HTML 1회 출력, CSS 제어) */}
+        <div className="flex flex-col lg:flex-row w-full bg-white border border-zinc-100 rounded-[18px] lg:rounded-[24px] overflow-hidden shadow-sm">
+          {/* 이미지 영역 (모바일 상단, 데스크톱 좌측 60%) */}
+          <div className="relative w-full lg:w-[60%] aspect-[16/10] sm:aspect-[16/9] lg:aspect-auto lg:h-[580px] bg-zinc-200 flex-shrink-0">
             <Image
               src="/images/symptoms/leak-path-panel.jpg"
               alt={imageAlt}
               fill
               loading="lazy"
-              sizes="60vw"
+              sizes="(max-w-1024px) 100vw, 60vw"
               style={{ objectFit: "cover", objectPosition: "center 45%" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#0f172a]/30 to-transparent" />
           </div>
 
-          {/* 오른쪽 4단계 세로 목록 영역 (40%) */}
-          <div className="w-[40%] h-full flex flex-col justify-between divide-y divide-zinc-100 bg-white">
-            {displayPaths.map((p, idx) => (
-              <div key={idx} className="flex-1 flex flex-col justify-center px-8 xl:px-[36px] py-4">
-                <div className="flex items-center gap-3 mb-1">
-                  <span className="text-xs font-bold text-brand-accent/70 tracking-wider">STEP {p.step}</span>
+          {/* 4단계 목록 영역 (모바일 하단 2x2 그리드, 데스크톱 우측 40% 세로 정렬) */}
+          <div className="w-full lg:w-[40%] bg-white p-4 sm:p-5 lg:p-0 flex flex-col justify-between">
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3 lg:gap-0 lg:divide-y lg:divide-zinc-100 h-full">
+              {displayPaths.map((p, idx) => (
+                <div key={idx} className="flex flex-col justify-center p-3.5 sm:p-4 lg:px-8 xl:px-[36px] lg:py-4 bg-zinc-50/50 lg:bg-white border lg:border-none border-zinc-150 rounded-[12px] lg:rounded-none h-[125px] sm:h-[135px] lg:h-auto lg:flex-1 text-left">
+                  <div className="flex items-center gap-3 mb-0.5 sm:mb-1">
+                    <span className="text-[11px] lg:text-xs font-bold text-brand-accent/80 lg:text-brand-accent/70 tracking-wider">STEP {p.step}</span>
+                  </div>
+                  <h3 className="text-[15px] sm:text-[16px] lg:text-[19px] xl:text-[21px] font-[800] text-zinc-900 mb-1 leading-tight lg:leading-snug line-clamp-1">{p.name}</h3>
+                  <div className="text-[13px] lg:text-[14px] xl:text-[15px] text-zinc-500 leading-normal line-clamp-2 lg:line-clamp-none">{p.desc}</div>
                 </div>
-                <h3 className="text-[19px] xl:text-[21px] font-[800] text-zinc-900 mb-1">{p.name}</h3>
-                <div className="text-[14px] xl:text-[15px] text-zinc-500 leading-normal">{p.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 모바일/태블릿 뷰포트 레이아웃 */}
-        <div className="lg:hidden flex flex-col gap-7 sm:gap-9">
-          {/* 상단 이미지 패널 */}
-          <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-[18px] overflow-hidden bg-zinc-200">
-            <Image
-              src="/images/symptoms/leak-path-panel.jpg"
-              alt={imageAlt}
-              fill
-              loading="lazy"
-              sizes="100vw"
-              style={{ objectFit: "cover", objectPosition: "center 45%" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/45 to-transparent" />
-          </div>
-
-          {/* 하단 4단계 2x2 콤팩트 카드 그리드 */}
-          <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-            {displayPaths.map((p, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col justify-center p-3.5 sm:p-4 bg-white border border-zinc-150 rounded-[14px] h-[125px] sm:h-[135px] text-left"
-              >
-                <span className="text-[12px] font-bold text-brand-accent/80 tracking-wider mb-0.5 sm:mb-1 block">STEP {p.step}</span>
-                <h3 className="text-[15px] sm:text-[16px] font-[800] text-zinc-900 mb-1 leading-tight line-clamp-1">{p.name}</h3>
-                <div className="text-[13px] text-zinc-500 leading-[1.5] line-clamp-2">{p.desc}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -323,36 +323,24 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
           </p>
         </div>
 
-        {/* 모바일 뷰: 세로형 콤팩트 타임라인 (lg:hidden) */}
-        <div className="block lg:hidden relative pl-6 border-l border-zinc-200/80 space-y-8 ml-3">
+        {/* 반응형 통합 과정 레이아웃 (HTML 1회 출력, CSS 제어) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 relative items-stretch">
           {steps.map((st, i) => (
-            <div key={i} className="relative min-h-[90px] flex flex-col justify-start">
-              {/* 타임라인 원형 번호 */}
-              <span className="absolute -left-[37px] top-0 flex items-center justify-center w-[22px] h-[22px] rounded-full bg-white border border-brand-accent text-brand-accent text-[11px] font-bold">
-                {st.num}
-              </span>
+            <div key={i} className="p-5 sm:p-6 bg-white border border-zinc-150 rounded-2xl relative shadow-sm flex flex-col justify-between min-h-[110px] lg:min-h-[160px]">
               <div>
-                <h3 className="text-[17px] font-extrabold text-zinc-900 leading-tight mb-1.5">{st.name}</h3>
-                <p className="text-[14px] text-zinc-500 leading-relaxed font-semibold">{st.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* PC 뷰: 수평 3열 카드 및 연결선 (hidden lg:grid) */}
-        <div className="hidden lg:grid lg:grid-cols-3 gap-8 relative items-stretch">
-          {steps.map((st, i) => (
-            <div key={i} className="p-6 bg-white border border-zinc-150 rounded-2xl relative shadow-sm flex flex-col h-full justify-between">
-              <div>
-                {/* 상위 우측 미니 숫자 */}
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-[19px] font-extrabold text-zinc-900">{st.name}</h3>
-                  <span className="text-[14px] font-black text-brand-accent/50">{st.num}</span>
+                {/* 상부 번호 및 단계명 */}
+                <div className="flex justify-between items-center mb-2 sm:mb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-brand-accent/10 text-brand-accent text-xs font-black select-none">
+                      {st.num}
+                    </span>
+                    <h3 className="text-[17px] lg:text-[19px] font-extrabold text-zinc-900 leading-tight">{st.name}</h3>
+                  </div>
                 </div>
-                <p className="text-sm text-zinc-500 leading-relaxed font-semibold">{st.desc}</p>
+                <p className="text-[14px] lg:text-sm text-zinc-500 leading-relaxed font-semibold">{st.desc}</p>
               </div>
               
-              {/* 단계 간 연결 흐름 얇은 가로선 (01, 02단계 오른쪽에만 표시) */}
+              {/* 단계 간 수평 점선 연결 흐름 (lg 이상에서만 노출) */}
               {i < 2 && (
                 <div className="hidden lg:block absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-4 border-t border-dashed border-zinc-300" />
               )}
