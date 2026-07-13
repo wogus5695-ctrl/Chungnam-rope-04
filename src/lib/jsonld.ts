@@ -99,7 +99,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
   }
 
   if (type === "landing" && data) {
-    const { regionName, serviceName, canonicalKey, shortDescription } = data;
+    const { regionName, serviceName, canonicalKey, shortDescription, faqs } = data as any;
     
     const breadcrumb = {
       "@context": "https://schema.org",
@@ -148,7 +148,25 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
       "description": shortDescription
     };
 
-    return [website, organization, breadcrumb, service, imageObject];
+    const faqPage = faqs && faqs.length > 0 ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((f: any) => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.a
+        }
+      }))
+    } : null;
+
+    const returnList = [website, organization, breadcrumb, service, imageObject];
+    if (faqPage) {
+      returnList.push(faqPage as any);
+    }
+
+    return returnList;
   }
 
   return [website, organization, imageObject];

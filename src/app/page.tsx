@@ -18,7 +18,8 @@ import {
   FAQSection,
   FinalCTA,
   Footer,
-  InteractiveCTA
+  InteractiveCTA,
+  getFAQList
 } from "@/components/BottomSections";
 
 interface PageProps {
@@ -164,12 +165,14 @@ export default async function Home({ searchParams }: PageProps) {
   const serviceData = services.find(s => s.name === serviceName)!;
 
   // 구조화 데이터 생성
+  const faqListForJsonLd = getFAQList(serviceData.faqs, regionName, serviceName);
   const jsonLd = getJsonLd("landing", {
     regionName,
     serviceName,
     canonicalKey: parsed.canonicalKey,
-    shortDescription: serviceData.shortDescription
-  });
+    shortDescription: serviceData.shortDescription,
+    faqs: faqListForJsonLd
+  } as any);
 
   // 상호 교차 링크 리스트 추출
   const currentFlatRegion = parsed.region;
