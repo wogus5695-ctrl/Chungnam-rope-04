@@ -20,6 +20,7 @@ export function getFlatRegions(): FlatRegion[] {
     const currentPath = [...parentPath, node.name];
     const fullName = currentPath.join(" ");
 
+    const currentRoot = rootParentName || node.name;
     const isMatchTarget = node.name.endsWith("읍") || node.name.endsWith("면") || node.name.endsWith("동") || node.name.endsWith("시") || node.name.endsWith("군");
     
     if (isMatchTarget) {
@@ -28,19 +29,19 @@ export function getFlatRegions(): FlatRegion[] {
         fullName,
         canonicalName: node.name,
         parentName: parentName,
-        rootParentName: rootParentName || node.name,
+        rootParentName: currentRoot,
         aliases: node.alias || []
       });
     }
 
     if (node.subRegions) {
       node.subRegions.forEach((sub: RegionData) => {
-        traverse(sub, currentPath, node.name, rootParentName || node.name);
+        traverse(sub, currentPath, node.name, currentRoot);
       });
     }
   }
 
-  regions.forEach(r => traverse(r, [], r.name, r.name));
+  regions.forEach(r => traverse(r, [], r.name, ""));
   return list;
 }
 
