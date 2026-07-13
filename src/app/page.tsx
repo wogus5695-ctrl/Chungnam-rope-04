@@ -1,4 +1,4 @@
-import { parseKeyword, getFlatRegions } from "@/lib/keyword";
+import { parseKeyword, getFlatRegions, getFAQList } from "@/lib/keyword";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import React from "react";
@@ -18,8 +18,7 @@ import {
   FAQSection,
   FinalCTA,
   Footer,
-  InteractiveCTA,
-  getFAQList
+  InteractiveCTA
 } from "@/components/BottomSections";
 
 interface PageProps {
@@ -423,14 +422,12 @@ export default async function Home({ searchParams }: PageProps) {
         
         {/* 3. 해당 서비스의 대표 증상 카드 (메인과 동일한 카드 UI 공통화) */}
         <LeakSymptoms 
-          symptomList={serviceData.symptomObjects} 
           dynamicRegionName={regionName} 
           dynamicServiceName={serviceName} 
         />
 
         {/* 4. 누수 발생 원인 또는 유입 경로 (메인과 동일한 4단계 경로 UI 공통화) */}
         <LeakPath 
-          pathList={serviceData.pathSteps} 
           dynamicRegionName={regionName} 
           dynamicServiceName={serviceName} 
         />
