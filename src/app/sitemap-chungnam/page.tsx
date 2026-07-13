@@ -10,15 +10,15 @@ import { siteConfig } from "@/config/site";
 
 // 8단계 메타데이터 수정
 export const metadata: Metadata = {
-  title: "충청남도 지역별 창틀코킹·누수 서비스 | 레인가드",
-  description: "레인가드 충청남도 지점의 시·군·읍·면·동별 세부 서비스 안내 링크 허브입니다. 원하시는 지역과 작업명을 선택해 주세요.",
+  title: "충청남도 창틀·누수·방수 서비스 지역 | 레인가드",
+  description: "충청남도 시·군과 읍·면·동별 창틀코킹, 창틀누수, 빗물누수, 외벽방수, 옥상방수, 지붕방수, 우레탄방수 등 레인가드 서비스 페이지를 안내합니다.",
   alternates: {
     canonical: "https://rainguard-chungnam.co.kr/sitemap-chungnam"
   },
   openGraph: {
     type: "website",
-    title: "충청남도 지역별 창틀코킹·누수 서비스 | 레인가드",
-    description: "레인가드 충청남도 지점의 시·군·읍·면·동별 세부 서비스 안내 링크 허브입니다. 원하시는 지역과 작업명을 선택해 주세요.",
+    title: "충청남도 창틀·누수·방수 서비스 지역 | 레인가드",
+    description: "충청남도 시·군과 읍·면·동별 창틀코킹, 창틀누수, 빗물누수, 외벽방수, 옥상방수, 지붕방수, 우레탄방수 등 레인가드 서비스 페이지를 안내합니다.",
     url: "https://rainguard-chungnam.co.kr/sitemap-chungnam",
     images: [
       {
@@ -50,7 +50,16 @@ export default function SitemapChungnamPage() {
     });
   });
 
+  // 활성 서비스 데이터에서 동적 카운트 계산
+  const activeServicesCount = services.length;
 
+  // 전체 등록된 구 단위 동적 카운트 계산 (parentName에 '구'가 포함되어 평탄화에 속해있는 구의 개수)
+  const uniqueDistrictNames = new Set(
+    flatRegions
+      .map(r => r.parentName)
+      .filter(pName => pName && (pName.endsWith("구")))
+  );
+  const districtCount = uniqueDistrictNames.size;
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50">
@@ -65,27 +74,35 @@ export default function SitemapChungnamPage() {
         <div className="space-y-8">
           
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span className="text-xs font-bold text-brand-accent tracking-wider uppercase">충청남도 출장 안내</span>
+            <span className="text-xs font-bold text-brand-accent tracking-wider uppercase">서비스 지역 안내</span>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-brand-primary tracking-tight">
-              레인가드 충청남도 지역별 누수·창틀코킹 서비스
+              레인가드 충청남도 지역별 누수·코킹·방수 서비스
             </h1>
             <p className="text-zinc-500 text-sm sm:text-base">
-              충청남도 시·군과 읍·면·동을 선택해 필요한 누수 및 창틀 서비스를 확인할 수 있습니다.
+              충청남도 시·군과 읍·면·동별 창틀코킹, 누수 점검과 외벽·옥상·지붕 방수 서비스 페이지를 확인할 수 있습니다.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-5xl mx-auto">
             <div className="p-4 bg-white border border-zinc-100 rounded-xl text-center shadow-sm">
-              <span className="block text-xs font-semibold text-zinc-400">시·군 수</span>
-              <span className="text-lg font-black text-brand-primary">충청남도 15개 시·군</span>
+              <span className="block text-xs font-semibold text-zinc-400">등록된 시·군</span>
+              <span className="text-lg font-black text-brand-primary">15개 시·군</span>
             </div>
             <div className="p-4 bg-white border border-zinc-100 rounded-xl text-center shadow-sm">
-              <span className="block text-xs font-semibold text-zinc-400">서비스 가능 지역</span>
-              <span className="text-lg font-black text-brand-primary">{flatRegions.length}개 읍·면·동</span>
+              <span className="block text-xs font-semibold text-zinc-400">등록된 구</span>
+              <span className="text-lg font-black text-brand-primary">{districtCount}개 구</span>
             </div>
             <div className="p-4 bg-white border border-zinc-100 rounded-xl text-center shadow-sm">
-              <span className="block text-xs font-semibold text-zinc-400">제공 서비스</span>
-              <span className="text-lg font-black text-brand-accent">11종 전문 코킹·방수</span>
+              <span className="block text-xs font-semibold text-zinc-400">등록된 읍·면·동</span>
+              <span className="text-lg font-black text-brand-primary">{flatRegions.length}개 지역</span>
+            </div>
+            <div className="p-4 bg-white border border-zinc-100 rounded-xl text-center shadow-sm">
+              <span className="block text-xs font-semibold text-zinc-400">활성 작업명</span>
+              <span className="text-lg font-black text-brand-accent">{activeServicesCount}종 서비스</span>
+            </div>
+            <div className="p-4 bg-white border border-zinc-100 rounded-xl text-center shadow-sm">
+              <span className="block text-xs font-semibold text-zinc-400">전체 키워드 링크</span>
+              <span className="text-lg font-black text-zinc-800">{canonicalLinks.length}개 링크</span>
             </div>
           </div>
 
