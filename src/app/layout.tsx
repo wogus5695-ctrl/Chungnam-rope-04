@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rainguard-chungnam.co.kr"),
   title: siteConfig.defaultTitle,
   description: siteConfig.defaultDescription,
   icons: {
