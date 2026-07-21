@@ -25,11 +25,11 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": siteConfig.brandName,
-    "url": "https://rainguard-chungnam.co.kr", // 실제 배포 주소 플레이스홀더
+    "url": "https://www.cnrainguard.co.kr",
     "image": imageObject,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://rainguard-chungnam.co.kr/?q={search_term_string}",
+      "target": "https://www.cnrainguard.co.kr/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -38,8 +38,8 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": siteConfig.branchName,
-    "url": "https://rainguard-chungnam.co.kr",
-    "logo": "https://rainguard-chungnam.co.kr/images/logo.png",
+    "url": "https://www.cnrainguard.co.kr",
+    "logo": "https://www.cnrainguard.co.kr/images/logo.png",
     "image": imageObject,
     "contactPoint": {
       "@type": "ContactPoint",
@@ -85,13 +85,13 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
           "@type": "ListItem",
           "position": 1,
           "name": "홈",
-          "item": "https://rainguard-chungnam.co.kr"
+          "item": "https://www.cnrainguard.co.kr"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "충남 지역별 서비스",
-          "item": "https://rainguard-chungnam.co.kr/sitemap-chungnam"
+          "item": "https://www.cnrainguard.co.kr/sitemap-chungnam"
         }
       ]
     };
@@ -110,19 +110,19 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
           "@type": "ListItem",
           "position": 1,
           "name": "홈",
-          "item": "https://rainguard-chungnam.co.kr"
+          "item": "https://www.cnrainguard.co.kr"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "지역별 서비스",
-          "item": "https://rainguard-chungnam.co.kr/sitemap-chungnam"
+          "item": "https://www.cnrainguard.co.kr/sitemap-chungnam"
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": `${regionName} ${serviceName}`,
-          "item": `https://rainguard-chungnam.co.kr/?k=${canonicalKey}`
+          "item": `https://www.cnrainguard.co.kr/?k=${canonicalKey}`
         }
       ]
     };

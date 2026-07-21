@@ -49,13 +49,13 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       title: "충청남도 빗물누수·창틀코킹 전문 | 레인가드",
       description: siteConfig.defaultDescription,
       alternates: {
-        canonical: "https://rainguard-chungnam.co.kr"
+        canonical: "https://www.cnrainguard.co.kr"
       },
       openGraph: {
         type: "website",
         title: "충청남도 빗물누수·창틀코킹 전문 | 레인가드",
         description: siteConfig.defaultDescription,
-        url: "https://rainguard-chungnam.co.kr",
+        url: "https://www.cnrainguard.co.kr",
         ...ogCommon,
       }
     };
@@ -77,7 +77,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     ? `${regionName} 지역 ${serviceName} 전문 진단. ${targetService.metaDescription}`
     : `${regionName} ${serviceName} 전문 레인가드 충남지점.`;
 
-  const fullUrl = `https://rainguard-chungnam.co.kr/?k=${parsed.canonicalKey}`;
+  const fullUrl = `https://www.cnrainguard.co.kr/?k=${parsed.canonicalKey}`;
 
   return {
     title: `${regionName} ${serviceName} | 창틀·외벽 누수 진단 레인가드`,

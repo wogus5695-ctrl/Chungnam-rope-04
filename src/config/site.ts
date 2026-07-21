@@ -10,7 +10,7 @@ export const siteConfig: SiteConfig = {
   operatingRegion: "충청남도",
   ogImagePlaceholder: "/images/og-placeholder.png",
   SEARCH_THUMBNAIL_PATH: "/images/seo/rainguard-search-thumbnail.jpg",
-  SEARCH_THUMBNAIL_URL: "https://rainguard-chungnam.co.kr/images/seo/rainguard-search-thumbnail.jpg",
+  SEARCH_THUMBNAIL_URL: "https://www.cnrainguard.co.kr/images/seo/rainguard-search-thumbnail.jpg",
   SEARCH_THUMBNAIL_WIDTH: 1200,
   SEARCH_THUMBNAIL_HEIGHT: 630,
   SEARCH_THUMBNAIL_ALT: "충청남도 창틀코킹 및 빗물누수 전문 레인가드",

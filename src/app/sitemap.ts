@@ -3,7 +3,7 @@ import { getFlatRegions } from "@/lib/keyword";
 import { services } from "@/data/services";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://rainguard-chungnam.co.kr";
+  const baseUrl = "https://www.cnrainguard.co.kr";
   const flatRegions = getFlatRegions();
 
   // 1. 기본 페이지
