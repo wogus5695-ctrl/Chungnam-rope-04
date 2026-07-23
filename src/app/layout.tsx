@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: siteConfig.defaultTitle,
   description: siteConfig.defaultDescription,
   verification: {
+    google: "RXIyQv1IJykHuQc8P2TlanIdllwp8I1yKD7-P212tlc",
     other: {
       "naver-site-verification": "4ebb2c6ec0e74edc41c1bdff6d763c5d7098d801"
     }
