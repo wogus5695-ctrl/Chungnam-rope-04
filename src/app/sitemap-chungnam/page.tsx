@@ -30,6 +30,12 @@ export const metadata: Metadata = {
         alt: siteConfig.SEARCH_THUMBNAIL_ALT,
       }
     ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "충청남도 창틀·누수·방수 서비스 지역 | 레인가드",
+    description: "충청남도 시·군과 읍·면·동별 창틀코킹, 창틀누수, 빗물누수, 외벽방수, 옥상방수, 지붕방수, 우레탄방수 등 레인가드 서비스 페이지를 안내합니다.",
+    images: [siteConfig.SEARCH_THUMBNAIL_URL],
   }
 };
 

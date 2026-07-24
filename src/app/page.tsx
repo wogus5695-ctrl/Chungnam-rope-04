@@ -57,6 +57,12 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
         description: siteConfig.defaultDescription,
         url: "https://www.cnrainguard.co.kr",
         ...ogCommon,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: "충청남도 빗물누수·창틀코킹 전문 | 레인가드",
+        description: siteConfig.defaultDescription,
+        images: [siteConfig.SEARCH_THUMBNAIL_URL],
       }
     };
   }
@@ -91,6 +97,12 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
       description: customDesc,
       url: fullUrl,
       ...ogCommon,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${regionName} ${serviceName} | 창틀·외벽 누수 진단 레인가드`,
+      description: customDesc,
+      images: [siteConfig.SEARCH_THUMBNAIL_URL],
     }
   };
 }
