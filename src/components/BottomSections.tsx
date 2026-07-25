@@ -13,9 +13,10 @@ import { getFAQList } from "@/lib/keyword";
 interface ServiceSectionProps {
   activeServiceName?: string;
   regionName?: string;
+  regionKeywordName?: string;
 }
 
-export function ServiceSection({ activeServiceName, regionName }: ServiceSectionProps) {
+export function ServiceSection({ activeServiceName, regionName, regionKeywordName }: ServiceSectionProps) {
   // 메인 페이지일 경우 기존 레이아웃 그대로 출력
   if (!activeServiceName || !regionName) {
     return (
@@ -199,6 +200,7 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
   };
 
   const activeDetail = serviceDetailMap[activeServiceName] || fallbackDetail;
+  const linkKey = regionKeywordName || regionName;
 
   return (
     <section className="py-16 sm:py-24 bg-white border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
@@ -252,7 +254,7 @@ export function ServiceSection({ activeServiceName, regionName }: ServiceSection
               return (
                 <Link 
                   key={name} 
-                  href={`/?k=${regionName}-${name}`}
+                  href={`/?k=${linkKey}-${name}`}
                   className="p-4 lg:p-[24px] bg-white border border-zinc-150 rounded-[14px] lg:rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-row lg:flex-col justify-between items-center lg:items-stretch h-[92px] lg:h-full"
                 >
                   <div className="text-left w-[82%] lg:w-auto">
@@ -281,14 +283,15 @@ interface ProcessSectionProps {
 
 export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
   const isDynamic = !!activeServiceName;
+  const targetService = activeServiceName ? services.find(s => s.name === activeServiceName) : null;
   
   const label = isDynamic ? `${activeServiceName} 작업 진행 과정` : "작업 진행 과정";
-  const h2Text = "원인을 확인한 뒤 필요한 범위만 작업합니다";
+  const h2Text = isDynamic ? `${activeServiceName} 정석 시공 공정` : "원인을 확인한 뒤 필요한 범위만 작업합니다";
   const description = isDynamic
-    ? "증상과 외부 상태를 함께 확인해 실제 원인에 맞는 점검과 작업 범위를 안내합니다."
+    ? "현장 상태 진단부터 계면 정리, 기밀 충진 및 마감까지 정석 공정으로 진행됩니다."
     : "보이는 흔적만 막지 않고 외벽과 창틀 상태를 함께 확인한 뒤 필요한 작업 범위를 안내합니다.";
 
-  const steps = [
+  const defaultSteps = [
     {
       num: "01",
       name: "증상과 현장 확인",
@@ -305,6 +308,21 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
       desc: "확인된 원인을 기준으로 불필요한 범위를 제외하고 필요한 작업을 진행합니다."
     }
   ];
+
+  const stepTitles = [
+    "1단계: 정밀 상태 진단",
+    "2단계: 불량재 제거 & 연삭",
+    "3단계: 접착 프라이머 도포",
+    "4단계: 기밀 충진 & 탑코트"
+  ];
+
+  const dynamicSteps = targetService?.processDesc ? targetService.processDesc.map((desc, idx) => ({
+    num: String(idx + 1).padStart(2, "0"),
+    name: stepTitles[idx] || `공정 0${idx + 1}`,
+    desc
+  })) : defaultSteps;
+
+  const steps = isDynamic ? dynamicSteps : defaultSteps;
 
   return (
     <section id="process" className="py-16 sm:py-24 bg-zinc-50 border-b border-zinc-100 px-5 sm:px-6 lg:px-0">
@@ -324,7 +342,7 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
         </div>
 
         {/* 반응형 통합 과정 레이아웃 (HTML 1회 출력, CSS 제어) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 relative items-stretch">
+        <div className={`grid grid-cols-1 ${steps.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"} gap-6 lg:gap-8 relative items-stretch`}>
           {steps.map((st, i) => (
             <div key={i} className="p-5 sm:p-6 bg-white border border-zinc-150 rounded-2xl relative shadow-sm flex flex-col justify-between min-h-[110px] lg:min-h-[160px]">
               <div>
@@ -341,7 +359,7 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
               </div>
               
               {/* 단계 간 수평 점선 연결 흐름 (lg 이상에서만 노출) */}
-              {i < 2 && (
+              {i < steps.length - 1 && (
                 <div className="hidden lg:block absolute -right-6 top-1/2 -translate-y-1/2 z-10 w-4 border-t border-dashed border-zinc-300" />
               )}
             </div>

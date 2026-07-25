@@ -60,6 +60,7 @@ export interface ServiceData {
 
 export interface RegionData {
   name: string;
+  keywordName?: string;
   alias?: string[];
   subRegions?: RegionData[];
 }

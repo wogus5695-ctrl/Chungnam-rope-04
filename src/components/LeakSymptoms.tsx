@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
+import { services } from "@/data/services";
 
 interface LeakSymptomsProps {
   dynamicRegionName?: string;
@@ -39,50 +40,10 @@ export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: 
   ];
 
   const hasDynamicList = !!(dynamicRegionName && dynamicServiceName);
+  const targetServiceData = dynamicServiceName ? services.find(s => s.name === dynamicServiceName) : null;
 
-  // 콘텐츠 그룹 분기 조건에 의한 카드 데이터 매핑
-  const isCockingGroup = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(dynamicServiceName || "");
-  
-  const dynamicSymptoms = isCockingGroup 
-    ? [
-        {
-          title: "실리콘 표면 갈라짐",
-          desc: "외부 실리콘이 굳고 갈라져 접합부 틈이 드러나는 상태"
-        },
-        {
-          title: "접합부 들뜸",
-          desc: "실리콘이 창틀이나 외벽 면에서 분리되어 틈이 생긴 상태"
-        },
-        {
-          title: "기존 코킹 박리",
-          desc: "오래된 코킹이 부스러지거나 일부가 떨어져 기밀성이 저하된 상태"
-        },
-        {
-          title: "창틀 주변 미세 틈",
-          desc: "샷시 프레임과 외벽 접합부 사이에 미세한 틈이 확인되는 상태"
-        }
-      ]
-    : [
-        {
-          title: "창틀 틈새 빗물 유입",
-          desc: "비바람이 칠 때 창틀 하단이나 모서리에서 물이 고이거나 흘러내리는 증상"
-        },
-        {
-          title: "벽지·몰딩 변색",
-          desc: "창문 주변 벽지가 눅눅해지거나 몰딩을 따라 얼룩과 들뜸이 생기는 증상"
-        },
-        {
-          title: "반복되는 습기 흔적",
-          desc: "비가 그치면 마르지만 강우 시 같은 위치가 다시 젖는 증상"
-        },
-        {
-          title: "외벽 균열 누수",
-          desc: "외벽 균열 주변에서 비가 올 때마다 실내 물자국과 습기가 반복되는 증상"
-        }
-      ];
-
-  const displaySymptoms = hasDynamicList
-    ? dynamicSymptoms.map((s, idx) => ({ ...s, image: symptomImages[idx] || symptomImages[0] })) 
+  const displaySymptoms = targetServiceData?.symptomObjects && targetServiceData.symptomObjects.length > 0
+    ? targetServiceData.symptomObjects.map((s, idx) => ({ ...s, image: symptomImages[idx % symptomImages.length] }))
     : defaultSymptoms;
 
   return (

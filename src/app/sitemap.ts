@@ -26,8 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const canonicalLinks: string[] = [];
   flatRegions.forEach((r) => {
     services.forEach((s) => {
-      // canonicalKey 예시: "배방읍-창틀코킹"
-      canonicalLinks.push(`${baseUrl}/?k=${r.name}-${s.name}`);
+      // canonicalKey 예시: "태안-남면-옥상방수", "부여-남면-옥상방수", "배방읍-창틀코킹"
+      canonicalLinks.push(`${baseUrl}/?k=${r.keywordName}-${s.name}`);
     });
   });
 

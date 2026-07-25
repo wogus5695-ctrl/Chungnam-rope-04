@@ -1,4 +1,6 @@
 import { parseKeyword, getFlatRegions, getFAQList } from "@/lib/keyword";
+import { getRegionEnvType, getEnvHeroSubtitle, getEnvCheckPoint, sortRelativeServices } from "@/lib/regionEnv";
+import RegionalEnvSection from "@/components/RegionalEnvSection";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import React from "react";
@@ -75,7 +77,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     };
   }
 
-  const regionName = parsed.region.name;
+  const regionName = parsed.region.displayName;
   const serviceName = parsed.service.name;
 
   const targetService = services.find(s => s.name === serviceName);
@@ -168,13 +170,15 @@ export default async function Home({ searchParams }: PageProps) {
   }
 
   // 5. 정상 canonical 키워드인 경우: 동적 랜딩 렌더링
-  const regionName = parsed.region.name;
+  const regionName = parsed.region.displayName;
   const serviceName = parsed.service.name;
   // 세부 정규 콘텐츠 데이터 확보
   const serviceData = services.find(s => s.name === serviceName)!;
+  // 지역 환경 유형 산출 (상위 시군 상속)
+  const envType = getRegionEnvType(parsed.region.rootParentName, regionName);
 
-  // 구조화 데이터 생성
-  const faqListForJsonLd = getFAQList(serviceData.faqs, regionName, serviceName);
+  // 구조화 데이터 생성 (환경 유형 FAQ #5 반영)
+  const faqListForJsonLd = getFAQList(serviceData.faqs, regionName, serviceName, envType);
   const jsonLd = getJsonLd("landing", {
     regionName,
     serviceName,
@@ -189,11 +193,11 @@ export default async function Home({ searchParams }: PageProps) {
   
   // 동일한 시·군(또는 구) 내의 타 읍면동만 필터링 (최대 6개)
   const adjacentRegions = allFlatRegions
-    .filter(r => r.name !== regionName && r.rootParentName === currentFlatRegion.rootParentName)
+    .filter(r => r.keywordName !== currentFlatRegion.keywordName && r.rootParentName === currentFlatRegion.rootParentName)
     .slice(0, 6);
 
-  // 현재 서비스를 제외한 5종 서비스 목록
-  const relativeServices = services.filter(s => s.name !== serviceName).slice(0, 5);
+  // 환경 유형에 맞춰 정렬된 관련 서비스 5종 목록
+  const relativeServices = sortRelativeServices(services, serviceName, envType);
 
   return (
     <div className="pb-16 md:pb-0 min-h-screen flex flex-col">
@@ -432,6 +436,13 @@ export default async function Home({ searchParams }: PageProps) {
       {/* 동적 키워드별 세부 상세 레이아웃 섹션 구성 */}
       <main className="flex-grow bg-white">
         
+        {/* 지역 환경 특성 안내 섹션 */}
+        <RegionalEnvSection 
+          regionName={regionName} 
+          serviceName={serviceName} 
+          envType={envType} 
+        />
+
         {/* 3. 해당 서비스의 대표 증상 카드 (메인과 동일한 카드 UI 공통화) */}
         <LeakSymptoms 
           dynamicRegionName={regionName} 
@@ -445,7 +456,7 @@ export default async function Home({ searchParams }: PageProps) {
         />
 
         {/* 6. 관련 서비스 안내 및 관련 서비스 */}
-        <ServiceSection activeServiceName={serviceName} regionName={regionName} />
+        <ServiceSection activeServiceName={serviceName} regionName={regionName} regionKeywordName={parsed.region.keywordName} />
 
         {/* 7. 실제 작업 사례 */}
         <WorkCasesSection regionName={regionName} serviceName={serviceName} />
@@ -468,10 +479,10 @@ export default async function Home({ searchParams }: PageProps) {
                       {adjacentRegions.map((ar, idx) => (
                         <Link
                           key={idx}
-                          href={`/?k=${ar.name}-${serviceName}`}
+                          href={`/?k=${ar.keywordName}-${serviceName}`}
                           className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
                         >
-                          {ar.name} {serviceName}
+                          {ar.displayName} {serviceName}
                         </Link>
                       ))}
                     </div>
@@ -484,7 +495,7 @@ export default async function Home({ searchParams }: PageProps) {
                     {relativeServices.map((rs, idx) => (
                       <Link
                         key={idx}
-                        href={`/?k=${regionName}-${rs.name}`}
+                        href={`/?k=${parsed.region.keywordName}-${rs.name}`}
                         className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
                       >
                         {regionName} {rs.name}
@@ -499,7 +510,7 @@ export default async function Home({ searchParams }: PageProps) {
 
         {/* 11. FAQ 및 12. 최종 상담 CTA */}
         <FAQSection 
-          customFaqs={serviceData.faqs} 
+          customFaqs={faqListForJsonLd} 
           dynamicRegionName={regionName} 
           dynamicServiceName={serviceName} 
         />

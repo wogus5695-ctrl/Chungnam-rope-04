@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { services } from "@/data/services";
 
 interface LeakPathProps {
   dynamicRegionName?: string;
@@ -47,36 +48,12 @@ export default function LeakPath({ dynamicRegionName, dynamicServiceName }: Leak
   ];
 
   const hasDynamicList = !!(dynamicRegionName && dynamicServiceName);
-
-  // 코킹/실리콘 계열 vs 누수 계열 4단계 분기 정의
   const isCockingGroup = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(dynamicServiceName || "");
-  
-  const dynamicPaths = isCockingGroup
-    ? [
-        {
-          step: "01",
-          name: "실리콘 노후화",
-          desc: "햇빛과 온도 변화로 실리콘이 굳고 갈라집니다."
-        },
-        {
-          step: "02",
-          name: "접합부 들뜸",
-          desc: "실리콘이 창틀이나 외벽에서 떨어져 틈이 생깁니다."
-        },
-        {
-          step: "03",
-          name: "틈새 빗물 유입",
-          desc: "비바람을 받은 빗물이 벌어진 접합부로 스며듭니다."
-        },
-        {
-          step: "04",
-          name: "누수 흔적 발생",
-          desc: "창틀 주변의 물자국과 습기, 변색으로 나타납니다."
-        }
-      ]
-    : defaultPaths;
+  const targetServiceData = dynamicServiceName ? services.find(s => s.name === dynamicServiceName) : null;
 
-  const displayPaths = hasDynamicList ? dynamicPaths : defaultPaths;
+  const displayPaths = targetServiceData?.pathSteps && targetServiceData.pathSteps.length > 0
+    ? targetServiceData.pathSteps
+    : defaultPaths;
 
   const imageAlt = hasDynamicList
     ? `${dynamicRegionName} ${dynamicServiceName} 원인과 누수 유입 경로를 설명하는 현장 이미지`

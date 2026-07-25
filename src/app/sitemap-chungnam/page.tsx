@@ -48,8 +48,8 @@ export default function SitemapChungnamPage() {
   flatRegions.forEach(r => {
     services.forEach(s => {
       canonicalLinks.push({
-        key: `${r.name}-${s.name}`,
-        regionName: r.name,
+        key: `${r.keywordName}-${s.name}`,
+        regionName: r.displayName,
         serviceName: s.name,
         fullName: `${r.fullName} ${s.name}`
       });
@@ -155,11 +155,11 @@ export default function SitemapChungnamPage() {
                           return (
                             <div key={sfIdx} className="pl-4 border-l border-zinc-200 space-y-2">
                               <span className="text-sm font-bold text-zinc-700">
-                                {districtPrefix}{sf.name}
+                                {districtPrefix}{sf.displayName}
                               </span>
                               <div className="grid grid-cols-2 gap-1.5">
                                 {services.map((s, sIdx) => {
-                                  const kParam = `${sf.name}-${s.name}`;
+                                  const kParam = `${sf.keywordName}-${s.name}`;
                                   return (
                                     <Link
                                       key={sIdx}
