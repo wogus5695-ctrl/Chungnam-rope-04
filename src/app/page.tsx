@@ -166,7 +166,10 @@ export default async function Home({ searchParams }: PageProps) {
 
   // 4. Alias인 경우 Canonical 주소로 308 영구 리디렉션
   if (parsed.isAlias) {
-    redirect(`/?k=${parsed.canonicalKey}`);
+    const params = new URLSearchParams({
+      k: parsed.canonicalKey,
+    });
+    redirect(`/?${params.toString()}`);
   }
 
   // 5. 정상 canonical 키워드인 경우: 동적 랜딩 렌더링
