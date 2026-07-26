@@ -1,4 +1,4 @@
-import { parseKeyword, getFlatRegions, getFAQList } from "@/lib/keyword";
+import { parseKeyword, getFlatRegions, getFAQList, getHeroImageAlt } from "@/lib/keyword";
 import { getRegionEnvType, getEnvHeroSubtitle, getEnvCheckPoint, sortRelativeServices } from "@/lib/regionEnv";
 import RegionalEnvSection from "@/components/RegionalEnvSection";
 import { redirect, notFound } from "next/navigation";
@@ -127,6 +127,7 @@ export default async function Home({ searchParams }: PageProps) {
         <Header />
         <Hero 
           imageSrc={siteConfig.MAIN_HERO_IMAGE} 
+          imageAlt={getHeroImageAlt()}
           badge="충남 전 지역 빗물누수·창틀코킹 대응" 
           title={
             <>
@@ -432,6 +433,7 @@ export default async function Home({ searchParams }: PageProps) {
             showBulletPoints={true}
             bulletPoints={dynamicBulletPoints}
             imageSrc={siteConfig.MAIN_HERO_IMAGE}
+            imageAlt={getHeroImageAlt(regionName, serviceName)}
           />
         );
       })()}

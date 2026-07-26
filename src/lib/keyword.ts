@@ -176,3 +176,37 @@ export function getFAQList(
 
   return displayFaqs;
 }
+
+export function getHeroImageAlt(regionName?: string, serviceName?: string): string {
+  if (!regionName || !serviceName) {
+    return "충청남도 외벽과 창틀 누수 부위를 점검하는 레인가드 작업자";
+  }
+
+  switch (serviceName) {
+    case "창틀코킹":
+      return `${regionName} 창틀 외부 코킹 상태를 확인하는 작업 모습`;
+    case "창틀누수":
+      return `${regionName} 창틀 주변 빗물 유입 부위를 점검하는 모습`;
+    case "빗물누수":
+      return `${regionName} 외부 빗물 유입 경로를 점검하는 레인가드 작업자`;
+    case "창틀실리콘":
+      return `${regionName} 창틀 실리콘 갈라짐과 접합부를 점검하는 모습`;
+    case "샷시실리콘":
+      return `${regionName} 샷시 프레임과 외벽 접합부를 확인하는 작업 모습`;
+    case "외벽누수":
+      return `${regionName} 건물 외벽 균열과 누수 가능 부위를 점검하는 모습`;
+    case "외벽방수":
+      return `${regionName} 외벽 균열과 접합부 방수 상태를 확인하는 작업 모습`;
+    case "옥상방수":
+      return `${regionName} 옥상 바닥과 방수층 상태를 점검하는 작업 모습`;
+    case "건물방수":
+      return `${regionName} 건물 외벽과 방수 취약 부위를 종합 점검하는 모습`;
+    case "지붕방수":
+      return `${regionName} 판넬 지붕 이음부와 고정부를 점검하는 작업 모습`;
+    case "우레탄방수":
+      return `${regionName} 옥상 바탕면과 우레탄 방수층 상태를 확인하는 모습`;
+    default:
+      return `${regionName} ${serviceName} 작업 부위를 점검하는 레인가드 작업 모습`;
+  }
+}
+

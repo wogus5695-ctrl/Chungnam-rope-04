@@ -9,9 +9,13 @@ interface HeroProps {
   showBulletPoints?: boolean;
   bulletPoints?: string[];
   imageSrc?: string;
+  imageAlt?: string;
 }
 
-export default function Hero({ badge, title, subtitle, showBulletPoints = true, bulletPoints, imageSrc }: HeroProps) {
+export default function Hero({ badge, title, subtitle, showBulletPoints = true, bulletPoints, imageSrc, imageAlt }: HeroProps) {
+  const defaultAlt = "충청남도 외벽과 창틀 누수 부위를 점검하는 레인가드 작업자";
+  const finalAlt = imageAlt && imageAlt.trim() ? imageAlt : defaultAlt;
+
   return (
     <section className="relative hero-gradient overflow-hidden px-5 sm:px-6 lg:px-0 pt-[72px] pb-[60px] sm:py-24 lg:py-0 lg:h-[640px] lg:min-h-[580px] flex items-center border-b border-zinc-100 w-full min-h-auto">
       {imageSrc ? (
@@ -20,7 +24,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           <div className="absolute inset-0 z-0">
             <Image
               src={imageSrc}
-              alt=""
+              alt={finalAlt}
               fill
               priority
               sizes="100vw"
