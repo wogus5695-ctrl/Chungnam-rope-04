@@ -535,101 +535,68 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
           onBlur={() => setIsPaused(false)}
         >
           
-          {/* 1. 모바일 뷰: 전·후 자동 슬라이더 (lg:hidden) */}
-          <div className="block lg:hidden relative">
+          {/* 단일 DOM 기반 반응형 사례 이미지 섹션 (모바일 슬라이더 / PC 2열 그리드 통합) */}
+          <div className="space-y-4">
             <div 
-              className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200 bg-black"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 relative"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
-              {/* 전 슬라이드 (fade 효과 전환) */}
-              <div 
-                className={`absolute inset-0 transition-opacity duration-[400ms] ${
-                  slideIdx === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
-              >
-                <span className="absolute left-3 top-3 px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md z-20">
+              {/* 전 상태 카드 (단일 DOM Tag 1) */}
+              <div className={`space-y-2 ${slideIdx === 0 ? "block" : "hidden lg:block"}`}>
+                <span className="inline-block px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md">
                   {isLocationVerified ? "작업 전" : "점검 전 상태 예시"}
                 </span>
-                <img
-                  src={activeCase.beforeImage}
-                  alt={activeCase.beforeAlt}
-                  className="w-full h-full object-cover object-center"
-                />
+                <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200 bg-black relative">
+                  <img
+                    src={activeCase.beforeImage}
+                    alt={activeCase.beforeAlt}
+                    className="w-full h-full object-cover object-center"
+                    loading="lazy"
+                  />
+                </div>
               </div>
 
-              {/* 후 슬라이드 (fade 효과 전환) */}
-              <div 
-                className={`absolute inset-0 transition-opacity duration-[400ms] ${
-                  slideIdx === 1 ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
-              >
-                <span className="absolute left-3 top-3 px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md z-20">
+              {/* 후 상태 카드 (단일 DOM Tag 2) */}
+              <div className={`space-y-2 ${slideIdx === 1 ? "block" : "hidden lg:block"}`}>
+                <span className="inline-block px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md">
                   {isLocationVerified ? "작업 후" : "보수 마감 예시"}
                 </span>
-                <img
-                  src={activeCase.afterImage}
-                  alt={activeCase.afterAlt}
-                  className="w-full h-full object-cover object-center"
-                />
+                <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200 bg-black relative">
+                  <img
+                    src={activeCase.afterImage}
+                    alt={activeCase.afterAlt}
+                    className="w-full h-full object-cover object-center"
+                    loading="lazy"
+                  />
+                </div>
               </div>
+            </div>
 
-              {/* 이전, 다음 버튼 */}
+            {/* 모바일 전용 이전/다음 컨트롤러 & 인디케이터 (lg:hidden) */}
+            <div className="flex lg:hidden justify-between items-center pt-1">
               <button 
                 type="button"
                 onClick={handlePrev}
                 aria-label="이전 상태 보기"
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                className="px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-brand-accent"
               >
-                &larr;
+                &larr; 이전
               </button>
+              <div className="flex items-center gap-1.5">
+                <span className={`w-2 h-2 rounded-full transition-all ${slideIdx === 0 ? "bg-brand-accent scale-110" : "bg-zinc-300"}`} />
+                <span className={`w-2 h-2 rounded-full transition-all ${slideIdx === 1 ? "bg-brand-accent scale-110" : "bg-zinc-300"}`} />
+                <span className="text-[12px] text-zinc-400 font-extrabold ml-1">{slideIdx === 0 ? "1 / 2 (작업 전)" : "2 / 2 (작업 후)"}</span>
+              </div>
               <button 
                 type="button"
                 onClick={handleNext}
                 aria-label="다음 상태 보기"
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 z-30 p-2 bg-black/40 hover:bg-black/60 text-white rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                className="px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-brand-accent"
               >
-                &rarr;
+                다음 &rarr;
               </button>
-            </div>
-
-            {/* 인디케이터 (1 / 2 표시) */}
-            <div className="flex justify-center items-center gap-1.5 mt-3">
-              <span className={`w-2 h-2 rounded-full transition-all ${slideIdx === 0 ? "bg-brand-accent scale-110" : "bg-zinc-300"}`} />
-              <span className={`w-2 h-2 rounded-full transition-all ${slideIdx === 1 ? "bg-brand-accent scale-110" : "bg-zinc-300"}`} />
-              <span className="text-[12px] text-zinc-400 font-extrabold ml-1">{slideIdx === 0 ? "1 / 2" : "2 / 2"}</span>
-            </div>
-          </div>
-
-          {/* 2. PC 뷰: 작업 전 / 작업 후 이미지 2열 구성 (hidden lg:grid) */}
-          <div className="hidden lg:grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <span className="inline-block px-2.5 py-1 bg-red-50 text-red-600 text-xs font-black rounded-md">
-                {isLocationVerified ? "작업 전" : "점검 전 상태 예시"}
-              </span>
-              <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
-                <img
-                  src={activeCase.beforeImage}
-                  alt={activeCase.beforeAlt}
-                  className="w-full h-full object-cover object-center"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <span className="inline-block px-2.5 py-1 bg-blue-50 text-brand-accent text-xs font-black rounded-md">
-                {isLocationVerified ? "작업 후" : "보수 마감 예시"}
-              </span>
-              <div className="aspect-[4/3] rounded-xl overflow-hidden border border-zinc-200">
-                <img
-                  src={activeCase.afterImage}
-                  alt={activeCase.afterAlt}
-                  className="w-full h-full object-cover object-center"
-                  loading="lazy"
-                />
-              </div>
             </div>
           </div>
 
