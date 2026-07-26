@@ -178,8 +178,8 @@ export default async function Home({ searchParams }: PageProps) {
   const serviceName = parsed.service.name;
   // 세부 정규 콘텐츠 데이터 확보
   const serviceData = services.find(s => s.name === serviceName)!;
-  // 지역 환경 유형 산출 (상위 시군 상속)
-  const envType = getRegionEnvType(parsed.region.rootParentName, regionName);
+  // 지역 환경 유형 산출 (상위 시군/구 상속)
+  const envType = getRegionEnvType(parsed.region.rootParentName, regionName, parsed.region.parentName);
 
   // 구조화 데이터 생성 (환경 유형 FAQ #5 반영)
   const faqListForJsonLd = getFAQList(serviceData.faqs, regionName, serviceName, envType);

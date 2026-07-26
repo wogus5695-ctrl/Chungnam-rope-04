@@ -24,7 +24,15 @@ export function getFlatRegions(): FlatRegion[] {
     const fullName = currentPath.join(" ");
 
     const currentRoot = rootParentName || node.name;
-    const isMatchTarget = node.name.endsWith("읍") || node.name.endsWith("면") || node.name.endsWith("동") || node.name.endsWith("시") || node.name.endsWith("군");
+    const isMatchTarget =
+      node.name.endsWith("읍") ||
+      node.name.endsWith("면") ||
+      node.name.endsWith("동") ||
+      node.name.endsWith("시") ||
+      node.name.endsWith("군") ||
+      node.name.endsWith("구") ||
+      node.name === "대전" ||
+      node.name === "세종";
     
     if (isMatchTarget) {
       const keywordName = node.keywordName || node.name;

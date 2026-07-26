@@ -60,7 +60,13 @@ export interface ServiceData {
 
 export interface RegionData {
   name: string;
+  displayName?: string;
   keywordName?: string;
+  parentRegion?: string;
+  regionGroup?: "chungnam" | "daejeon" | "sejong";
+  regionType?: "city" | "district" | "eup" | "myeon" | "dong";
   alias?: string[];
+  enabled?: boolean;
+  indexable?: boolean;
   subRegions?: RegionData[];
 }

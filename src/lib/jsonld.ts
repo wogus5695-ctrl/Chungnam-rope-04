@@ -90,7 +90,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "충남 지역별 서비스",
+          "name": "충남·대전·세종 지역별 서비스",
           "item": "https://www.cnrainguard.co.kr/sitemap-chungnam"
         }
       ]
