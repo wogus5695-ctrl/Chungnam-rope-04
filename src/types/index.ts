@@ -1,7 +1,12 @@
 export interface SiteConfig {
   brandName: string;
   branchName: string;
+  phoneDisplay: string;
+  phoneHref: string;
   phonePlaceholder: string;
+  ownerName: string;
+  companyName: string;
+  businessNumber: string;
   kakaoUrlPlaceholder: string;
   defaultTitle: string;
   defaultDescription: string;

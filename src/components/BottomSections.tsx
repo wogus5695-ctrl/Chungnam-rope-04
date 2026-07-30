@@ -654,7 +654,7 @@ export function RegionSection() {
 
           <div className="text-center flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
             <a
-              href={`tel:${siteConfig.phonePlaceholder}`}
+              href={siteConfig.phoneHref}
               className="w-full sm:w-[200px] h-[52px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-[15px] font-extrabold rounded-xl shadow-md shadow-brand-accent/10 transition-all text-center"
             >
               전화로 지역 상담
@@ -810,7 +810,7 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
         {/* CTA 버튼 세트 */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 lg:gap-[15px] w-full max-w-md lg:mx-auto mb-3.5 lg:mb-[16px]">
           <a
-            href={`tel:${siteConfig.phonePlaceholder}`}
+            href={siteConfig.phoneHref}
             className="w-full sm:w-[200px] h-[54px] lg:h-[56px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-md transition-all text-center"
           >
             전화로 증상 상담
@@ -860,19 +860,19 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-zinc-600 border-t border-zinc-900/50">
           <p>&copy; {new Date().getFullYear()} {siteConfig.brandName}. All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-            <span>사업자 명: <strong className="text-zinc-400 font-semibold">김재현</strong></span>
+            <span>사업자 명: <strong className="text-zinc-400 font-semibold">{siteConfig.ownerName}</strong></span>
             <span>&bull;</span>
-            <span>상호명: <strong className="text-zinc-400 font-semibold">올케어 서비스</strong></span>
+            <span>상호명: <strong className="text-zinc-400 font-semibold">{siteConfig.companyName}</strong></span>
             <span>&bull;</span>
-            <span>사업자 번호: <strong className="text-zinc-400 font-semibold">405-15-02677</strong></span>
+            <span>사업자 번호: <strong className="text-zinc-400 font-semibold">{siteConfig.businessNumber}</strong></span>
             <span>&bull;</span>
             <span>
               연락처:{" "}
               <a 
-                href={`tel:${siteConfig.phonePlaceholder}`}
+                href={siteConfig.phoneHref}
                 className="text-brand-accent hover:underline font-extrabold hover:text-brand-accent-hover transition-colors"
               >
-                {siteConfig.phonePlaceholder}
+                {siteConfig.phoneDisplay}
               </a>
             </span>
           </div>
@@ -889,7 +889,7 @@ export function InteractiveCTA() {
       {/* 모바일 하단 고정 CTA */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 grid grid-cols-2 border-t border-zinc-200/50 bg-white/95 backdrop-blur-md">
         <a
-          href={`tel:${siteConfig.phonePlaceholder}`}
+          href={siteConfig.phoneHref}
           className="flex justify-center items-center py-4 bg-brand-accent text-white font-black text-sm transition-colors text-center"
         >
           📞 전화 문의
@@ -907,7 +907,7 @@ export function InteractiveCTA() {
       {/* PC 우하단 미니 플로팅 CTA */}
       <div className="hidden md:flex fixed bottom-8 right-8 z-40 flex-col gap-3">
         <a
-          href={`tel:${siteConfig.phonePlaceholder}`}
+          href={siteConfig.phoneHref}
           className="flex items-center gap-2 px-5 py-3.5 bg-brand-accent hover:bg-brand-accent-hover text-white font-extrabold rounded-full shadow-lg shadow-brand-accent/20 transition-all hover:-translate-y-0.5 text-sm"
         >
           <span className="text-base">📞</span>

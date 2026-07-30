@@ -95,7 +95,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           {/* CTA 버튼 그룹 */}
           <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-[16px] w-full sm:w-auto">
             <a
-              href={`tel:${siteConfig.phonePlaceholder}`}
+              href={siteConfig.phoneHref}
               className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base lg:text-[17px] font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
             >
               전화 문의

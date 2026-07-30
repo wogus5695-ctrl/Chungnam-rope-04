@@ -43,7 +43,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
     "image": imageObject,
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": siteConfig.phonePlaceholder,
+      "telephone": siteConfig.phoneDisplay,
       "contactType": "customer service"
     }
   };
@@ -135,7 +135,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
         "@type": "LocalBusiness",
         "name": siteConfig.branchName,
         "image": siteConfig.SEARCH_THUMBNAIL_URL,
-        "telephone": siteConfig.phonePlaceholder,
+        "telephone": siteConfig.phoneDisplay,
         "address": {
           "@type": "PostalAddress",
           "addressRegion": "충청남도",

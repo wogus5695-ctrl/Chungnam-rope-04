@@ -42,7 +42,7 @@ export default function Header() {
           {/* 데스크톱 CTA */}
           <div className="hidden md:flex items-center gap-3">
             <a
-              href={`tel:${siteConfig.phonePlaceholder}`}
+              href={siteConfig.phoneHref}
               className="px-4 py-2 text-xs font-bold text-white bg-brand-accent hover:bg-brand-accent-hover rounded-full transition-all shadow-md shadow-brand-accent/20"
             >
               전화 문의
@@ -110,7 +110,7 @@ export default function Header() {
           </a>
           <div className="pt-4 flex flex-col gap-2">
             <a
-              href={`tel:${siteConfig.phonePlaceholder}`}
+              href={siteConfig.phoneHref}
               className="flex justify-center items-center py-3 bg-brand-accent hover:bg-brand-accent-hover text-white font-bold rounded-lg transition-colors text-sm"
             >
               전화 상담원 연결

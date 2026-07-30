@@ -118,7 +118,7 @@ export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: 
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-4 w-full lg:w-auto">
             <a
-              href={`tel:${siteConfig.phonePlaceholder}`}
+              href={siteConfig.phoneHref}
               className="w-full sm:w-[180px] h-[52px] lg:h-[54px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-[15px] lg:text-[16px] font-extrabold rounded-xl shadow-md shadow-brand-accent/10 transition-all text-center"
             >
               전화로 증상 상담
