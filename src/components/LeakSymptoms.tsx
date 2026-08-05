@@ -91,6 +91,7 @@ export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: 
                   src={s.image}
                   alt={s.title}
                   fill
+                  loading="lazy"
                   sizes="(max-w-768px) 35vw, 25vw"
                   style={{ objectFit: "cover" }}
                   className="group-hover:scale-105 transition-transform duration-300"

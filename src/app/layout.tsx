@@ -45,7 +45,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="scroll-smooth">
+      <head>
+        <link rel="image_src" href={siteConfig.SEARCH_THUMBNAIL_URL} />
+      </head>
       <body className="antialiased min-h-screen flex flex-col">
+        {/* 네이버 크롤러용 1순위 대표 정적 이미지 (레이아웃 비침습적 처리) */}
+        <img
+          src={siteConfig.SEARCH_THUMBNAIL_URL}
+          alt={siteConfig.SEARCH_THUMBNAIL_ALT}
+          width={siteConfig.SEARCH_THUMBNAIL_WIDTH}
+          height={siteConfig.SEARCH_THUMBNAIL_HEIGHT}
+          className="sr-only pointer-events-none"
+        />
         {children}
       </body>
     </html>
