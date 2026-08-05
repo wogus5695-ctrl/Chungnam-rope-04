@@ -10,7 +10,6 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import LeakSymptoms from "@/components/LeakSymptoms";
 import LeakPath from "@/components/LeakPath";
-import SeoThumbnailCard from "@/components/SeoThumbnailCard";
 import { Metadata } from "next";
 import { getJsonLd } from "@/lib/jsonld";
 import {
@@ -143,7 +142,6 @@ export default async function Home({ searchParams }: PageProps) {
           }
         />
         <main className="flex-grow">
-          <SeoThumbnailCard alt="충청남도 빗물누수와 외벽·옥상방수 작업을 안내하는 레인가드" />
           <LeakSymptoms />
           <LeakPath />
           <ServiceSection />
@@ -443,8 +441,6 @@ export default async function Home({ searchParams }: PageProps) {
       {/* 동적 키워드별 세부 상세 레이아웃 섹션 구성 */}
       <main className="flex-grow bg-white">
         
-        <SeoThumbnailCard alt={`${regionName} ${serviceName} 작업을 안내하는 충남 레인가드`} />
-
         {/* 지역 환경 특성 안내 섹션 */}
         <RegionalEnvSection 
           regionName={regionName} 
