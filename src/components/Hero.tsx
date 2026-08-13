@@ -98,7 +98,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               href={siteConfig.phoneHref}
               className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base lg:text-[17px] font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
             >
-              전화 문의
+              전화로 증상 상담
             </a>
             <a
               href={siteConfig.kakaoUrlPlaceholder}
@@ -106,7 +106,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               rel="noopener noreferrer"
               className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-base lg:text-[17px] font-extrabold rounded-xl transition-all text-center"
             >
-              카카오톡 문의
+              사진 보내 상담
             </a>
           </div>
         </div>

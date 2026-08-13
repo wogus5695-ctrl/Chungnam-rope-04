@@ -11,22 +11,22 @@ export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: 
   const defaultSymptoms = [
     {
       title: "창틀 틈새 빗물 유입",
-      desc: "비바람이 칠 때 창틀 하단이나 모서리에서 물이 고이거나 흘러내리는 증상",
+      desc: "비바람이 칠 때 창틀 아래나 모서리로 물이 고입니다.",
       image: "/images/symptoms/symptom-1.jpg"
     },
     {
       title: "벽지·몰딩 변색",
-      desc: "창문 주변 벽지가 눅눅해지거나 몰딩을 따라 얼룩과 들뜸이 생기는 증상",
+      desc: "천장·몰딩 주변이 누렇게 변하고 벽지가 눅눅해집니다.",
       image: "/images/symptoms/symptom-2.jpg"
     },
     {
       title: "실리콘 갈라짐·들뜸",
-      desc: "외부 실리콘이 갈라지거나 창틀 접합부에서 떨어져 틈이 보이는 상태",
+      desc: "외부 실리콘이 갈라지거나 틈이 생겨 떨어져 있습니다.",
       image: "/images/symptoms/symptom-3.jpg"
     },
     {
       title: "외벽 균열 누수",
-      desc: "외벽 균열 주변에서 비가 올 때마다 실내 물자국과 습기가 반복되는 증상",
+      desc: "비 온 뒤 외벽 안쪽으로 습기와 물자국이 번집니다.",
       image: "/images/symptoms/symptom-4.jpg"
     }
   ];
@@ -111,10 +111,10 @@ export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: 
         <div className="mt-9 sm:mt-[36px] lg:mt-[48px] pt-8 lg:pt-[36px] border-t border-zinc-100 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="max-w-2xl text-left">
             <h4 className="text-[18px] sm:text-xl lg:text-[22px] font-black text-brand-primary tracking-tight mb-2">
-              위 증상 중 하나라도 비가 올 때 반복되나요?
+              위 증상이 비 올 때 반복되나요?
             </h4>
             <p className="text-[14px] sm:text-base lg:text-[16px] text-zinc-500 font-semibold leading-relaxed">
-              보이는 물자국만으로 시공 범위를 단정하지 않고, 발생 위치와 외부 마감 상태부터 확인합니다.
+              물자국 위치와 비가 샐 때의 상황을 알려주시면 우선 확인할 부위를 안내합니다.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-4 w-full lg:w-auto">
@@ -130,7 +130,7 @@ export default function LeakSymptoms({ dynamicRegionName, dynamicServiceName }: 
               rel="noopener noreferrer"
               className="w-full sm:w-[180px] h-[52px] lg:h-[54px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-[15px] lg:text-[16px] font-extrabold rounded-xl transition-all text-center"
             >
-              사진으로 상태 문의
+              사진 보내 상담
             </a>
           </div>
         </div>

@@ -20,17 +20,17 @@ export default function RegionalEnvSection({ regionName, serviceName, envType }:
           <div className="space-y-2 max-w-3xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-blue-100 text-brand-accent">
               <span>📍</span>
-              <span>{regionName} 지역 환경 특성 점검 ({envType})</span>
+              <span>{regionName} 건물에서 먼저 보는 곳</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-brand-primary tracking-tight">
-              {regionName} 현장 환경을 고려한 {serviceName} 점검 안내
+              {regionName} 현장 환경을 고려한 {serviceName} 점검
             </h3>
             <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium">
               {desc}
             </p>
           </div>
           <div className="w-full md:w-auto bg-zinc-50 border border-zinc-200/80 rounded-xl p-4 flex-shrink-0">
-            <span className="block text-xs font-bold text-brand-accent uppercase tracking-wider mb-1">우선 확인 포인트</span>
+            <span className="block text-xs font-bold text-brand-accent uppercase tracking-wider mb-1">우선 확인</span>
             <p className="text-xs sm:text-sm font-bold text-zinc-800 break-keep">{checkPoint}</p>
           </div>
         </div>

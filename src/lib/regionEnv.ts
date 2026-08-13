@@ -122,52 +122,51 @@ export function getLevelSuffix(regionName: string): string {
 }
 
 export function getEnvDescription(envType: RegionEnvType, regionName: string, serviceName: string): string {
-  const lvlSuffix = getLevelSuffix(regionName);
   switch (envType) {
     case "해안형":
-      return `${regionName}(${lvlSuffix}) 지역은 해안과 인접하여 강한 외부 비바람 및 습기에 노출될 가능성이 있습니다. 건물 외벽 마감재 접합부와 지붕·창호 테두리의 이격 상태를 우선적으로 함께 점검하는 것이 유리합니다.`;
+      return `${regionName} 현장은 강한 해풍과 습기 노출이 잦아 외벽 마감재 접합부와 창호 테두리 틈새를 함께 확인합니다.`;
     case "도심 공동주택형":
-      return `${regionName}(${lvlSuffix}) 도심 공동주택 및 상가 건물 환경에서는 고층 창호 실리콘 들뜸과 옥상 난간 파라펫, 우수 배수관 테두리 조인을 우선적으로 점검하는 편이 유리합니다. 전문 로프 접근 및 공용 공간 보양 조건에 맞춰 안전하게 작업 범위를 산정합니다.`;
+      return `${regionName} 아파트·상가는 고층 창호 실리콘 들뜸과 옥상 난간, 외벽 접합부부터 우선 점검합니다.`;
     case "산업시설형":
-      return `${regionName}(${lvlSuffix}) 산업 및 물류 환경에서는 공장·창고 건물 판넬 지붕의 고정 피스 와셔 부식, 용마루 이음새 틈, 대형 창호 조인트의 유격을 꼼꼼하게 확인할 필요가 있습니다.`;
+      return `${regionName} 공장·창고 건물은 판넬 지붕 고정 피스 와셔 부식과 용마루 이음새 틈을 꼼꼼히 확인합니다.`;
     case "농촌·저층형":
-      return `${regionName}(${lvlSuffix}) 저층 주택 및 일반 건물 환경에서는 노후 방수층 부풀음과 지붕·외벽 이음새 상태를 확인하여 전면 재시공 대신 알맞은 부분 보수를 검토할 수 있습니다.`;
+      return `${regionName} 저층 주택·건물은 노후 방수층 부풀음과 지붕·외벽 이음새를 확인해 부분 보수를 검토합니다.`;
     case "도심·산업 복합형":
-      return `${regionName}(${lvlSuffix}) 도심 및 산업시설 복합 환경에서는 공장·창고·상가가 혼재된 건물의 판넬 지붕 용마루 이음부, 피스·와셔 고정부, 외벽 판넬 조인트를 우선적으로 점검합니다. 넓은 작업 면적과 구조체 거동 특성에 맞춰 정밀 보수를 안내합니다.`;
+      return `${regionName} 상가·공장 복합 현장은 판넬 지붕 용마루 이음부와 고정 피스 틈새를 우선 점검합니다.`;
     case "해안·산업 복합형":
-      return `${regionName}(${lvlSuffix}) 해안 및 산업 복합 환경에서는 비바람 영향과 판넬/금속 지붕 구조체의 신축 거동 특성을 감안해 용마루 틈새와 볼트 패킹, 이음새 조인트를 점검해야 합니다.`;
+      return `${regionName} 해안 산업 현장은 비바람 수압과 금속 지붕 구조체의 이음새 조인트를 우선 점검합니다.`;
     case "일반 도심·저층형":
-      return `${regionName}(${lvlSuffix}) 원도심 및 저층 상가·주택 혼재 환경에서는 노후 외벽 균열과 기존 방수층 이격을 우선 점검합니다. 건물 구조와 노화 정도에 따라 전면 공사 대신 꼭 필요한 부위 위주의 알맞은 부분 보수 범위를 구별합니다.`;
+      return `${regionName} 원도심 저층 상가·주택은 노후 외벽 균열과 실리콘 이격 부위 위주로 점검합니다.`;
     case "신도시 공동주택형":
-      return `${regionName}(${lvlSuffix}) 신도시 공동주택 및 업무시설 환경에서는 고층 창호 접합부, 옥상 구조물 기초, 파라펫 난간 및 배수구 테두리를 우선적으로 점검합니다. 단지 내 공용부 작업 조건과 로프 접근 여건을 종합 고려합니다.`;
+      return `${regionName} 신도시 아파트·오피스텔은 고층 창호 접합부와 옥상 난간 및 배수구 테두리를 점검합니다.`;
     case "읍·면 저층 혼합형":
-      return `${regionName}(${lvlSuffix}) 읍·면 저층 건물 및 소규모 사업장 환경에서는 단독주택, 저층 상가, 창고의 노후 지붕 이음새와 기존 방수층 상태를 점검합니다. 현장 조건에 맞춰 불필요한 공사를 피하고 부분 보수 가능 범위를 안내합니다.`;
+      return `${regionName} 읍·면 저층 건물은 지붕 이음새와 기존 방수층 상태를 확인해 알맞은 보수 범위를 안내합니다.`;
     case "일반 혼합형":
     default:
-      return `${regionName}(${lvlSuffix}) 현장의 건물 위치, 층수, 외벽 마감재 및 지붕 구조적 특징을 종합적으로 고려하여 현장 상태에 최적화된 방수 및 코킹 점검 범위를 안내합니다.`;
+      return `${regionName} 현장 환경과 건물 구조적 특징을 고려하여 필요한 방수·코킹 점검 범위를 안내합니다.`;
   }
 }
 
 export function getEnvHeroSubtitle(envType: RegionEnvType, baseSubtitle: string): string {
   switch (envType) {
     case "해안형":
-      return `${baseSubtitle} 해안 비바람 및 외부 습기 노출 조건까지 다각도로 고려하여 보수 범위를 조율합니다.`;
+      return `${baseSubtitle} 강한 해풍과 외부 습기 노출 조건까지 함께 고려해 점검합니다.`;
     case "도심 공동주택형":
-      return `${baseSubtitle} 공동주택·상가의 고층 창호 및 옥상 파라펫 접근 조건을 고려해 점검합니다.`;
+      return `${baseSubtitle} 아파트·상가의 고층 창호 및 옥상 파라펫 접근 조건을 고려해 점검합니다.`;
     case "산업시설형":
-      return `${baseSubtitle} 공장·창고 대형 판넬 및 피스 고정부의 작업 면적 여건에 맞춰 시공합니다.`;
+      return `${baseSubtitle} 공장·창고 대형 판넬 및 피스 고정부의 작업 여건에 맞춰 시공합니다.`;
     case "농촌·저층형":
-      return `${baseSubtitle} 단독주택 및 저층 건물의 노후 방수층을 확인해 불필요한 공사를 피하고 부분 보수를 정립합니다.`;
+      return `${baseSubtitle} 저층 건물의 노후 방수층을 확인해 불필요한 공사를 피하고 부분 보수를 안내합니다.`;
     case "도심·산업 복합형":
-      return `${baseSubtitle} 공장·창고 및 사업장의 대형 판넬 지붕·외벽 이음새와 피스 고정부 조건을 검토합니다.`;
+      return `${baseSubtitle} 공장·상가의 대형 판넬 지붕·외벽 이음새와 피스 고정부를 검토합니다.`;
     case "해안·산업 복합형":
-      return `${baseSubtitle} 해풍 영향과 판넬/금속 건물 이음부 수축 거동을 고려하여 기밀 보강을 실시합니다.`;
+      return `${baseSubtitle} 해풍 영향과 판넬 건물 이음부 수축 거동을 고려하여 기밀 보강을 실시합니다.`;
     case "일반 도심·저층형":
-      return `${baseSubtitle} 원도심 주택 및 저층 상가의 노후 외벽과 기존 방수층 상태를 확인해 부분 보수를 정립합니다.`;
+      return `${baseSubtitle} 원도심 주택·상가의 노후 외벽과 방수층 상태를 확인해 부분 보수를 안내합니다.`;
     case "신도시 공동주택형":
-      return `${baseSubtitle} 신도시 공동주택·업무시설의 고층 창호 및 옥상 구조물 공용부 작업을 고려해 점검합니다.`;
+      return `${baseSubtitle} 신도시 아파트·업무시설의 고층 창호 및 옥상 파라펫 점검 조건을 고려합니다.`;
     case "읍·면 저층 혼합형":
-      return `${baseSubtitle} 읍·면 단독주택 및 저층 상가의 노후 지붕·방수층을 확인해 부분 보수 범위를 정립합니다.`;
+      return `${baseSubtitle} 읍·면 저층 건물의 노후 지붕·방수층을 확인해 알맞은 부분 보수를 안내합니다.`;
     case "일반 혼합형":
     default:
       return baseSubtitle;
@@ -177,26 +176,26 @@ export function getEnvHeroSubtitle(envType: RegionEnvType, baseSubtitle: string)
 export function getEnvCheckPoint(envType: RegionEnvType): string {
   switch (envType) {
     case "해안형":
-      return "외부 비바람 및 강풍 수압 노출 위치와 금속/창호 접합부 씰링 밀착 상태";
+      return "창틀 접합부 · 외벽 균열 · 지붕 이음새";
     case "도심 공동주택형":
-      return "아파트/상가 고층 로프 접근성, 옥상 파라펫 옹벽 손상 및 공용 공간 보양 여건";
+      return "창틀 접합부 · 외벽 균열 · 옥상 난간";
     case "산업시설형":
-      return "대형 판넬 지붕/외벽 겹침 조인트 길이 및 피스 와셔 방수 캡 충진 수량";
+      return "판넬 용마루 · 피스 볼트 캡 · 외벽 조인트";
     case "농촌·저층형":
-      return "저층 건물 바탕면 노후 방수층 절개 범위 및 국소 부분 보수 적용성";
+      return "옥상 슬래브 · 지붕 이음새 · 노후 방수층";
     case "도심·산업 복합형":
-      return "판넬 지붕/외벽 겹침 조인트, 고정 피스·와셔 방수 캡 및 대형 작업 면적 구배";
+      return "판넬 용마루 · 피스 와셔 · 외벽 조인트";
     case "해안·산업 복합형":
-      return "해풍 저항형 내후성 하이브리드 시트 및 피스 볼트 패킹 보강 범위";
+      return "금속 지붕 조인트 · 피스 볼트 패킹 · 창호 테두리";
     case "일반 도심·저층형":
-      return "원도심 저층 상가·주택 외벽 균열 및 기존 방수층 들뜸, 국소 부분 보수 적용 가능성";
+      return "외벽 균열 · 창틀 실리콘 · 옥상 슬래브";
     case "신도시 공동주택형":
-      return "신도시 공동주택 고층 창호 접합부, 옥상 구조물 기초, 파라펫 난간 및 공용부 작업 조건";
+      return "고층 창호 실리콘 · 옥상 파라펫 · 배수구 테두리";
     case "읍·면 저층 혼합형":
-      return "읍·면 단독주택/저층 상가 지붕 이음새, 노후 방수층 바닥 및 부분 보수 가능 범위";
+      return "저층 지붕 이음새 · 노후 방수층 · 창틀 접합부";
     case "일반 혼합형":
     default:
-      return "건물 층수, 작업 면적, 로프 접근성 및 기존 마감재 노후 손상도";
+      return "창틀 실리콘 · 외벽 균열 · 옥상 방수층";
   }
 }
 
