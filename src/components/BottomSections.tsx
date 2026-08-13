@@ -185,7 +185,7 @@ export function ServiceSection({ activeServiceName, regionName, regionKeywordNam
     },
     "우레탄방수": {
       desc: "우레탄 3회 시공에 따른 연삭 면처리 상태 및 균열 조인트 보강 상태를 점검합니다.",
-      symptom: "시멘트 바닥 모래화 및 기존 방수층 박리 부품",
+      symptom: "시멘트 바닥 모래화 및 기존 방수층 박리 부위",
       target: "콘크리트 함수율, 바닥 팽창 조인트, 배수 플랜지",
       scope: "연삭 면처리 범위 및 하도·중도·상도 도막층 두께"
     }
@@ -760,24 +760,11 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
 
   // 2. H2 타이틀
   const h2Text = isDynamic
-    ? `${regionName} ${activeServiceName}, 증상이 반복되면 먼저 상담하세요`
-    : "비 올 때 반복되는 누수, 원인부터 확인하세요";
+    ? `${regionName} ${activeServiceName},\n더 번지기 전에 확인하세요`
+    : "비 올 때마다 반복된다면\n더 번지기 전에 확인하세요";
 
-  // 3. 설명문 분기 처리
-  let descText = "물자국 위치와 발생 시점을 알려주시면 점검이 필요한 부위와 상담 절차를 안내합니다.";
-  
-  if (isDynamic) {
-    const isLeakType = ["빗물누수", "창틀누수", "외벽누수"].includes(activeServiceName);
-    const isCockingType = ["창틀코킹", "창틀실리콘", "샷시실리콘"].includes(activeServiceName);
-
-    if (isLeakType) {
-      descText = "물자국 위치와 비가 올 때 나타나는 증상을 알려주시면 외벽·창틀 중 확인이 필요한 범위를 안내합니다.";
-    } else if (isCockingType) {
-      descText = "갈라짐과 들뜸 상태를 사진으로 보내주시면 기존 코킹 확인과 시공 상담 절차를 안내합니다.";
-    } else {
-      descText = "현재 증상과 외부 마감 상태를 알려주시면 확인이 필요한 부위와 상담 절차를 안내합니다.";
-    }
-  }
+  // 3. 설명문
+  const descText = "물자국 위치와 사진을 보내주시면 먼저 확인할 부위를 안내합니다.";
 
   return (
     <section className="py-[62px] lg:py-[82px] text-white relative overflow-hidden px-[18px] sm:px-6 lg:px-0 pb-[80px] md:pb-[62px] bg-cover bg-center" style={{ backgroundImage: "url('/images/cta-bg.jpg')" }}>
@@ -794,7 +781,7 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
         </span>
 
         {/* H2 타이틀 */}
-        <h2 className="text-[29px] sm:text-3xl lg:text-[44px] font-black tracking-tight lg:tracking-[-0.03em] leading-[1.28] lg:leading-[1.22] whitespace-pre-line keep-all break-keep max-w-[750px] mb-[18px] lg:mb-[24px]">
+        <h2 className="text-[28px] sm:text-3xl lg:text-[44px] font-black tracking-tight lg:tracking-[-0.03em] leading-[1.28] lg:leading-[1.22] whitespace-pre-line keep-all break-keep max-w-[750px] mb-[18px] lg:mb-[24px]">
           {h2Text}
         </h2>
 
@@ -809,7 +796,7 @@ export function FinalCTA({ activeServiceName, regionName }: FinalCTAProps) {
             href={siteConfig.phoneHref}
             className="w-full sm:w-[200px] h-[54px] lg:h-[56px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base font-extrabold rounded-xl shadow-md transition-all text-center"
           >
-            전화로 증상 상담
+            전화로 바로 상담
           </a>
           <a
             href={siteConfig.kakaoUrlPlaceholder}

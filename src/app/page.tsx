@@ -441,16 +441,16 @@ export default async function Home({ searchParams }: PageProps) {
         <ProcessSection activeServiceName={serviceName} />
 
         {/* 10. 인접 지역 및 관련 서비스 교차 추천 */}
-        <section className="py-16 sm:py-24 bg-white border-b border-zinc-100">
+        <section className="py-12 sm:py-20 bg-white border-b border-zinc-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="p-6 border border-zinc-100 rounded-2xl bg-zinc-50 space-y-6">
+            <div className="p-5 sm:p-6 border border-zinc-100 rounded-2xl bg-zinc-50 space-y-5">
               <h3 className="text-base sm:text-lg font-bold text-brand-primary">
                 {regionName} 및 {currentFlatRegion.rootParentName} 서비스 바로가기
               </h3>
               <div className="space-y-4">
                 {adjacentRegions.length > 0 && (
                   <div>
-                    <span className="block text-xs font-bold text-zinc-400 mb-2">{currentFlatRegion.rootParentName}의 다른 서비스 지역 ({serviceName})</span>
+                    <span className="block text-xs font-bold text-zinc-400 mb-2">{currentFlatRegion.rootParentName} 다른 지역</span>
                     <div className="flex flex-wrap gap-2">
                       {adjacentRegions.map((ar, idx) => (
                         <Link
@@ -458,7 +458,7 @@ export default async function Home({ searchParams }: PageProps) {
                           href={`/?k=${ar.keywordName}-${serviceName}`}
                           className="px-3 py-1.5 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-brand-primary text-xs font-semibold rounded-lg border transition-colors"
                         >
-                          {ar.displayName} {serviceName}
+                          {ar.canonicalName} {serviceName}
                         </Link>
                       ))}
                     </div>
@@ -466,7 +466,7 @@ export default async function Home({ searchParams }: PageProps) {
                 )}
 
                 <div>
-                  <span className="block text-xs font-bold text-zinc-400 mb-2">{regionName}의 다른 누수·코킹 서비스</span>
+                  <span className="block text-xs font-bold text-zinc-400 mb-2">{regionName} 관련 작업</span>
                   <div className="flex flex-wrap gap-2">
                     {relativeServices.map((rs, idx) => (
                       <Link

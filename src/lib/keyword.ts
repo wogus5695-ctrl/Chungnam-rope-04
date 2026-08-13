@@ -151,13 +151,12 @@ export function getFAQList(
   envType?: RegionEnvType
 ) {
   const defaultFaqs = [
-    { q: "창틀 누수가 일어나는 가장 주요한 원인은 무엇인가요?", a: "기본적으로 오랜 시간 자외선 및 기온 변화에 노출되며 마감 코킹이 노후화되어 갈라지는 현상과 함께, 주변 외벽 콘크리트에 생긴 미세한 거미줄형 균열로 빗물이 침입하는 것이 주요인입니다." },
-    { q: "기존 실리콘을 제거하지 않고 그 위에 덧방(덧칠) 시공을 하나요?", a: "기존 실리콘의 접착 상태와 손상 범위에 따라 전면 제거, 부분 제거 또는 보강 범위를 구분합니다. 접착력이 상실된 노후 부위를 방치하고 덧칠하면 다시 누수가 발생할 수 있으므로 현장 상태에 맞추어 보수 범위를 결정하는 것이 중요합니다." },
-    { q: "비가 오지 않는 화창한 날씨에도 누수 점검이 가능한가요?", a: "네, 가능합니다. 비가 오지 않을 때 외벽 균열 상태와 기존 실리콘의 노화 들뜸 정도를 훨씬 정밀하게 육안으로 파악하고 손으로 만져볼 수 있기 때문에 화창한 날 점검 및 진단을 받고 보수를 선점하시는 편이 현명합니다." }
+    { q: "창틀 누수의 주요 원인은 무엇인가요?", a: "시간이 지나면서 실리콘 코킹이 노후되어 갈라지고, 외벽 미세 균열로 빗물이 침투하는 것이 주요 원인입니다." },
+    { q: "기존 실리콘을 제거하지 않고 덧방 시공을 하나요?", a: "기존 코킹의 접착 상태와 손상 범위에 따라 철거 여부를 결정합니다. 접착력이 풀린 부위에 덧칠을 하면 재누수가 발생할 수 있으므로 상태에 맞게 보수합니다." },
+    { q: "비가 오지 않는 화창한 날에도 점검이 가능한가요?", a: "네, 화창한 날씨에 외벽 균열과 실리콘 노후 상태를 더 정밀하게 확인할 수 있어 사전 점검 및 시공을 권장합니다." }
   ];
 
-  const hasDynamic = !!(dynamicRegionName && dynamicServiceName);
-  let baseFaqs = customFaqs && customFaqs.length > 0 ? customFaqs.map(f => ({ ...f })) : [...defaultFaqs];
+  const baseFaqs = customFaqs && customFaqs.length > 0 ? customFaqs.map(f => ({ ...f })) : [...defaultFaqs];
 
   if (envType && envType !== "일반 혼합형") {
     const envFaq = getEnvFAQItem(envType);
@@ -168,19 +167,29 @@ export function getFAQList(
     }
   }
 
-  let displayFaqs = baseFaqs.slice(0, 5);
-
-  if (hasDynamic && displayFaqs.length > 0) {
-    displayFaqs = displayFaqs.map((item, idx) => {
-      if (idx === 0) {
-        return {
-          q: item.q,
-          a: `${dynamicRegionName} ${dynamicServiceName} 현장 점검 시에는 건물의 외부 마감과 빗물 유입 경로를 함께 확인합니다. ${item.a}`
-        };
-      }
-      return item;
-    });
-  }
+  // FAQ 5개 유지 및 질문 단축 (의미 유지)
+  const displayFaqs = baseFaqs.slice(0, 5).map(item => {
+    let q = item.q;
+    if (q.includes("가장 주요한 원인은")) q = "창틀 누수의 주요 원인은 무엇인가요?";
+    else if (q.includes("기존 실리콘을 왜 긁어내고")) q = "기존 실리콘을 철거하고 시공해야 하나요?";
+    else if (q.includes("덧방(기존 실리콘 위에 덧칠) 시공을 하면 안 되나요")) q = "기존 실리콘 위에 덧칠해도 되나요?";
+    else if (q.includes("일반 실리콘과 다른가요")) q = "창틀 전용 실리콘은 일반 제품과 다른가요?";
+    else if (q.includes("소음이나 먼지가 많이 발생하나요")) q = "작업 시 먼지나 소음이 많이 나나요?";
+    else if (q.includes("빗물 차단 효과는 얼마나 유지되나요")) q = "보수 후 얼마나 유지되나요?";
+    else if (q.includes("특정 창가에서만 물이 스며드는 이유")) q = "특정 창문에서만 비가 새는 이유는?";
+    else if (q.includes("벽지가 젖어 들어가는데 즉시 공사해야 하나요")) q = "벽지가 젖으면 바로 공사해야 하나요?";
+    else if (q.includes("윗집 누수로 인해서 우리 집 창틀에")) q = "윗세대 틈으로도 빗물이 들어오나요?";
+    else if (q.includes("가구나 바닥 오염을 방지해 주시나요")) q = "실내 가구 오염 방지 보양을 해주나요?";
+    else if (q.includes("수분 측정기를 사용하나요")) q = "누수 점검 시 수분 측정기를 사용하나요?";
+    else if (q.includes("태풍이나 강풍이 불 때만 비가 새고")) q = "강풍이 불 때만 비가 새는 이유는?";
+    else if (q.includes("윗세대의 외부 틈을 타고 흘러내리는")) q = "윗세대 틈으로도 빗물이 들어오나요?";
+    else if (q.includes("비가 내리는 중에도 빗물 누수 보수 작업이")) q = "비 오는 날에도 보수할 수 있나요?";
+    else if (q.includes("얼마 동안 수압 저항력이 지속되나요")) q = "보수 후 얼마나 유지되나요?";
+    else if (q.includes("외벽 로프 조사를 병행하나요")) q = "고층 외벽도 로프 조사를 진행하나요?";
+    else if (q.includes("입주민이나 공용 공간에 피해는 없나요")) q = "고층 작업 시 입주민에 영향이 있나요?";
+    else if (q.includes("부분 보수만 할 수도 있나요")) q = "전체 공사 없이 부분 보수만 가능한가요?";
+    return { q, a: item.a };
+  });
 
   return displayFaqs;
 }
