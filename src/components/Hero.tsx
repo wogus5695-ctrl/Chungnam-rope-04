@@ -76,14 +76,13 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </div>
  
           {showBulletPoints && (
-            <ul className={`space-y-2 lg:space-y-[12px] text-[14px] sm:text-base font-semibold max-w-full mx-0 mb-6 sm:mb-8 lg:mb-[36px] ${imageSrc ? 'text-zinc-400' : 'text-zinc-500'}`}>
+            <ul className={`space-y-2 lg:space-y-[12px] text-[14px] sm:text-base font-bold max-w-full mx-0 mb-6 sm:mb-7 lg:mb-[32px] ${imageSrc ? 'text-zinc-200' : 'text-zinc-700'}`}>
               {(bulletPoints || [
-                "외벽·창틀 누수 유입 경로 정밀 점검",
-                "노후 실리콘 손상 상태 확인",
-                "구조와 원인에 맞는 보수 범위 안내"
+                "물이 들어오는 위치 확인",
+                "필요한 보수 범위 안내"
               ]).map((text, idx) => (
                 <li key={idx} className="flex items-center gap-2 lg:gap-[10px]">
-                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                   <span className="break-keep">{text}</span>
@@ -91,9 +90,9 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               ))}
             </ul>
           )}
- 
+
           {/* CTA 버튼 그룹 */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-[16px] w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-[16px] w-full sm:w-auto mt-1 sm:mt-2">
             <a
               href={siteConfig.phoneHref}
               className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-brand-accent hover:bg-brand-accent-hover text-white text-base lg:text-[17px] font-extrabold rounded-xl shadow-lg shadow-brand-accent/20 transition-all text-center"
@@ -106,7 +105,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
               rel="noopener noreferrer"
               className="w-full sm:w-[200px] h-[54px] sm:h-[56px] lg:h-[58px] flex items-center justify-center bg-[#fee500] hover:bg-[#fdd835] text-black text-base lg:text-[17px] font-extrabold rounded-xl transition-all text-center"
             >
-              사진 보내 상담
+              카카오톡 상담하기
             </a>
           </div>
         </div>

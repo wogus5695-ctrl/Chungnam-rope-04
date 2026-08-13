@@ -58,11 +58,11 @@ export default function LeakPath({ dynamicRegionName, dynamicServiceName }: Leak
             {hasDynamicList ? (
               isCockingGroup ? (
                 <>
-                  {dynamicRegionName} {dynamicServiceName}, 노후와 들뜸이 시작된 부위부터 확인합니다
+                  {dynamicRegionName} {dynamicServiceName},<br className="sm:hidden" /> 노후와 들뜸이 시작된 부위부터 확인합니다
                 </>
               ) : (
                 <>
-                  {dynamicRegionName} {dynamicServiceName}, <span className="text-brand-accent">물이 들어온 지점</span>부터 확인합니다
+                  {dynamicRegionName} {dynamicServiceName},<br className="sm:hidden" /> <span className="text-brand-accent">물이 들어오는 곳부터 찾습니다</span>
                 </>
               )
             ) : (
@@ -104,15 +104,15 @@ export default function LeakPath({ dynamicRegionName, dynamicServiceName }: Leak
           </div>
 
           {/* 4단계 목록 영역 (모바일 하단 2x2 그리드, 데스크톱 우측 40% 세로 정렬) */}
-          <div className="w-full lg:w-[40%] bg-white p-4 sm:p-5 lg:p-0 flex flex-col justify-between">
+          <div className="w-full lg:w-[40%] bg-white p-3.5 sm:p-5 lg:p-0 flex flex-col justify-between">
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3 lg:gap-0 lg:divide-y lg:divide-zinc-100 h-full">
               {displayPaths.map((p, idx) => (
-                <div key={idx} className="flex flex-col justify-center p-3.5 sm:p-4 lg:px-8 xl:px-[36px] lg:py-4 bg-zinc-50/50 lg:bg-white border lg:border-none border-zinc-150 rounded-[12px] lg:rounded-none h-[125px] sm:h-[135px] lg:h-auto lg:flex-1 text-left">
-                  <div className="flex items-center gap-3 mb-0.5 sm:mb-1">
-                    <span className="text-[11px] lg:text-xs font-bold text-brand-accent/80 lg:text-brand-accent/70 tracking-wider">STEP {p.step}</span>
+                <div key={idx} className="flex flex-col justify-start p-3 sm:p-4 lg:px-8 xl:px-[36px] lg:py-4 bg-zinc-50/50 lg:bg-white border lg:border-none border-zinc-150 rounded-[12px] lg:rounded-none lg:flex-1 text-left min-h-[110px] sm:min-h-[125px] lg:min-h-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[11px] lg:text-xs font-extrabold text-brand-accent tracking-wider">STEP {p.step}</span>
                   </div>
-                  <h3 className="text-[15px] sm:text-[16px] lg:text-[19px] xl:text-[21px] font-[800] text-zinc-900 mb-1 leading-tight lg:leading-snug line-clamp-1">{p.name}</h3>
-                  <div className="text-[13px] lg:text-[14px] xl:text-[15px] text-zinc-500 leading-normal line-clamp-2 lg:line-clamp-none">{p.desc}</div>
+                  <h3 className="text-[14px] sm:text-[16px] lg:text-[19px] xl:text-[21px] font-[800] text-zinc-900 mb-1 leading-tight sm:leading-snug break-keep">{p.name}</h3>
+                  <div className="text-[12px] sm:text-[13px] lg:text-[14px] xl:text-[15px] text-zinc-600 leading-snug sm:leading-normal font-medium break-keep">{p.desc}</div>
                 </div>
               ))}
             </div>

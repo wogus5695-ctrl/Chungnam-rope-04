@@ -875,7 +875,7 @@ export function InteractiveCTA() {
           href={siteConfig.phoneHref}
           className="flex justify-center items-center py-4 bg-brand-accent text-white font-black text-sm transition-colors text-center"
         >
-          📞 전화 문의
+          📞 전화 상담
         </a>
         <a
           href={siteConfig.kakaoUrlPlaceholder}
