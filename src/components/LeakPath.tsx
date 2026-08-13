@@ -11,39 +11,23 @@ export default function LeakPath({ dynamicRegionName, dynamicServiceName }: Leak
   const defaultPaths = [
     {
       step: "01",
-      name: "틈과 균열 발생",
-      desc: (
-        <>
-          노후 실리콘과 외벽 마감에 <span className="text-brand-accent font-bold">미세한 틈</span>이 생깁니다.
-        </>
-      )
+      name: "비바람 방향 확인",
+      desc: "비가 불어오는 방향과 외부 실리콘·외벽 틈새 상태를 확인합니다."
     },
     {
       step: "02",
-      name: "빗물 침투",
-      desc: (
-        <>
-          비바람을 받은 빗물이 <span className="text-brand-accent font-bold">틈을 통해 내부로 스며듭니다</span>.
-        </>
-      )
+      name: "외벽 균열 점검",
+      desc: "외벽 콘크리트 균열이나 줄눈 모래화 틈을 점검합니다."
     },
     {
       step: "03",
-      name: "벽체 내부 이동",
-      desc: (
-        <>
-          들어온 물이 <span className="text-brand-accent font-bold">창틀과 벽체 내부</span>를 따라 이동합니다.
-        </>
-      )
+      name: "창틀 접합부 확인",
+      desc: "창틀 외부 실리콘 갈라짐과 샷시 틈새 유격을 확인합니다."
     },
     {
       step: "04",
-      name: "실내 흔적 발생",
-      desc: (
-        <>
-          벽지와 몰딩의 <span className="text-brand-accent font-bold">물자국이나 변색</span>으로 나타납니다.
-        </>
-      )
+      name: "실내 물자국 연결 확인",
+      desc: "들어온 빗물이 실내 벽지나 몰딩 물자국과 연결되는지 확인합니다."
     }
   ];
 

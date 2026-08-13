@@ -219,32 +219,28 @@ export function ServiceSection({ activeServiceName, regionName, regionKeywordNam
           </p>
         </div>
 
-        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (PC 컴팩트 3열 구조, 모바일 콤팩트 세로 목록 통합) */}
-        <div className="mb-8 lg:mb-[44px] p-5 lg:p-8 bg-zinc-50 border border-zinc-150 rounded-[16px] lg:rounded-[20px] shadow-sm space-y-4 lg:space-y-6">
+        {/* 1. 현재 선택된 작업명 대형 카드 상세 영역 (모바일/PC 공통 간결화 및 중복 제거) */}
+        <div className="mb-8 lg:mb-[44px] p-5 lg:p-7 bg-zinc-50 border border-zinc-150 rounded-[16px] lg:rounded-[20px] shadow-sm space-y-4">
           <div className="border-b border-zinc-200/80 pb-3 flex flex-col lg:flex-row lg:items-baseline lg:gap-4">
-            <h3 className="text-[22px] lg:text-[28px] font-[800] text-brand-primary leading-tight">{activeServiceName}</h3>
-            <p className="text-zinc-500 text-sm sm:text-base lg:text-[16px] mt-1 lg:mt-0 font-medium leading-relaxed">{activeDetail.desc}</p>
+            <h3 className="text-[22px] lg:text-[26px] font-[800] text-brand-primary leading-tight">{activeServiceName}</h3>
+            <p className="text-zinc-600 text-sm sm:text-base lg:text-[16px] mt-1 lg:mt-0 font-medium leading-relaxed">{activeDetail.desc}</p>
           </div>
 
-          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-3.5 lg:gap-6 text-sm lg:divide-x lg:divide-zinc-200">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-3.5 lg:gap-6 text-sm lg:divide-x lg:divide-zinc-200">
             <div>
-              <span className="block text-[12px] lg:text-[13px] font-bold text-zinc-400 mb-0.5 lg:mb-1.5 uppercase tracking-wider">주요 증상</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] line-clamp-2">{activeDetail.symptom}</p>
+              <span className="block text-[12px] lg:text-[13px] font-bold text-brand-accent mb-0.5 lg:mb-1 uppercase tracking-wider">주로 보는 곳</span>
+              <p className="text-zinc-800 leading-relaxed font-bold lg:text-[15px]">{activeDetail.target}</p>
             </div>
             <div className="lg:pl-6">
-              <span className="block text-[12px] lg:text-[13px] font-bold text-zinc-400 mb-0.5 lg:mb-1.5 uppercase tracking-wider">확인 부위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] line-clamp-2">{activeDetail.target}</p>
-            </div>
-            <div className="lg:pl-6">
-              <span className="block text-[12px] lg:text-[13px] font-bold text-zinc-400 mb-0.5 lg:mb-1.5 uppercase tracking-wider">안내 범위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold lg:text-[16px] line-clamp-2">{activeDetail.scope}</p>
+              <span className="block text-[12px] lg:text-[13px] font-bold text-brand-accent mb-0.5 lg:mb-1 uppercase tracking-wider">작업 방향</span>
+              <p className="text-zinc-800 leading-relaxed font-bold lg:text-[15px]">{activeDetail.scope}</p>
             </div>
           </div>
         </div>
 
         {/* 2. 함께 확인하면 좋은 관련 서비스 2종 링킹 영역 */}
-        <div className="space-y-5 lg:space-y-6">
-          <h4 className="text-[21px] lg:text-[20px] font-black text-brand-primary border-l-4 border-brand-accent pl-2.5 leading-[1.3]">
+        <div className="space-y-4 lg:space-y-5">
+          <h4 className="text-[19px] lg:text-[20px] font-black text-brand-primary border-l-4 border-brand-accent pl-2.5 leading-[1.3]">
             함께 확인하면 좋은 관련 서비스
           </h4>
           
@@ -255,15 +251,14 @@ export function ServiceSection({ activeServiceName, regionName, regionKeywordNam
                 <Link 
                   key={name} 
                   href={`/?k=${linkKey}-${name}`}
-                  className="p-4 lg:p-[24px] bg-white border border-zinc-150 rounded-[14px] lg:rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-row lg:flex-col justify-between items-center lg:items-stretch h-[92px] lg:h-full"
+                  className="p-4 lg:p-5 bg-white border border-zinc-150 rounded-[14px] lg:rounded-2xl hover:shadow-md hover:border-brand-accent/20 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 transition-all group flex flex-row justify-between items-center"
                 >
-                  <div className="text-left w-[82%] lg:w-auto">
-                    <h5 className="text-[17px] lg:text-[21px] font-[800] text-zinc-900 group-hover:text-brand-accent transition-colors mb-0.5 lg:mb-2 tracking-tight leading-tight">{name}</h5>
-                    <p className="text-[13px] lg:text-[15px] text-zinc-500 leading-relaxed line-clamp-1 lg:line-clamp-2">{meta.desc}</p>
+                  <div className="text-left pr-3">
+                    <h5 className="text-[16px] lg:text-[18px] font-bold text-zinc-900 group-hover:text-brand-accent transition-colors leading-tight mb-0.5">{name}</h5>
+                    <p className="text-[13px] lg:text-[14px] text-zinc-500 font-medium leading-normal line-clamp-1">{meta.desc}</p>
                   </div>
-                  <div className="text-[13px] lg:text-[14px] font-extrabold text-brand-accent flex items-center justify-end w-[18%] lg:w-auto lg:pt-3 lg:border-t lg:border-zinc-100 group-hover:underline">
-                    <span className="hidden lg:inline mr-1">{meta.linkText}</span>
-                    <span className="text-[18px] lg:text-sm leading-none">&rarr;</span>
+                  <div className="text-[14px] font-extrabold text-brand-accent flex items-center justify-end shrink-0 group-hover:underline">
+                    <span className="text-[18px] leading-none">&rarr;</span>
                   </div>
                 </Link>
               );
@@ -294,26 +289,31 @@ export function ProcessSection({ activeServiceName }: ProcessSectionProps) {
   const defaultSteps = [
     {
       num: "01",
-      name: "증상과 현장 확인",
-      desc: "물자국 위치와 발생 시점, 건물 구조와 외부 상태를 함께 확인합니다."
+      name: "누수 흔적 확인",
+      desc: "비가 샐 때 나타나는 위치와 방향을 확인합니다."
     },
     {
       num: "02",
-      name: "유입 가능 부위 점검",
-      desc: "외벽 균열, 창틀 접합부와 기존 실리콘 손상 여부를 살펴봅니다."
+      name: "유입 부위 점검",
+      desc: "외벽·창틀·접합부 상태를 점검합니다."
     },
     {
       num: "03",
-      name: "필요한 범위 보수",
-      desc: "확인된 원인을 기준으로 불필요한 범위를 제외하고 필요한 작업을 진행합니다."
+      name: "손상 부위 정리",
+      desc: "보수가 필요한 부분을 깨끗이 정리합니다."
+    },
+    {
+      num: "04",
+      name: "보수 및 마감",
+      desc: "필요한 부위를 기밀하게 충진·마감합니다."
     }
   ];
 
   const stepTitles = [
-    "1단계: 정밀 상태 진단",
-    "2단계: 불량재 제거 & 연삭",
-    "3단계: 접착 프라이머 도포",
-    "4단계: 기밀 충진 & 탑코트"
+    "01. 누수 흔적 확인",
+    "02. 유입 부위 점검",
+    "03. 손상 부위 정리",
+    "04. 보수 및 마감"
   ];
 
   const dynamicSteps = targetService?.processDesc ? targetService.processDesc.map((desc, idx) => ({
@@ -600,23 +600,19 @@ export function WorkCasesSection({ regionName, serviceName }: WorkCasesProps) {
             </div>
           </div>
 
-          {/* 작업 설명 정보 4열 바인딩 (수평 구분선 처리) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-sm pt-6 border-t border-zinc-200">
+          {/* 작업 설명 정보 3열 바인딩 (모바일 간결화 & PC 정돈) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 text-sm pt-5 border-t border-zinc-200">
             <div>
-              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">작업 전 상태</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.symptom}</p>
+              <span className="block text-[12px] font-bold text-brand-accent mb-1 uppercase tracking-wider">문제</span>
+              <p className="text-zinc-800 leading-relaxed font-bold text-[14px] lg:text-[15px]">{activeCase.symptom}</p>
             </div>
             <div>
-              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">확인 부위</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.inspectionPoint}</p>
+              <span className="block text-[12px] font-bold text-brand-accent mb-1 uppercase tracking-wider">확인</span>
+              <p className="text-zinc-800 leading-relaxed font-bold text-[14px] lg:text-[15px]">{activeCase.inspectionPoint}</p>
             </div>
             <div>
-              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">작업 내용</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.workPerformed}</p>
-            </div>
-            <div>
-              <span className="block text-[12px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider">작업 후 상태</span>
-              <p className="text-zinc-700 leading-relaxed font-semibold">{activeCase.afterState}</p>
+              <span className="block text-[12px] font-bold text-brand-accent mb-1 uppercase tracking-wider">작업</span>
+              <p className="text-zinc-800 leading-relaxed font-bold text-[14px] lg:text-[15px]">{activeCase.workPerformed}</p>
             </div>
           </div>
 
