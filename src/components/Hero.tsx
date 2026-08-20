@@ -34,9 +34,8 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
             {/* PC/태블릿 오버레이: 좌측 매우 어두움(90%) -> 중앙(65%) -> 우측(30%) 자연스러운 그라데이션 */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/92 via-[#0f172a]/65 to-[#0f172a]/30 hidden md:block" />
             
-            {/* 모바일 오버레이: 배경을 조금 더 연하게 투과되도록 조율 (기본 45% + 상단/좌측 영역 55% -> 35% 자연스러운 융합) */}
-            <div className="absolute inset-0 bg-[#0f172a]/45 md:hidden" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0f172a]/55 via-[#0f172a]/35 to-transparent md:hidden" />
+            {/* 모바일 오버레이: 좌측이 가장 어둡고 우측으로 갈수록 투명해지는 모바일 전용 가독성 개선 그라데이션 */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050c1c]/75 via-[#050c1c]/45 to-[#050c1c]/15 md:hidden" />
           </div>
         </>
       ) : (
@@ -47,7 +46,7 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
         />
       )}
       <div className="max-w-7xl mx-auto lg:px-8 relative z-10 w-full">
-        <div className="text-left max-w-3xl lg:max-w-[680px] flex flex-col items-start">
+        <div className="text-left max-w-3xl lg:max-w-[680px] flex flex-col items-start w-full md:w-auto">
           
           {/* 배지 태그 */}
           <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-4 sm:mb-6 lg:mb-[28px] max-w-full ${imageSrc ? 'bg-white/10 text-white' : 'bg-blue-50 text-brand-accent'}`}>
@@ -56,7 +55,10 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </div>
  
           {/* 메인 H1 타이틀 */}
-          <h1 className={`text-[30px] sm:text-[34px] md:text-[40px] lg:text-[46px] xl:text-[52px] font-black leading-[1.2] lg:leading-[1.14] tracking-tight mb-4 sm:mb-6 lg:mb-[26px] ${imageSrc ? 'text-white' : 'text-brand-primary'} keep-all break-keep overflow-wrap break-word`}>
+          <h1 
+            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.55)" }}
+            className={`text-[30px] sm:text-[34px] md:text-[40px] lg:text-[46px] xl:text-[52px] font-black leading-[1.2] lg:leading-[1.14] tracking-tight mb-4 sm:mb-6 lg:mb-[26px] ${imageSrc ? 'text-white' : 'text-brand-primary'} keep-all break-keep overflow-wrap break-word w-[92%] md:w-full`}
+          >
             {title || (
               <>
                 충청남도 빗물누수·창틀코킹,<br className="hidden sm:inline" />
@@ -66,7 +68,10 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </h1>
  
           {/* 보조 설명 문구 */}
-          <div className={`text-[15px] sm:text-base lg:text-[19px] leading-relaxed lg:leading-[1.7] font-medium mb-5 sm:mb-6 lg:mb-[24px] max-w-[650px] text-left ${imageSrc ? 'text-zinc-300' : 'text-zinc-600'} keep-all break-keep`}>
+          <div 
+            style={{ textShadow: "0 1px 2px rgba(0,0,0,0.45)" }}
+            className={`text-[15px] sm:text-base lg:text-[19px] leading-[1.6] font-medium mb-5 sm:mb-6 lg:mb-[24px] max-w-[650px] text-left ${imageSrc ? 'text-white' : 'text-zinc-600'} keep-all break-keep w-[90%] md:w-full`}
+          >
             {subtitle || (
               <>
                 빗물이 집안으로 스며드는 답답함을 명확히 해결합니다. <br className="hidden md:inline" />
@@ -76,7 +81,10 @@ export default function Hero({ badge, title, subtitle, showBulletPoints = true, 
           </div>
  
           {showBulletPoints && (
-            <ul className={`space-y-2 lg:space-y-[12px] text-[14px] sm:text-base font-bold max-w-full mx-0 mb-6 sm:mb-7 lg:mb-[32px] ${imageSrc ? 'text-zinc-200' : 'text-zinc-700'}`}>
+            <ul 
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.4)" }}
+              className={`space-y-2 lg:space-y-[12px] text-[14px] sm:text-base font-bold max-w-full mx-0 mb-[24px] sm:mb-7 lg:mb-[32px] ${imageSrc ? 'text-white' : 'text-zinc-700'} w-[90%] md:w-full`}
+            >
               {(bulletPoints || [
                 "물이 들어오는 위치 확인",
                 "필요한 보수 범위 안내"
