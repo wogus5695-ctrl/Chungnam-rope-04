@@ -61,6 +61,12 @@ export interface ServiceData {
   pathSteps: PathStep[];
   checkPoints: string[];
   caseObjects: CaseCard[];
+  seoCopy?: {
+    hook: string;
+    solution: string;
+    reassurance: string;
+    afterCare: string;
+  };
 }
 
 export interface RegionData {

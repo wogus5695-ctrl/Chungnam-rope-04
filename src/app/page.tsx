@@ -1,4 +1,4 @@
-import { parseKeyword, getFlatRegions, getFAQList, getHeroImageAlt } from "@/lib/keyword";
+import { parseKeyword, getFlatRegions, getFAQList, getHeroImageAlt, generateMetaDescription } from "@/lib/keyword";
 import { getRegionEnvType, getEnvHeroSubtitle, getEnvCheckPoint, sortRelativeServices } from "@/lib/regionEnv";
 import RegionalEnvSection from "@/components/RegionalEnvSection";
 import { redirect, notFound } from "next/navigation";
@@ -82,7 +82,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 
   const targetService = services.find(s => s.name === serviceName);
   const customDesc = targetService 
-    ? `${regionName} 지역 ${serviceName} 전문 진단. ${targetService.metaDescription}`
+    ? generateMetaDescription(targetService, regionName)
     : `${regionName} ${serviceName} 전문 레인가드 충남지점.`;
 
   const fullUrl = `https://www.cnrainguard.co.kr/?k=${parsed.canonicalKey}`;
@@ -305,38 +305,68 @@ export default async function Home({ searchParams }: PageProps) {
         // 설명문 요약 분기 (최대 2~3줄 간결화)
         let dynamicSubtitle = (
           <>
-            비가 올 때 반복된다면 외벽·창틀·접합부를 함께 확인해 실제 유입 가능성이 높은 곳부터 점검합니다.
+            비가 올 때 반복되는 빗물누수! 외벽·창틀 등 빗물에 노출된 부위를 확인해 필요한 방수·코킹 범위를 안내합니다.
           </>
         );
 
-        if (serviceName === "외벽방수") {
+        if (serviceName === "창틀코킹") {
           dynamicSubtitle = (
             <>
-              로프 작업으로 높은 외벽 균열과 창호 테두리를 정밀 확인하고 침투 방수 범위를 점검합니다.
+              갈라지고 들뜬 창틀 실리콘, 그대로 두어도 괜찮을까요? 노후된 외부 실리콘 상태와 프레임 접합부를 확인해 필요한 코킹 보수 범위를 안내합니다.
+            </>
+          );
+        } else if (serviceName === "창틀누수") {
+          dynamicSubtitle = (
+            <>
+              비만 오면 창틀 주변에 물자국이 생기나요? 창틀 상부와 측면, 실외 옹벽 조인트의 마감 상태를 확인해 필요한 보수 범위를 안내합니다.
+            </>
+          );
+        } else if (serviceName === "창틀실리콘") {
+          dynamicSubtitle = (
+            <>
+              갈라지고 떨어지는 창틀 실리콘, 비 오기 전에 확인해보세요. 노후화된 창틀 실리콘의 마모와 균열 상태를 정밀하게 확인하고 교체 범위를 제안합니다.
+            </>
+          );
+        } else if (serviceName === "샷시실리콘") {
+          dynamicSubtitle = (
+            <>
+              샷시 주변 실리콘이 들뜨거나 벌어져 있나요? 샤시 프레임 모서리와 콘크리트 외벽 접합부의 틈새 상태를 확인해 알맞은 완충 코킹 보강 범위를 안내합니다.
+            </>
+          );
+        } else if (serviceName === "외벽누수") {
+          dynamicSubtitle = (
+            <>
+              비 온 뒤 벽지 얼룩이나 습기가 더 심해지나요? 건물 외부 콘크리트 표면 크랙과 타일 줄눈의 탈락 상태를 점검하여 필요한 외벽 보수 범위를 안내합니다.
+            </>
+          );
+        } else if (serviceName === "외벽방수") {
+          dynamicSubtitle = (
+            <>
+              외벽 균열과 빗물 자국, 그냥 두어도 괜찮을까요? 외벽의 미세 균열 상태와 노후 줄눈 부위를 점검하여 필요한 탄성 방수 및 발수 시공 범위를 안내합니다.
             </>
           );
         } else if (serviceName === "옥상방수") {
           dynamicSubtitle = (
             <>
-              옥상 바닥 우레탄 들뜸과 난간 파라펫 콘크리트 균열을 체크해 방수 범위를 안내합니다.
+              비가 많이 오는 날이면 옥상 누수가 다시 걱정되시나요? 옥상 바닥 슬래브 상태와 난간 파라펫, 배수구 주변의 이격을 점검하여 알맞은 보수 범위를 안내합니다.
             </>
           );
         } else if (serviceName === "건물방수") {
           dynamicSubtitle = (
             <>
-              외벽·옥상·지붕·창틀을 함께 점검해 꼭 필요한 부위에 알맞은 방수 공법을 안내합니다.
+              물이 새는데 어디부터 보수해야 할지 막막하신가요? 건물의 옥상, 외벽, 창틀 등 빗물이 스며들 수 있는 주요 외부 부위를 종합 확인하여 맞춤 보수를 진행합니다.
             </>
           );
         } else if (serviceName === "지붕방수") {
           dynamicSubtitle = (
             <>
-              판넬 지붕 용마루 겹침부와 피스 볼트 틈새를 확인해 지붕 맞춤 보수를 안내합니다.
+              비만 오면 판넬 지붕에서 물이 떨어지나요? 조립식 판넬의 이음새 겹침 부위와 용마루 조인트, 고정 볼트 와셔 부식 상태를 점검해 지붕 보수 범위를 안내합니다.
             </>
           );
         } else if (serviceName === "우레탄방수") {
           dynamicSubtitle = (
             <>
-              기존 우레탄 들뜸 상태를 점검하고 하도·중도·상도 3회 공정에 맞춰 시공 범위를 안내합니다.
+              들뜨고 갈라진 옥상 우레탄, 덧바르기만 해도 괜찮을까요? 바닥 콘크리트 수분 상태와 기존 우레탄 도막의 밀착성을 확인하여 필요한 부분 보수 및 재시공 범위를 결정합니다.
             </>
           );
         }

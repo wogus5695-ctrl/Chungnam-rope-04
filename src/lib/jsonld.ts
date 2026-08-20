@@ -1,4 +1,6 @@
 import { siteConfig } from "@/config/site";
+import { services } from "@/data/services";
+import { generateMetaDescription } from "@/lib/keyword";
 
 interface LandingJsonLdData {
   regionName: string;
@@ -127,6 +129,11 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
       ]
     };
 
+    const matchedServiceObj = services.find(s => s.name === serviceName);
+    const seoDescription = matchedServiceObj 
+      ? generateMetaDescription(matchedServiceObj, regionName)
+      : shortDescription;
+
     const service = {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -146,7 +153,7 @@ export function getJsonLd(type: "main" | "landing" | "hub", data?: LandingJsonLd
         "@type": "AdministrativeArea",
         "name": regionName
       },
-      "description": shortDescription
+      "description": seoDescription
     };
 
     const faqPage = faqs && faqs.length > 0 ? {

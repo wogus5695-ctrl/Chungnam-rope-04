@@ -227,3 +227,43 @@ export function getHeroImageAlt(regionName?: string, serviceName?: string): stri
   }
 }
 
+export function generateMetaDescription(service: typeof services[0], regionName: string): string {
+  if (!service || !service.seoCopy) {
+    return `${regionName} 지역 ${service?.name || ""} 전문 진단. ${service?.metaDescription || ""}`;
+  }
+  const { hook, solution, reassurance, afterCare } = service.seoCopy;
+  // 소비자 공감 Hook + 지역명 + 서비스별 solution + 필요한 경우 reassurance + afterCare 조립
+  // 지역명은 solution 내의 "외부 실리콘 상태" 등의 앞이나 적절한 곳에 "현장의" 또는 "의" 등으로 자연스럽게 결착
+  // solution에서 "노후된 외부 실리콘" -> "노후된 [지역명] 현장의 외부 실리콘" 형태로 자연스럽게 보정
+  const regionContext = `${regionName} 현장의`;
+  let processedSolution = solution;
+  if (solution.includes("외부 실리콘 상태")) {
+    processedSolution = solution.replace("외부 실리콘 상태", `${regionContext} 외부 실리콘 상태`);
+  } else if (solution.includes("창틀 상부와 측면")) {
+    processedSolution = solution.replace("창틀 상부와 측면", `${regionContext} 창틀 상부와 측면`);
+  } else if (solution.includes("외벽과 창틀 등")) {
+    processedSolution = solution.replace("외벽과 창틀 등", `${regionContext} 외벽과 창틀 등`);
+  } else if (solution.includes("노후화된 창틀 실리콘")) {
+    processedSolution = solution.replace("노후화된 창틀 실리콘", `${regionContext} 노후화된 창틀 실리콘`);
+  } else if (solution.includes("샤시 프레임 모서리")) {
+    processedSolution = solution.replace("샤시 프레임 모서리", `${regionContext} 샤시 프레임 모서리`);
+  } else if (solution.includes("건물 외부 콘크리트")) {
+    processedSolution = solution.replace("건물 외부 콘크리트", `${regionContext} 건물 외부 콘크리트`);
+  } else if (solution.includes("외벽의 미세 균열")) {
+    processedSolution = solution.replace("외벽의 미세 균열", `${regionContext} 외벽의 미세 균열`);
+  } else if (solution.includes("옥상 바닥 슬래브")) {
+    processedSolution = solution.replace("옥상 바닥 슬래브", `${regionContext} 옥상 바닥 슬래브`);
+  } else if (solution.includes("건물의 옥상")) {
+    processedSolution = solution.replace("건물의 옥상", `${regionContext} 옥상`);
+  } else if (solution.includes("조립식 판넬의 이음새")) {
+    processedSolution = solution.replace("조립식 판넬의 이음새", `${regionContext} 조립식 판넬의 이음새`);
+  } else if (solution.includes("바닥 콘크리트 수분")) {
+    processedSolution = solution.replace("바닥 콘크리트 수분", `${regionContext} 바닥 콘크리트 수분`);
+  } else {
+    processedSolution = `${regionContext} ${solution}`;
+  }
+
+  return `${hook} ${processedSolution} ${reassurance} ${afterCare}`;
+}
+
+
