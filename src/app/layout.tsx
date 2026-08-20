@@ -47,16 +47,21 @@ export default function RootLayout({
     <html lang="ko" className="scroll-smooth">
       <head>
         <link rel="image_src" href={siteConfig.SEARCH_THUMBNAIL_URL} />
+        <meta property="og:image" content={siteConfig.SEARCH_THUMBNAIL_URL} />
+        <meta property="og:image:width" content={siteConfig.SEARCH_THUMBNAIL_WIDTH.toString()} />
+        <meta property="og:image:height" content={siteConfig.SEARCH_THUMBNAIL_HEIGHT.toString()} />
+        <meta property="og:image:alt" content={siteConfig.SEARCH_THUMBNAIL_ALT} />
       </head>
       <body className="antialiased min-h-screen flex flex-col">
-        {/* 네이버 크롤러용 1순위 대표 정적 이미지 (레이아웃 비침습적 처리) */}
-        <img
-          src={siteConfig.SEARCH_THUMBNAIL_URL}
-          alt={siteConfig.SEARCH_THUMBNAIL_ALT}
-          width={siteConfig.SEARCH_THUMBNAIL_WIDTH}
-          height={siteConfig.SEARCH_THUMBNAIL_HEIGHT}
-          className="sr-only pointer-events-none"
-        />
+        {/* 네이버 크롤러 수집 1순위 대표 이미지 (1px 실제 렌더링으로 hidden 판정 회피) */}
+        <div style={{ position: "absolute", top: 0, left: 0, width: "1px", height: "1px", overflow: "hidden", opacity: 0.01, zIndex: -1 }}>
+          <img
+            src={siteConfig.SEARCH_THUMBNAIL_URL}
+            alt={siteConfig.SEARCH_THUMBNAIL_ALT}
+            width={siteConfig.SEARCH_THUMBNAIL_WIDTH}
+            height={siteConfig.SEARCH_THUMBNAIL_HEIGHT}
+          />
+        </div>
         {children}
       </body>
     </html>
