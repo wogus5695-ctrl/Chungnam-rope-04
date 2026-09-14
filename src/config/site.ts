@@ -3,9 +3,9 @@ import { SiteConfig } from "@/types";
 export const siteConfig: SiteConfig = {
   brandName: "레인가드",
   branchName: "레인가드 충청남도 지점",
-  phoneDisplay: "050-7871-3550",
-  phoneHref: "tel:05078713550",
-  phonePlaceholder: "050-7871-3550",
+  phoneDisplay: "010-4667-5568",
+  phoneHref: "tel:01046675568",
+  phonePlaceholder: "010-4667-5568",
   ownerName: "문청명",
   companyName: "라움 종합건설",
   businessNumber: "506-27-17990",
